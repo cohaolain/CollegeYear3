@@ -1,0 +1,11 @@
+1) Given an incomputable c.e. set $C$, we have by 1.7.6 that there is a hypersimple set $A$ such that $A \leq_\mathrm{tt} C \leq_\mathrm{T} A
+
+Consequently, we have that $\exists A$ hypersimple such that $A \leq_\mathrm{tt} C$ and $A \geq_\mathrm{T} C$. This gives that there is a hypersimple set which *is* Turing-complete. Therefore, we've found that not all hypersimple sets are not Turing-complete.
+
+
+
+2) Each hypersimple  set $A$ is simple, since if $A$ is not simple, we would (by 1.1.19, each infinite c.e. set has an infinite  computable subset) have that $\bar{A}$ has an infinite computable subset $S$.
+
+
+
+3) Recall that $A$ is $\Sigma_1^0$ if $X \in A \leftrightarrow \exists y_1R(x, y_1)$ . R as \psi behaves here, and fits the given criteria. Therefore we  have that $\psi(t) < \psi(s)$ is $\Sigma^0_1$ as required.

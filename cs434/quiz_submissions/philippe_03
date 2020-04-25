@@ -1,0 +1,9 @@
+1. This would guarantee that \phi_3^A \neq B.
+
+2. Initially R_4 has no followers (at stage 0) then at the first stage (s+1), it requires attention. Thus it acts and receives a large x which becomes its new follower. But R_4 then never requires attention again. From the way followers are chosen, x  \notin B. R_4 is essentially immediately met here in the 1st stage, since obviously no stage follows giving \phi_2^Z(n)\downarrow = 0 if \phi_2^Z(n) is guaranteed not to halt.
+
+2. Initially R_4 has no followers (at stage 0) then at the first stage (s+1), it requires attention. Thus it acts and receives a large x which becomes its new follower. But R_4 then never requires attention again. From the way followers are chosen, x  \notin B. R_4 is essentially immediately met here in the 1st stage, since obviously no stage follows giving \phi_2^Z(n)\downarrow = 0 if \phi_2^Z(n) is guaranteed not to equal to 0, as it must for it to require attention/act again.
+
+
+
+

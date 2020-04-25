@@ -1,0 +1,55 @@
+1) Thm. 1.6.1 gives that $ \exists Y, Z \leq_\mathrm{T} \emptyset ' $ such that $Y \mid_T Z $.
+
+In order to solve Post's problem we would have to show that $ \exists $ c.e. set $A$ such that $\emptyset <_\mathrm{T} A <_\mathrm{T} \emptyset ' $.
+
+So 1.6.1 shows us that we can find two Turing incomparable sets $Y,Z$ which are both Turing redicible to $\emptyset '$, but not Turing reducible to one another.
+
+This means that at most *one* of $Y,Z$ is Turing equivalent to $\emptyset '$. The other, then, is necessarily in a lower degree than $\emptyset '$.
+
+We see here than one of the incomparable sets must then reside somewhere *between* $\emptyset$ and $\emptyset '$. Call this set $A$, and we have then $\emptyset <_\mathrm{T} A <_\mathrm{T} \emptyset ' $.
+
+However, we do not have that this set $A$ is c.e. .
+
+2) Yes, the requirements are met in order.
+
+3) Recall that $A$ is $\Sigma_1^0$ if $X \in A \leftrightarrow \exists y_1R(x, y_1)$ .
+
+At stage $i+1, i=2e, n=|\sigma_i|=|\sigma_{2e}|=n$ at stage $2e+1$
+
+This is always stage $2e+1$, an odd number. $n$ is length of string $|\sigma_{i}$, $i$ is even.
+
+
+
+
+
+
+
+
+1) By 1.6.3, we have that there exists a simple set $A$, an effectively simple set, and $A$ is, by definition, c.e. and incomputable.
+
+To solve post's question we need a c.e. set which is both incomputable and Turing incomplete.
+
+By generating, in 1.6.4, a low simple set, this gives us a set $A$ satisfying the conditions for Post's Problem.
+
+i.e. $ A $ is such that $\emptyset <_\mathrm{T} A <_\mathrm{T} \emptyset ' $, as required.
+
+2) 2e+2 = 2(5)+2 = 12
+
+3) f is not a computable function.
+
+
+
+
+
+
+1) The proof of Theorem 1.6.3 above necessarily makes the set A Turing complete.
+
+Though I don't quite understand how, if simple sets *are* indeed Turing complete, how this allows 1.6.4 to work. In particular, if the low simple set is indeed *simple*, thus *Turing complete*, I'm not sure how this then goes on to be an example proving the existance of a c.e. set that is both uncomputable and *not* Turing complete.
+
+
+
+2) Yes, since $C$ permits putting $x$ into $A$ at stage $s$ if $C_{s-1} \upharpoonright_x \neq C_s \upharpoonright_x$, the condition given by $C_{s-1} \intersect [0, x - 1]$ allows this to be permitted, resulting in it being stable.
+
+
+
+3) We need to make sure that A is still co-infinite. When constructing $A$, if $y \in C_s − C_{s-1}, we put p_{\bar A, s}(3y) into A also.  We later get $p_{\bar A, s} \leq 3y \forall y$. This allows us to verify our requirements are met.
