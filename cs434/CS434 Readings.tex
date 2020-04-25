@@ -1,0 +1,459 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+
+\title{CS434 Readings in the Foundations of Computer Science}
+\author{Ciarán Ó hAoláín}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th}\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\cts}{cts. }
+\newcommand{\ctsm}{\ \mathrm{cts.}\ }
+\newcommand{\tm}{\ \mathrm{TM}\ }
+\newcommand{\sforall}{\ \forall}
+\newcommand{\dom}{\mathrm{dom}}
+\newcommand{\tr}{\leq_\mathrm{T}}
+\newcommand{\halt}{\mathrm{Halt}_\mathrm{TM}}
+\newcommand{\halts}{\downarrow}
+\newcommand{\ce}{\ \mathrm{c.e.}\ }
+\newcommand{\tdeg}{\deg_\mathrm{T}}
+\newcommand{\teq}{\equiv_\mathrm{T}}
+\newcommand{\mor}{\leq_\mathrm{m}}
+\newcommand{\oor}{\leq_\mathrm{1}}
+\newcommand{\ran}{\mathrm{ran}}
+
+\renewcommand{\emptyset}{\varnothing}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\theoremstyle{example}
+\newtheorem*{example}{Example}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	\section*{Lecture 1 (20.02.05)}
+	This year: Only 1 paper, post's programming, then switch to modern book.
+	\section{Post's Programming}
+	\textbf{Post's question:}\\
+	CS370: $\phi_0, \phi_1, \phi_2 \ddd$ \textit{effective list} of all TMs. A TM $\leftrightarrow \{0,1\}^\star \leftrightarrow \N$.\\
+	\[\mathrm{i.e.\ }\exists \tm \phi \sth \sforall i \in \N \sforall x : \phi(i,x) \cong \phi_i(x) \]
+	Computable decidable set: $A \subseteq \N \iff \exists \tm \phi \sforall x : x \in Q \implies \phi(x) = 1$\\
+	c.e. $A = \dom(\phi) = \{x:\phi(x)\downarrow\}$\\
+	$A \tr B \iff \exists$ oracle $\tm \phi^B$ that decides $A$.\\
+	$\halt = \{ <M,w> \mid M(w) \halts \}$
+	But we say: $\phi':=\{e:\phi_e(e)\halts\}$.\\
+	$\phi'$ is c.e. (r.e.) but not computable (recursive). (Post).\\
+	We say $\phi'$ is T-complete.\\
+	Recall $\forall A \ce : A \tr \phi'$.\\
+	Post Question: $\exists?$ a $\ce$, not computable, not complete set. i.e. not $\tdeg(\phi')$ or $\ce$.\\
+	Not computable, not complete.\\
+	$\tdeg (A) = \{B:B \teq A\} = \{B:A \tr B, B \tr A\}$.\\
+	\\
+	Spoiler: Post's \textit{program} will fail (proof via maximal sets).\\
+	But Post's question is \textit{yes} (priority method, russian and american guy).\\
+	\\
+	\textbf{Post's idea:}
+	Start with $A = \N$.:P 
+	
+	\section*{Lecture 2 (2020.02.07)}
+	Notion of computability, e.g. a TM, but others exist such as recursive functions (Kleene).
+	\begin{definition}
+		$A$ is r.e. if $A=\mathrm{range}(f)$ where $f$ is computable.\\
+		i.e. $f:\N \to \N$, total, $\exists \tm \forall n : \phi(n)=f(n)$.\\
+		$A=\{f(0),f(1),\ddd\}$
+	\end{definition}
+	ex. $A=\N$, choose $f(n)=n$.
+	One formal way of generating a set of numbers, encode numbers into unary, $n \leftrightarrow 1^n$, doing stuff?\\
+	Each normal system uniquely defines a set, possibly null,
+	of positive integers.\\
+	$\tm M \leftrightarrow$ an r.e. set dom($M$).\\
+	\textbf{Post.} normal system $\leftrightarrow$ \verb|_____|
+	 Each normal system uniquely defines a set, possibly null,
+	of positive integers, namely the integers represented by those derived
+	strings which are strings of l's only. It can then be proved that every
+	recursively enumerable set of positive integers is the set of positive
+	integers defined by some normal system, and conversely.\\
+	$O:B_1,B_2,B_3,\ddd\\
+	\mathrm{modern:}\ \phi_1,\phi_2, \phi_3 \ddd$\\
+	\\
+	$\aleph_0 = \abs{\N}\\
+	2^{\aleph_0}=\abs{\R}$\\
+	Given $A$, the characteristic function of $A$
+	\[\chi_A(n)=\begin{cases}
+		0 & n \notin A\\
+		1 & n \in A
+	\end{cases}\]
+	$A$ recursive $\iff \chi_A$ is recursive.\\
+	$A \teq B,\ B \in \tdeg(A)\\
+	A <_T B \iff A \tr B, B \nleq_T A$\\
+	\\
+	
+	\begin{theorem}
+		$S$ recursive $\iff$ $S, \bar{S}$ r.e.
+	\end{theorem}
+	\begin{proof}
+		$\implies S$ is recursive.\\
+		1,2,3,4,...\\
+		$f(1),f(2),f(3),f(4),\ddd$\\
+		$\impliedby$: given $n$
+	\end{proof}
+
+	\begin{theorem}
+		$A$ is recursive $\iff A$ is r.e. in order.
+	\end{theorem}
+	\begin{proof}
+		Stuff
+	\end{proof}
+
+	\begin{theorem}
+		$\forall A$ r.e., infinite, $\exists$ recursive $B \subseteq A$
+	\end{theorem}
+	\begin{proof}
+		if $n_1,n_2,n_3,\ddd$ enum. of $A$ (need not be ordered, can have repetitions)\\
+		Now we only write down $n_2$ if greater than $n_1$, continue until find greater than $n_1$.
+		Why eventually $n_1 < n_{27} < n_{254} < \ddd$ i.e. always find one satisfying because the set if inifnite.
+		Is enumeration of a infinite, subset $B$ of $A$ in order i.e. $B$ is recursive.
+	\end{proof}
+
+	\section*{Lecture 3 (2020.02.12)}
+	\textbf{1.7.15}
+	\begin{definition}
+		c.e. set $A$ is \textbf{creative} $\iff \exists$ computable 1-1 $p \sth \forall e [W_e \cap C = \emptyset \to p(e) \in \overline{W_e} \cap \bar{C} ]$
+	\end{definition}
+	\textbf{Idea:} $\bar{C}\qquad W_e$ that tries to $\bar{C}$, then $p(e)$ gives us an example where $W_e$ fails.\\
+	i.e. $p(e) \notin W_e$ but $p(e) \in \bar{C}$\\
+	N.B. $D_e := \dom (\phi_e)$\\
+	\\
+	\textbf{1.7.16}\\
+ 	$\Phi'$ is creative via $p(e):=e$.
+ 	\begin{proof}
+ 		(Note: $\forall e [W_e \cap C = \emptyset \to p(e) \in \overline{W_e} \cap \bar{C} ]$)\\
+ 		Let $e \in \N$\\
+ 		If $e \in \Phi' \to e \in W_e$
+ 		$\Phi'=\{e: e \in W_e\}$
+ 		if $e \in \Phi'$ with $W_e \cap \Phi = \phi$\\
+ 		$\to e \notin W_e$ i.e. $e \in \overline{W_e}$ so $p(e) \in \overline{W_e} \cap \overline{\Phi'}$.
+ 	\end{proof}
+ 
+ 	$A \mor B$. $f:\sigma* \to \sigma*$, $f$ is c.e.\\
+ 	$w \in A \iff f(w) \in B$\\
+ 	$A \tr B$ different because can use oracle any number of times, but with many-one reducibility this is only allowed one time.\\
+ 	$A \oor B$:$f$ is 1-1 computable.\\
+ 	\\
+ 	$Phi'$ is $m$-complete (actually 1-complete).\\
+ 	$A$ is c.e. $\iff$ $A \mor \Phi'$\\
+ 	\begin{proof}
+ 		$\impliedby$\\
+ 		$A(x)=\Phi'(h(x))$ for some computable $h$.\\
+ 		$\phi_{h(x)}(h(x)) \halts$.\\
+ 		$\Psi(x):=\phi_{h(x)}(h(x))$
+ 	\end{proof}
+ 	
+ 	\textbf{missing A LOT}
+ 	
+ 	\textbf{Lecture 2020.02.21}
+ 	\textbf{Use Principle:}\\
+ 	Convention: $\phi^Y_{e,s}(x) = y$\\
+ 	$e,x,y$ and all queries to $Y$ are $< s$.\\
+ 	\[\phi_e^Y(x) \iff \exists s \phi_{e,s}^Y(x)=y \]
+ 	use $\phi_{e,s}^Y(x)=1+$size largest query (at stage $s$)\\
+ 	use $\phi_e^Y(x)=\begin{cases}
+ 		1+\underline{\ \ \ \ \ }\\
+ 		\mathrm{undefined\ if\ } \phi_e^Y(x) \uparrow
+ 	\end{cases}$\\
+ 	If $\phi_e^Y(x) \halts$ then it will only query $Y$ on bits within $\underbrace{Y\uparrow}_{=:\phi\ \mathrm{string}}$ use $\phi_2e^Y(x)$\\
+ 	\[[A\uparrow \cap :=A(0) \ddd A(n-1)]\] 	
+ 	$\phi_e^\sigma(x)=\phi_e^{Y}\quad \abs{\sigma}=\mathrm{use}\ \phi_e^Y(x)$.\\
+ 	Why? Construct c.e. oracles $A$.\\
+ 	\[\phi_{e,s}^{A_s}(n)\halts\quad \phi_{e,s+1}^{A_{s+1}}(n)\halts \quad \ddd \quad \phi_{e}^{A}(n)\halts\]
+ 	
+ 	$f:\N \to \N$. \\
+ 	$F \leq_\mathrm{wbt} Y$ weak truth table reducible\\
+ 	if $\forall n f(n)=\phi_e^Y(n)$ and\\
+ 	use $\phi_e$ us bounded by a computable function.\\
+ 	(i.e. $\exists g$: comp. $\sth\ \forall n:$ use $\phi_e^Y(n) \leq g(n)$)\\
+ 	\\
+
+ 	$\leq_\mathrm{wbt} \neq \leq_\mathrm{tt}$.\\
+ 	We could have $f \leq_{\mathrm{wbt}}$ via $\phi_e$ i.e. $\phi_e^Y$ is total.\\
+ 	But $\phi_e^Z$ might be non-total, for some set $Z_1$.
+ 	
+ 	$f \leq_\mathrm{tt} A$ via $\phi$ then run time of $\phi$ is bounded by some computable function. \textbf{Need rest of this theorem}
+ 	\\
+ 	\\
+ 	\textbf{Presentation:}
+ 	$\Delta_2^0$ sets and Shoenfield Limit Lemma\\
+ 	\textbf{motivation:}
+ 	in c.e. for a set $Z$ for each input $x$, $Z_s(x)$ can change at most once.\\
+ 	$\Delta_2^0$ sets allow arbitrary finite number of changes.\\
+ 	\begin{definition}
+ 		We say that a set $Z$ is $\Delta_2^0$ if there is a sequence of strong indices $Z_g, g \in \N$, s.t.h $Z_s \subset [0,5)$ \& $Z(x)=\lim_s(Z_s(x))$ ($Z_s$ can be viewed as a bitset).\\
+ 		
+ 	\end{definition}
+ 	\textbf{Note:} $(Z_s)$is a computable approximation for $Z$.\\\\
+ 	\textbf{Notation:} Given an expression $E$, approximated at stages $E[S] =$ value of $R$ at tend of stage $s$. 
+ 	
+ 	e.g. Given $Z$, $\Delta_2^0$, $\phi_{e,s}^{Z_s}(x)=\phi_e^Z(x)[g]$
+ 	
+ 	\begin{definition}
+ 		We say an expression $E$ is stable at time $s$ if $\forall t \geq s$, $E(t)=E(s)$.
+ 	\end{definition}
+ 
+ 	\[Z \Delta)2^0 \iff | \tr \theta' \]
+ 	
+ 	\begin{proof}
+ 		$\impliedby$ Let $\phi_e^{\theta'}(x) $ be a turing function for $Z$
+ 		\[ Z_s = \{s < x \mid \phi_e^{\theta'} (x)[s] =1 \} \]
+ 	\end{proof}
+	\section*{Lecture 2020.02.26}
+	\textbf{Ex. 1.2.24} (which was apparently a homework or something?)\\
+	$A_0, A_1$, c.e., $C=A_1 \cup A_0,\ A_1 \cap A_0 = \emptyset$\\
+	Show that $C\equiv_\mathrm{wtt}$ $A_1 \oplus A_0,\ A \oplus B = \{2n \mid n \in A\} \cup \{2n+1 \mid n \in B\}$\\\\
+	$\bullet C \leq_\mathrm{wtt} A_0 \oplus A_1\\
+	n \in C \iff n \in A_0\ \mathrm{or}\ A_1 \implies 2n \in A_0 \oplus A_1\ \mathrm{or}\ 2n+1 \in A_0 \oplus A_1$\\
+	use$\phi(n) \leq 2n+1$\\
+	\\
+	$\bullet A_0 \oplus A_1 \leq_{\mathrm{wtt}} C\\
+	\delta(n) = \begin{cases}
+		\frac{n-1}{2} & n\ \mathrm{odd}\\
+		\frac{n}{2} & n\ \mathrm{even}
+	\end{cases}\\
+	n \in A_0 \oplus A_1 \iff \delta(n) \in C\\
+	A_0 \oplus A_1 \mor C \implies \mathrm{wtt}$
+	Or something simpler, find the thing.\\
+	\\
+	\textbf{Ex. 1.2.25}\\
+	$\exists Z : f \leq_{\mathrm{tt}} Z \iff \exists$ comp. $h\ \sth : \forall n\ f(n) \leq h(n)$.\\
+	$\impliedby:$ use graph.\\
+	$\implies$: $\phi_e^Z(n)=f(n)$\\ last line?\\
+	\\
+	\begin{lemma}
+		$Z is \delta_2^0 \iff Z \tr  \theta'$
+	\end{lemma}
+	\begin{proof}
+		$\implies$ Define a set $C$ c.e. $\sth Z \tr C$. This is a sufficient $C$ is called change set.\\
+		If $Z_s(x) \neq Z_{s+1}$ we put $<x,i>$ into $C$ where $i$ is the smallest number $\sth <x,i> \in C$\\
+		Big diagram, very lost, missing stuff.
+	\end{proof}
+	1.4.3\\
+	\\
+	Ecercise: $Z$ is 1-c.e. iff it is ce.\\
+	$Z$ is 2-c.e. iff $Z=A-B$, $A,B$ c.e.\\
+	\\
+	\\
+	\textbf{Absolute computational complexity of sets}
+	Idea: Lowness of a set $A$\\
+	set is computational, is not useful as an oracle. set is if $A' \tr \Phi', A' \geq_\mathrm{T} O'$\\
+	\begin{definition}
+		$f,g:\N\to\R\\
+		f$ domanites $y$ if $f(n) \geq g(n)$ for sufficiently large $n$.
+	\end{definition}
+
+	\begin{definition}
+		Set $C$ is superlow if:\\
+		$C' \equiv_\mathrm{TT} \phi'\\
+		C' \leq_\mathrm{TT} \phi'\\
+		C'$ is w-c.e.
+	\end{definition}
+
+	\begin{definition}
+		$A$ is computably dominated if $g \tr A$ is dominated by a computable function.
+	\end{definition}
+
+	\section*{Lecture 2020.02.28}
+	$p_n$ is (\textit{nth element of set})
+	\begin{definition}
+		Set $E \subseteq \N$ is hyperimmune if $R$ is infinite, and $p+E$ is not dominated by a computable function.\\
+		$p_E$ is a listing of $E$ in order of magnitude.
+		\[E=\{0,10^6,10^3,6\ddd\},\ p_E=\{0,7,10^3,10^6,\ddd\}\ p+E:\N \to \N\]
+	\end{definition}
+	\begin{theorem}
+		$A$ not computably dominated $\iff$ $\exists$ hyperimmune $E \teq A$.
+	\end{theorem}
+	\begin{proof}
+		$(\implies)$ Suppose $g \tr A$, $g$ not computably dominated by some computable function.\\
+		Let $E=\ran(h)$, $h$ defined as follows\\
+		$h(0)=0$, for $n \in \N$\\
+		$h(2n+1)=h(2n)+g(n)+1 \to h$ dominates $g\\
+		h(2n+2) = h(2n+1) + p_A(n) + 1$\\
+		$E \teq h \teq A$\\
+		$(\impliedby)$ Immediate since $p_E \tr E$ 
+	\end{proof}
+
+	\begin{theorem}[1.2.22]
+		$f \leq_{\mathrm{tt}}A \iff$ there is a turing function $\Phi$ and computable function $t\ \sth f=\Phi^A$ and the no. of steps needed to compute $f$ is bounded by $t(n)$, $t$ dominates $f t(n) \geq f(n)$.
+	\end{theorem}
+	\begin{theorem}
+		$A$ is computable dominated $\iff$ for each $f$, $f \tr A \to f \leq_{\mathrm{tt}} A$
+	\end{theorem}
+	\begin{proof}
+		(Philippe: Have bound on use, total no matter oracle)\\
+		($\implies$) Suppose $f = \Phi^A$\\
+		Let $g(n)=$ (\textbf{missing end cause of wonky symbol})
+	\end{proof}
+	
+	\begin{theorem}
+		$\forall A \in \Delta_2^0 \implies A$ is not computably dominated.
+	\end{theorem}
+	\begin{proof}
+		$A$ c.e. $g(n)=\min_s:A_{s(n)}$ is stable $\leq h(n)$\\
+		$A_0(n)=0,\qquad A_{h(n)}(n)\\
+		A \in \Delta_2^0 A\qquad s' > s$\\
+		\textbf{missing stuff cause he fast}\\\\
+		$(A_s)_s \in \N$.\\
+		$g(s) \cong \mu t \geq s . \underbrace{A t \uparrow s}_{\mathrm{the\ approx\ of\ }A\mathrm{\ at\ stg\ t\ for\ element\ }<s\mathrm{\ is\ correct}} = A \uparrow s\\
+		$obv: $A \geq_\mathrm{T}g\qquad \implies \exists$ comp. $f:\forall n : f(n) \geq g(n)$.\\
+		obv: given $g$, $\mu$ can compute $A$: $n \in A$?\\
+		$g(n+1)=\ddd$ unfortunately I only have an upper bound. $f > g$.\\
+		
+		$f(s) \geq g(s)$\\
+		2nd idea: eventually $A_t \uparrow s$ is stable also $\exists t \in [\underbrace{n}_{\ni t, t'}, f(n)].\ A_t \uparrow n$ is correct.\\
+		\\
+		1 extra idea:\\
+		find an input $n$ the least stg $s>n$\\
+		$\sth\ A_s(n)\ \forall u[s,f(s))$		
+	\end{proof}
+
+	\subsection*{Lecture 2020.03.04}
+	\textbf{Arithmetical Hierarchy:}
+	1.4.10: $A$ is\\
+	$\sum_n^0$ if : $x \in A \leftrightarrow \exists y_1 \forall y_2 \exists y_3 \ddd Q_{y_n}\ R(x,y_1,\ddd,y_n)$ (computable relation)\\
+	$\pi_n^0$ if : $x \in A \leftrightarrow \forall y_1 \exists\ddd $ (computable relation)\\
+	$\bar{Z}$:c.e. sets relative to jumps\\
+	$\pi$:co-c.e. sets relative to jumps\\
+	$A$ is arithmetical if $A \in \sum_n^0$ for some $n$.\\
+	Oracle version $\sum_n^0(c)$ if $C \geq_\mathrm{T}R$\\
+	$\exists y_1 < 27 \rightarrow$ we can rename it\\
+	1.4.13: Let $n \geq 1$\\
+	$A$ is $\sum_n^0 \iff A$ is c.e. relative $\phi^{(n-1)}$\\
+	$\phi^{(n)}$ is $\sum_n^0$-complete\\
+	$A \in \delta_2^0 \iff A$ is $\sum_2^0$ and $\pi_2^0$.\\
+	$A$ is $\delta_n^0 \iff A \tr \phi^{(n-1)}$\\
+	ex. $\{e:W_e$ is finite\}$=F\mathrm{in}\\
+	e \in F \iff \left(\exists n_1 \in \N\right)\left( \forall n_2 > n1 \forall s \in \N \right)\\
+	n_2 \notin W_{e,s}\\
+	F\mathrm{in}$ is $\sum_2^0$-complete.\\\\
+	Tot = $\{e:\dom(\phi_e)=\N\}$\\
+	$e \in$ Tot $\iff (\forall y_1 \in \N)(\exists s \in \N)$
+	\textbf{Missing the bit at the end}\\\\	
+	\textbf{Dara:} High is opposite of computably dominated.\\
+ 	Set $A$ is \textbf{high} if $\phi^{11} \tr A'$.\\
+ 	A set $A$ is high$_n$ if $\phi^{(n+1)} \tr C^{(n)}$\\
+ 	\begin{theorem}[1.5.19]
+ 		$C$ is high $\iff$ some function $f$, $f \tr C$ dominates all computable functions.
+ 	\end{theorem}
+	Going to construct $f$ function.
+	\begin{proof}
+		$\implies$ Want $f \tr$ that domaintes all comp.\\
+		$A:= \{<e,x>:\phi_e(x)\halts\}$ is c.e. $\implies A \mor \phi'$ via $h$ comp.\\
+		Let $f(x)=\max\{\phi_e(x):e \leq x$ and $h(<e,x>) \in \phi'\}$\\
+		If $\phi_e$ is total, then $f(x) \geq \phi_e(x) \forall x \geq e$.\\
+		Tot=$\{e:\phi_e$ total\} is $\pi_2^0$\\
+		Tot $\mor N-\phi''\tr C'$\\
+		By the limit lemma, there is a binary function $p \tr C$ s.th. for each $e$ $\lim_s p(e,s)$ exists and $\lim p(e,s)=1 \iff \phi_e$ is total.\\
+		$Z$ is $\delta_2^0$ (missing a line here, or should this even be here?)\\
+		
+	\end{proof}
+
+	\subsection*{Lecture 2020.03.06}
+	Some sort of diag.
+	Computable sets i.e. $\mathrm{deg}_T(\phi)$\\
+	\\
+	$C$ is high $\iff$ some function $f$, $f \tr C$ dominates all comuptable functions.\\
+	$(\impliedby)$\\
+	We will show that $\N \setminus \phi''=\{e:\Phi_e^{\phi'}(e)\uparrow \} \tr C'$.\\
+	Note that $\Phi_e^{\phi'}(e)\uparrow \iff$ the computation at infinitely many steps i.e. no computation $\Phi[s]$ is stable.\\
+	$\iff$ the partial computable function \[g(s) \simeq \mu t, t > s [\Phi_e^{\phi'}(e)[t]\uparrow]\ \mathrm{is\ total} \]
+	\[e \notin \phi'' \iff \exists n_0 \forall n \geq n_0, \exists t \left[n \leq t \leq f(n)\ \mathrm{and}\ \Phi_e^{\phi'}(e)[t]\uparrow \right]  \]
+	Since $t$ is bounded by $f(n)$ and $f \tr C$\\
+	So $\N\setminus\phi''$ is $\sigma_2^0(C)$.\\
+	Also $\phi'' \in \sum_2^0 \subseteq \sum)2^0(C)$.\\
+	Therefore $\phi'' \tr C'$ by prop 1.4.14 relative to $C$.\\
+	Prop: $A \in \delta_2^0 \iff A \tr \phi' \iff A$ and $\N \setminus A$ are c.e. in $\phi' \iff A \in \sum_2^0 \cap \pi_2^0$.\\
+	
+	\textbf{Coman}\\
+	$Z$ is $\Delta_2^0$ if $\exists$ computable sequence of stong indices $(Z_s)_{s \in \N}\ \sth Z_s \subseteq [0,5]$ and $Z(x)=\lim 2s(x)$.\\
+	Post Problem 1944\\
+	Whether a c.e. set can be uncomputable and Turing incomplete.\\
+	i.e. of there is a c.e. set $A\ \sth \phi \tr A \tr \phi'$\\
+	Turing Incomparable Sets:\\
+	Sets $Y,Z$. write $Y \mid_\mathrm{T}Z$ if $Y \not \tr Z \& Z \not \tr Y$\\
+	\\
+	Thm. 1.6.1\\
+	There are sets $Y,Z \tr \phi''\ \sth Y \mid_\mathrm{T}Z$.\\
+	\begin{proof}
+		$Y \mid_\mathrm{T} Z$ this is equivalent to the conjunction of statements $R_i \forall i$, where \begin{align*}
+			R_{2e} & :\exists n \neg Y(n)=\phi^2_e(n)\\
+			R_{2e+1} & : \exists n \neg Z(m)=\phi^4_e(n)
+		\end{align*}
+	\end{proof} 
+
+	\subsection*{Lecture 2020.03.11}
+	\textbf{Simple}\\
+	Is there a c.e. set that is neither computable nor Turing Complete?\\
+	\begin{definition}
+		c.e. $N \setminus A$....missing
+	\end{definition}
+	$N-A$ is not c.e. $\therefore$ $A$ is not computable.\\
+	$A$ is so large that it meets each infinite c.e. set.\\
+	By the padding lemma 1.1.3 obtain an infinite c.e. set $w$ of indices for the empty set $\sth\ \phi'' \cap W = \emptyset$.\\
+	Build $A$=computable enumeration\\
+	Divide the task into requirement.\\
+	1.9) $S_i : \# W_i = \infty \implies W_i \cap A \neq \phi$ but also keeps $A$ co-infinite. (low, simple?)\\
+	$s > -, A_0 = \emptyset$\\
+	$A_{s-1}$ is finite.\\
+	During stage $s$ we determine?\\
+	$F \subseteq U$, $A_s=A_{s-1}\cup F$ each stage can be built using previous.\\
+	$A_s$ is the value by the end of stage $s$. Has enumerated all elements in $F$ into $A$.\\
+	$A$ c.e. set $U_sA_s$.\\
+	$i < s$\\
+	$A_{s-1} \cap W_{i,s-1}=\emptyset$, $\exists x \in W_{i,s}\ \sth\ x \geq 2i$.\\
+	Want to guarantee $A$ coinfinite. $\therefore S_i$ acts (requirement taken care of).\\
+	Act says in $A$ and $W_i$.
+	If $W_i$ is infinite, infinite candidates gives that $S_i$ acts at most once?\\
+	Cannot guarantee that for every finite $W_i$ this works.\\
+	$\#A \cap [0,2e) \leq 0 \forall e\qquad A$ is co-infinite.\\\\
+	There's a low simple set $A$.\\
+	$J$ is (JUMP) machine taking oracle access to $A$ on input $e$. Because there's infinitely many stages, where\\
+	Jump is halting problem relative to $A$.\\
+	Don't have (because of bracket notation) oracle access to $A$, just $A$ up to $s-1$. This is because I'm currently constructing $A$.\\
+	\textbf{Lowness requirement}:\\
+	$L_e:\exists^\infty sJ^A(e)[s-1]\halts \implies T^A(e)\halts$\\
+	Bit is kinda the same as $J_s^{A_s}(e)$.\\
+	Can't say if it halts infinitely often it (something?).\\
+	$A'(e)=\lim f(e,s),\qquad f= \begin{cases}
+			1 & J^A(e)[s]\halts\\
+			0 & \mathrm{otherwise}
+	\end{cases}$\\
+	$\Delta_2$ sets can change their minds as many times as they want but they will eventually settle.\\
+	$A' \leq \phi'\qquad A$ is low. $L_e$ prevents $x < s$.
+	On $L_e$: $A \upharpoonright$ use is stable. ($A=\star^\downarrow \mid_\mathrm{use}$??? big circle thingy space yoke)
+	\[S_1 > L_1 > S_2 > L_2 \ddd L_e\]
+\end{document}

@@ -1,0 +1,112 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage[a4paper,margin=0.75in]{geometry}
+
+\title{Differential Geometry - Homework 1}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th\ }}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dv}[2]{\frac{\d #1}{\d #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fdv}[3]{\left.\dv{#1}{#2}\right|_{#3}}
+\newcommand{\crit}{\mathrm{Crit}\ }
+\newcommand{\im}{\mathrm{Im}\ }
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\theoremstyle{example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{example}{Example}
+
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\item \[\alpha'(t)=(-4 \sin t \cos t, 2 \cos 2t , 2 \cos t)\]
+		which at $t=\frac{\pi}{4}$ evaluates to \[ \left(-4 \sin \frac{\pi}{4} \cos \frac{\pi}{4}, 2 \cos \frac{\pi}{2} , 2 \cos \frac{\pi}{4}\right) = (-2,0,\sqrt{2}) \]
+		\item Given $\dot{\alpha}(t)=(t^2,t,e^t)$ we obtain its integral: \[ \int (t^2,t,e^t) =  \left(\frac{t^3}{3}+c_1, \frac{t^2}{2}+c_2, e^t + c_3\right)\] and solve the following to find $\alpha$:
+		\begin{align*}
+			\alpha_1(0)& =c_1=1\\
+			\alpha_2(0)& =c_2=0\\
+			\alpha_3(0)& =1+c_3=-5 & \implies c_3=-6
+		\end{align*}
+		Which gives \[\alpha(t)=\left(\frac{t^3}{3}+1,\frac{t^2}{2},e^t-6 \right)\]
+		as required.
+		\item \begin{enumerate}
+			\item A number
+			\begin{align*}
+				X(p)[f-3g]&=X(p)[f]+X(p)[-3g] & \left(v_p[f]:=\fdv{}{t}{t=0}f(p+t\vec{v}) \right)\\\\
+				p+t\vec{v}&=(0,1,2)+t(0,1,2)\\
+				&=(0,t+1,2t+2)\\
+				f(p+t\vec{v})&=(2t+2)^2\\
+				&=4t^2+8t+4\\
+				X(p)[f] &= \fdv{}{t}{t=0}f(4t^2+8t+4)\\
+				& = 8t+8\\
+				& = 8\\\\
+				-3g(p+t\vec{v})&=0\\
+				X(p)[-3g]&=\fdv{}{t}{t=0} 0 \\
+				&= 0\\\\
+				X(p)[f-3g]&=X(p)[f]+X(p)[-3g]\\
+				& = 8 + 0\\
+				& = 8
+			\end{align*}
+			\item A number
+			\begin{align*}
+				X(p)[fg]&=(X(p)[f])g(p)+(X(p)[g])f(p)&(\mathrm{Leibniz})\\
+				p+t\vec{v}&=(-1,0,1)+t(1,0,1)\\
+				&=(t-1,0,t+1)\\
+				f(p+t\vec{v})&=(t+1)^2+7(t-1)^2e^0\\
+				&=t^2+2t+1+7(t^2-2t+1)\\
+				&=8t^2-12t+8\\
+				X(p)[f]&=\fdv{}{t}{t=0}8t^2-12t+8\\
+				&=16t-12\\
+				&=-12\\
+				g(p)&=0\\
+				\\
+				g(p+t\vec{v})&=(t-1)(0)(t+1)\\
+				&=0\\
+				&\implies X(p)[g]=0\\
+				\\
+				X(p)[fg]&=(X(p)[f])g(p)+(X(p)[g])f(p)\\
+				&=0.0\\
+				&=0				
+			\end{align*}
+			\item Smooth function $(X.Y \in C^\infty (\R^3) \implies X.Y$ a smooth function).
+			\begin{align*}
+				X.Y:\R^3 & \to \R\\
+				p & \mapsto X(p).Y(p)\\
+				p=(x,y,z) &\mapsto (-x,y,z).(-1,-y,x)\\
+				& = x -y^2 + xz
+			\end{align*}
+			\item Vector field $(X \times Y \in \Gamma T \R^3)$
+			\begin{align*}
+				X \times Y & = (xy+yz, x^2 -z,xy+y)
+			\end{align*}
+			\item Smooth function $X[f] \in C^\infty (\R^3) \implies X.Y$ a smooth function).
+			\begin{align*}
+				X[f] & = z^2 - 7x^2e^{yz}
+			\end{align*}
+			\item Vector field
+			\begin{align*}
+				X+\nabla g & = (-x,y,z) + (yz,xz,xy)\\
+				& = (yz-x,xz+y,xy+z)
+			\end{align*}
+		\end{enumerate}
+	\end{enumerate}
+	
+\end{document}

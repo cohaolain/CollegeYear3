@@ -1,0 +1,54 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{pgfplots}
+\usepackage[a4paper,margin=1in]{geometry}
+
+\title{Graph Theory - Assignment 4}
+\author{Ciarán Ó hAoláín - 17309103}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th\ }}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dv}[2]{\frac{\d #1}{\d #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fdv}[3]{\left.\dv{#1}{#2}\right|_{#3}}
+\newcommand{\crit}{\mathrm{Crit}\ }
+\newcommand{\im}{\mathrm{Im}\ }	
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\osub}{\subset_\mathrm{open}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\theoremstyle{example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{example}{Example}
+
+
+\begin{document}
+	\maketitle
+	
+	\begin{enumerate}
+		\item Since $A$ and $B$ are the bipartite sets of $G$, at no point can a Hamiltonian walk of $G$ follow a vertex in $A$ or $B$ with a vertex in the same set.\\
+		Therefore, we must keep going back and forth between the sets $A$ and $B$.\\
+		Bipartite cycles must have even length.
+		\item \begin{enumerate}
+			\item \begin{align*}
+				A&=\{(0,0,0,0),(1,1,0,0),(0,0,1,1),()\}
+			\end{align*}
+		\end{enumerate}
+	\end{enumerate}
+	
+\end{document}

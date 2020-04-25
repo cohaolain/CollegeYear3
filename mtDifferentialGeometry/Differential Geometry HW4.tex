@@ -1,0 +1,101 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{pgfplots}
+\usepackage[a4paper,margin=1in]{geometry}
+
+\title{Differential Geometry - Assignment 4}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th\ }}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dv}[2]{\frac{\d #1}{\d #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fdv}[3]{\left.\dv{#1}{#2}\right|_{#3}}
+\newcommand{\crit}{\mathrm{Crit}\ }
+\newcommand{\im}{\mathrm{Im}\ }	
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\osub}{\subset_\mathrm{open}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\theoremstyle{example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{example}{Example}
+
+
+
+\begin{document}
+	\maketitle
+	
+	\begin{enumerate}
+		\item \textbf{Round sphere of radius} $\mathbf{r}$.\\
+		Shape operator: We have that \begin{align*}
+			U(\vec{x})&=\frac{1}{r}(x_1,x_2,x_3)\\
+			 S_p(\vec{v})&=-\nabla_{\vec{v}}U\\
+			 &=-\frac{1}{r}\nabla_{\vec{v}}(\vec{x})\\
+			 &= \frac{1}{r}\sum_{i=1}^{3}(\vec{v}[x_i])e_i\\
+			 &=-\frac{\vec{v}}{r}
+		\end{align*}
+		Gaussian curvature:\\
+		\[K=-\frac1r^2=\frac1{r^2}\]\\
+		Mean curvature:\\
+		\[H=\frac12(-\frac1r-\frac1r)=-\frac{1}{r}\]
+		
+		\pagebreak
+		
+		\textbf{Round cylinder of radius} $\mathbf{r}$.\\
+		Shape operator: We Have that \begin{align*}
+			M \in \R^3, & \qquad x_2^2+x_3^2=r^2\\
+			U(\vec{x})&=\left(0,\frac{x_2}{2},\frac{x_3}{r}\right)\\
+			p&=(0,0,r)
+		\end{align*}
+		(Any $\vec{v}\in T_pM$ has form $v_1\vec{e_1}+v_2\vec{e_2})$\\
+		Set $S_{\vec{e_1}}=0,$since $U \equiv (0,0,1)$ here.\\
+		\begin{align*}
+			S_{\vec{e_2}}(U)&=-\frac{1}{r}(\vec{e_2})\\
+			\therefore S_{\vec{v}}(U)&=v_1 S_{\vec{e_1}}(U)+v_2 S_{\vec{e_2}}(U)\\
+			S_{\vec{v}}(U)&=(0,\frac{-v_2}{r},0)
+		\end{align*}
+		Gaussian curvature:\\
+		\begin{align*}
+			S(\vec{v})&=-\frac{1}{r}v_2\\
+			S&=\begin{bmatrix}
+			0 & 0 \\
+			0 & -\frac{1}{r}
+			\end{bmatrix}\\
+			k_{\min} &= -\frac{1}{r}, \quad k_{\max} = 0\\
+			K&=0
+		\end{align*}
+		Mean curvature:\\
+		\[ H=-\frac1{2r} \]
+		
+		\pagebreak
+		
+		\textbf{Any flat plane in $\mathbf{\R^3}$}\\
+		Shape operator:
+		\begin{align*}
+			M&:ax_1+bx_2+cx_3=d\\
+			U&:=(a,b,c)\ \mathrm{constant}\\
+			\forall p \in M,&\ S(\vec{v})\\
+			&=-\nabla_{\vec{v}}U=(0,0,0)	
+		\end{align*}
+		Gaussian curvature:
+		\[K=0\]
+		Mean curvature:
+		\[H=0\]
+	\end{enumerate}
+\end{document}

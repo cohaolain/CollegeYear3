@@ -1,0 +1,132 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{framed}
+\usepackage{hyperref}
+
+\title{MT434 Point Set Topology - Assignment 1}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\mathrm{s.th}\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\cts}{cts. }
+\newcommand{\ctsm}{\ \mathrm{cts.}\ }
+\newcommand{\Int}[1]{\mathrm{int}(#1)\ }
+\newcommand{\bdy}[1]{\mathrm{bdy}(#1)\ }
+\renewcommand{\emptyset}{\varnothing}
+
+
+\newtheorem{theorem}{Theorem}[section]
+
+\newtheorem{corollary}{Corollary}[theorem]
+
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{stheorem}{Theorem}[theorem]
+\newtheorem{slemma}[stheorem]{Lemma}
+\newtheorem{sdefinition}[stheorem]{Definition}
+\newtheorem{scorollary}[stheorem]{Corollary}
+\theoremstyle{remark}
+\theoremstyle{example}
+\theoremstyle{examples}
+\newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
+\newtheorem*{example}{Example}
+\newtheorem*{examples}{Examples}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\item Recall the definition of a topological space:
+		\addtocounter{section}{2}
+		\addtocounter{theorem}{1}
+		\begin{framed}
+			\begin{sdefinition}
+				\label{topologicalspace}
+				A \textbf{topological space} is a pair $(X,T)$ where $X$ is a non-empty set and $T$ is a collection of subsets with the following properties:
+				\begin{enumerate}
+					\item $X, \emptyset \in T$
+					\item Any union of sets in $T$ belongs to $T$
+					\item Any intersection of finitely many sets in $T$ belongs to $T$.
+				\end{enumerate}
+				$T$ is called a \textbf{topology}, and the sets belonging to $T$ are called \textbf{open sets}.
+			\end{sdefinition}
+		\end{framed}
+		
+		We have that $U_x=\{x\}$, $x \in X, U_x \in T$ (since $X - U_x$ is clearly still infinite).\\
+		Now define another set $Y:=X-\{x_1, x_2\}$ while is clearly also infinite, and thus $\in T$.	\\
+		We then find that \[X - \bigcup_{x \in Y} U_x = \{x_1, x_2\}\]
+		But this means that $X - \bigcup_{x \in Y} U_x$ is finite, and thus $\bigcup_{x \in Y} U_x \notin T_\infty$.\\
+		Note from (b) that any union of sets in $T$ must belong to $T$ if $T$ is a topology.\\
+		Therefore, this condition doesn't hold for $T_\infty$.\\
+		$\therefore T_\infty$ is not a topology on $X$.
+		\item \begin{enumerate}
+			\item Since $T$ is a metric topology, $\exists d:X \times X \to \R$, a distance function for the metric space $(X,d)$.\\
+			Let $x,y \in X, x \neq y$, and $a = d(x,y)$.\\
+			Now create two open sets $U=B(x,\frac{r}{2}), V=B(y,\frac{r}{2})$. These clearly contain $x,y$ respectively.\\
+			Now we just need to check that $U \cap V = \emptyset$.\\
+			\\
+			Assume otherwise, $\exists \alpha \in U \cap V$. Then we have that $d(x,\alpha) < \frac{r}{2}, d(y, \alpha) < \frac{r}{2}$. This would then give that $r=d(x,y) \leq d(x,\alpha) + d(y,\alpha) < \frac{r}{2} + \frac{r}{2}$\\
+			But that gives $r < r$, a contradiction. Therefore, we have that $U \cap V  =\emptyset$, as required.\\
+			i.e., every metric space is Hausdorff.
+			
+			\item Let us check each condition.
+			\begin{enumerate}
+				\item Clearly $\emptyset \in T$, and $U_1 \in T = \N$, so first condition is satisfied.
+				\item Unions of sets in $T$ do belong to $T$. Union with entire or emptyset is trivial. In the case of a union of $U_n$'s, $N \subset \N$, we have that $\cup_{n \in N} U_n = U_{\min N} \in T$ so the union is still in $T$.
+				\item Intersections of finitely many sets in $T$ do still belong to $T$. An intersection of $\cap_{n \in N} U_n = U_{\max N}$, while intersection with entire set and empty set are trivial.
+			\end{enumerate}
+			Since all the conditions are satisfied, we have that $T$ is a topology.\\
+			In order for $T$ to be a metric topology, we must have that $T =$ \{open sets for the metric $d\}$. However this is not the case in the example given here. $T$ is not a metric topology.
+		\end{enumerate}
+		\item \begin{enumerate}
+			\item Let us check each condition
+			\begin{enumerate}
+				\item Clearly $X, \emptyset \in T_{x_0}$, since we can choose $S=X$, and $\emptyset \in X$ by definition.
+				\item Union of sets in $T_{x_0}$ belongs to $T_{x_0}$, since we'd have $x_0 \ni S_1, S_2 \subset X$, the union of these sets obviously still contains $x_0$, therefore the union of sets in $T$ also belong to $T$.
+				\item Any intersection of finitely many sets in $T_{x_0}$ will still be in $T_{x_0}$, since $x_0$ will be an element of all of them, which means the resulting intersection will contain $x_0$. Therefore by definition the intersection will be in $T_{x_0}$.
+			\end{enumerate}
+			Therefore all the necessary conditions are satisfied, and $T_{x_0}$ is a topology.
+			\item By definition, $X, \emptyset$ are closed sets. $\{x_0\}$ is also a closed set.
+			\item $\{\frac12, 0\}$
+			\item $\{0\}$
+		\end{enumerate}
+		\item \begin{enumerate}
+			\item Recall the definition of the finite completement topology:\\
+			\begin{framed}
+				$X$ any non-empty set. Define $T$ by the following:
+			\begin{eqnarray}
+			\emptyset, X \in T\\
+			A \subset X \iff X \setminus A\ \mathrm{finite} 
+			\end{eqnarray}
+			This is the \textbf{finite complement topology}.
+			\end{framed}
+			$A$ is an infinite subset of $\R$. Let $Y \in T$ be an open set in the topology. $A \cap Y$ is infinite. Now take $x \in \R$, clearly every open set $Y \in T$ where $x \in A$ contains infinite points of $A$ that aren't $x$.\\
+			Therefore we have that $x$ is a limit point of $A$.\\
+			\\
+			Therefore, the set of limit points of $A$ is $\R$.
+			\item The closure is $\R$, the interior is $\emptyset$.
+		\end{enumerate}
+	\end{enumerate}
+\end{document}

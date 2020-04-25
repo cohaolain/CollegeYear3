@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[a4paper,margin=0.75in]{geometry}
+
+\title{ST461 Probability - Assignment 1}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\theoremstyle{example}
+\newtheorem*{example}{Example}
+
+\begin{document}
+	\maketitle
+	
+	\begin{enumerate}
+		\item \begin{enumerate}
+			\item \begin{align*}
+			P(S) & = P(A \cup A^C)\\
+			& = P(A) + P(A^C) = 1\\
+			& \implies P(A^C) = 1-P(A)
+			\end{align*}
+			\item \begin{align*}
+			B = & (A \cap B) \cup (A^C \cap B) \\
+			P(B) = &  P \left[ (A \cap B) \cup (A^C \cap B) \right]\\
+			P(B) = & P(A \cap B) + P(A^C \cap B)\\
+			P(A^C \cap B) = & P(B) - P(A \cap B)
+			\end{align*}
+			\item \begin{align*}
+			P(A \cup B) & = P \left[ A \cup (A^C \cap B) \right]\\
+			& = P(A) + P(A^C \cap B)\\
+			& = P(A) + P(B) - P(A \cap B)
+			\end{align*}
+			\item \begin{align*}
+			P(A \cup B \cup C) & = P((A \cup B) \cup C)\\
+			& = P((A \cup (A^C \cap B)) \cup C)\\
+			% & = ((A \cup (A^C \cap B)) \cup ((A \cup (A^C \cap B))^C \cap C))\\
+			& = P(A \cup (A^C \cap B)) + P(C)-P((A \cup (A^C \cap B)) \cap C)\\
+			& = P(A)+P(B)-P(A \cap B) + P(C) - P((A \cup (A^C \cap B)) \cap C)\\
+			& = P(A)+P(B)+P(C)-P(A \cap B) - P((A \cup (A^C \cap B)) \cap C)\\
+			& = P(A)+P(B)+P(C)-P(A \cap B) - P((A \cup B) \cap C)\\
+			& = P(A)+P(B)+P(C)-P(A \cap B) - P((A \cap C) \cup (B \cap C))\\
+			& = P(A)+P(B)+P(C)-P(A \cap B) - (P(A \cap C) + P(A \cap B) - P((A\cap C) \cap (B \cap C)))\\
+			& = P(A)+P(B)+P(C)-P(A \cap B) - P(A \cap C) - P(A \cap B) + P(A\cap B \cap C)
+			\end{align*}
+		\end{enumerate}
+		\pagebreak
+		\setcounter{enumi}{3}
+		\item Note that by Bayes' Theorem \[P(B|A) = \frac{P(A|B)P(B)}{P(A)} \]
+		Let $D$ be the event that a SIM card is defective.\\
+		We need to find $P(M_2|D)$.
+		By the above formula we have that \[P(M_2|D) = \frac{P(D|M_2)P(M_2)}{P(D)}\]
+		We clearly need $P(D)$ to make this calculation, which can be found with the following calculation: \[ P(D) = 0.15 \times 0.01+0.45 \times 0.03+0.4 \times 0.02 =  0.023 = 2.3\% \]
+		This gives us \[P(M_2|D) = \frac{0.03 \times 0.45}{0.023} = 0.586956522 \]
+		So therefore we have that \[P(M_2|D) = 58.7\% \] as required.
+		\item \begin{enumerate}
+			\item $A$ and $B$ are clearly independent of each other, since the outcome of each does not affect the other. Both still have an exactly $50\%$ chance of occuring.
+			i.e. \[ P(A)=P(A|B)=0.5 \qquad P(B)=P(B|A)=0.5 \]
+			$C$ is also independent. Since \[ P(C)=0.5=P(C|A)=P(C|B) \]  regardless of the result of either toss, the second toss has a $50\%$ chance of giving the same outcome as the first roll.
+			\item As shown above, $C$ is independent of $A$ and $B$.\\
+			$C$ is not independent of $A \cap B$, however, since \[0.5=P(C) \neq P(C|(A \cap B))=1\]
+			Since if both rolls are heads, then there is a $100\%$ probability they are the same, which is different from the probability of it happening if only $A$ or $B$ individually occur. Therefore the probability of $C$ is dependent on $A \cap B$.
+			
+		\end{enumerate}
+	\end{enumerate}
+
+	
+	
+\end{document}

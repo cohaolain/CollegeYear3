@@ -1,0 +1,181 @@
+---
+title: "Assignment 3 ST464"
+author: "Ciarán Ó hAoláin - 17309103"
+date: "`r format(Sys.time(), '%X %d %B, %Y')`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=5, fig.height=4, fig.align = "center")
+```
+
+
+```{r, eval=T, echo=FALSE}
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+suppressMessages(library(GGally))
+
+```
+
+
+
+# Question 2
+
+
+
+```{r eval=T} 
+suppressMessages(library(MASS))
+suppressMessages(library(ISLR))
+suppressMessages(library(class))
+m <- median(Auto$mpg)
+Auto$mpg01 <- factor(ifelse(Auto$mpg <= m, 0, 1))
+set.seed(1)
+s <- sample(nrow(Auto), round(.5 * nrow(Auto)))
+Atrain <- Auto[s, ]
+Atest <- Auto[-s, ]
+```
+
+## (a)
+```{r}
+ggplot(data = Atrain, aes(
+  x = weight,
+  y = acceleration,
+  color = ifelse(Atrain$mpg01 == 0, "0 (mpg <= median)", "1 (mpg > median)")
+)) + geom_point(alpha = 0.5) + labs(title = "Levels of mpg01", color = "mpg01 ")
+```
+
+
+## (b)
+```{r}
+f.b <- lda(mpg01 ~ weight + acceleration, data = Atrain)
+f.b
+grid.b <-
+  expand.grid(
+    weight = seq(min(Auto$weight), max(Auto$weight), length = 100),
+    acceleration = seq(min(Auto$acceleration), max(Auto$acceleration), length =
+                         100)
+  )
+grid.b$prob <- predict(f.b, grid.b)$posterior[, 1]
+ggplot(data = Atrain, aes(
+  x = weight,
+  y = acceleration,
+  color = ifelse(Atrain$mpg01 == 0, "0 (mpg <= median)", "1 (mpg > median)")
+)) + geom_point(alpha = 0.5) + labs(title = "Decision boundary from LDA", color =
+                                      "mpg01 ") + geom_contour(data = grid.b,
+                                                               aes(z = prob),
+                                                               breaks = .5,
+                                                               color = "black")
+
+testpred.b <- predict(f.b, Atest)$class
+table(Atest$mpg01, testpred.b)
+mean(Atest$mpg01 != testpred.b)
+trainpred.b <- predict(f.b)$class
+table(Atrain$mpg01, trainpred.b)
+mean(Atrain$mpg01 != trainpred.b)
+```
+
+The test dataset error is 12.7551%.
+The error of the training dataset is 11.73469%.
+
+
+
+## (c)
+```{r}
+f.c <- qda(mpg01 ~ weight + acceleration, data = Atrain)
+f.c
+grid.c <-
+  expand.grid(
+    weight = seq(min(Auto$weight), max(Auto$weight), length = 100),
+    acceleration = seq(min(Auto$acceleration), max(Auto$acceleration), length =
+                         100)
+  )
+grid.c$prob <- predict(f.c, grid.c)$posterior[, 1]
+ggplot(data = Atrain, aes(
+  x = weight,
+  y = acceleration,
+  color = ifelse(Atrain$mpg01 == 0, "0 (mpg <= median)", "1 (mpg > median)")
+)) + geom_point(alpha = 0.5) + labs(title = "Decision boundary from QDA", color =
+                                      "mpg01 ") + geom_contour(data = grid.c,
+                                                               aes(z = prob),
+                                                               breaks = .5,
+                                                               color = "black")
+
+testpred.c <- predict(f.c, Atest)$class
+table(Atest$mpg01, testpred.c)
+mean(Atest$mpg01 != testpred.c)
+trainpred.c <- predict(f.c)$class
+table(Atrain$mpg01, trainpred.c)
+mean(Atrain$mpg01 != trainpred.c)
+```
+
+The test dataset error is 11.73469%.
+The error of the training dataset is 11.22449%.
+
+QDA appears to yield a lower error rate in predicting the variable, so it performs better here.
+
+## (d)
+```{r}
+f.d <-
+  lda(mpg01 ~ displacement + horsepower + weight + acceleration, data = Atrain)
+f.d
+
+testpred.d <- predict(f.d, Atest)$class
+table(Atest$mpg01, testpred.d)
+mean(Atest$mpg01 != testpred.d)
+trainpred.d <- predict(f.d)$class
+table(Atrain$mpg01, trainpred.d)
+mean(Atrain$mpg01 != trainpred.d)
+```
+
+The test dataset error is 12.7551%.
+The error of the training dataset is 7.653061%.
+
+
+## (e)
+```{r}
+f.e <-
+  qda(mpg01 ~ displacement + horsepower + weight + acceleration, data = Atrain)
+f.e
+
+testpred.e <- predict(f.e, Atest)$class
+table(Atest$mpg01, testpred.e)
+mean(Atest$mpg01 != testpred.e)
+trainpred.e <- predict(f.e)$class
+table(Atrain$mpg01, trainpred.e)
+mean(Atrain$mpg01 != trainpred.e)
+```
+
+The test dataset error is 12.7551%.
+The error of the training dataset is 8.163265%.
+
+LDA appears to yield a lower error rate in predicting the variable, so it performs better here.
+
+## (f)
+```{r}
+predictors <-
+  scale(Atrain[c("displacement", "horsepower", "weight", "acceleration")])
+predictors_testdata <-
+  scale(Atest[c("displacement", "horsepower", "weight", "acceleration")])
+
+pred.k5.train <- knn(predictors, predictors, Atrain$mpg01, k = 5)
+pred.k5.test <- knn(predictors, predictors_testdata, Atrain$mpg01, k = 5)
+pred.k30.train <- knn(predictors, predictors, Atrain$mpg01, k = 30)
+pred.k30.test <- knn(predictors, predictors_testdata, Atrain$mpg01, k = 30)
+
+table(Atrain$mpg01, pred.k5.train)
+mean(Atrain$mpg01 != pred.k5.train)
+table(Atest$mpg01, pred.k5.test)
+mean(Atest$mpg01 != pred.k5.test)
+
+table(Atrain$mpg01, pred.k30.train)
+mean(Atrain$mpg01 != pred.k30.train)
+table(Atest$mpg01, pred.k30.test)
+mean(Atest$mpg01 != pred.k30.test)
+```
+The test dataset error of the models with k=5,30 respectively are both 12.7551%.
+The error of the training dataset of the models with k=3,30 respectively are 5.612245% and 8.163265%.
+
+With k=5, KNN appears to yield a lower error rate in predicting the variable, so it performs better here.
+

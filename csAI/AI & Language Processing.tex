@@ -1,0 +1,47 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\title{AI \& Language Processing}
+\author{Ciarán Ó hAoláín}
+
+\begin{document}
+	\maketitle
+	
+	\section{Neural Networks}
+	There are many types. The most common is \textbf{Feed Forward (FF)}. Unlike \textbf{perceptron} it has hidden layers.
+	This involves having many inputs resolving to outputs.\\
+	\textbf{Convolutional} networks are commonly used for image processing.
+	
+	\subsection{Feed Forward}
+	\begin{enumerate}
+		\item 	Trained on a large dataset. 
+		\item Neural network learns association between input patterns $(X_1,\cdots,X_n)$ and the output pattern $Y$.
+		\item $(w_1,\cdots,w_n)$ store the learned information.
+		\item Therefore we train on repetitions of $\{X_1,\cdots,X_n,Y\}$
+		\item We calculate \[ f \left( \sum_{i=1}^{n} w_i \cdot X_i \right) \]
+		\item We use some (differentiable) sigmoid function on the result. This essentially gives an error metric.
+		\item We never get positive feedback, essentially. We just correct on errors by a certain amount.
+		\subitem If output too high, reduce weights causing trouble and vice versa.
+		\subitem This requires many iterations.
+	\end{enumerate}
+
+	\subsection{Deep Learning}
+	This involves many hidden layers of $w$'s.
+	
+	\subsection{Word2Vec}
+	\begin{enumerate}
+		\item We want to represent words using small vectors (500-1000 values) on a > 10 million word corpus.
+		\item Synta-semantic representation where similar words have similar representations, enabling operations on those vectors.
+		\item We train a network to learn vector representations for each word.
+		\subitem Giving an association between words with local context.
+		\item We use a word window around a central world.
+		\subitem Skipgram: Predict 'The quick fox jumps quick' given brown'.
+		\subitem \textbf{Something else?}
+		\item In practice we use a window of $\pm 5$ words around a word.
+		\item We can index the entire corpus with integers. Direct representation is unusual.
+	\end{enumerate}
+	\pagebreak
+	
+	
+\end{document}

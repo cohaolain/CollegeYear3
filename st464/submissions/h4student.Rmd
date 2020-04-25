@@ -1,0 +1,165 @@
+---
+title: "Assignment 4 - ST464"
+author: "Ciarán Ó hAoláin - 17309103"
+date: "`r format(Sys.time(), '%X 23 %B, %Y')`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4, fig.align = "center")
+```
+
+
+```{r, eval=T, echo=FALSE}
+suppressMessages(library(MASS))
+suppressMessages(library(randomForest))
+suppressMessages(library(gam))
+suppressMessages(library(tree))
+```
+
+## Question 2
+### (a)
+#### Generalised Additive Model
+```{r}
+set.seed(123)
+s <- sample(nrow(Boston), round(.6 * nrow(Boston)))
+boston_train <- Boston[s, ]
+boston_test <- Boston[-s, ]
+boston_fit_gma <-
+  gam(dis ~ s(medv, 4) + s(age, 4) + s(nox, 4), data = boston_train)
+summary(boston_fit_gma)
+```
+
+
+### (b)
+#### Plot of GAM
+```{r}
+plot.Gam(boston_fit_gma, terms = "s(medv, 4)")
+plot.Gam(boston_fit_gma, terms = "s(age, 4)")
+plot.Gam(boston_fit_gma, terms = "s(nox, 4)")
+```
+
+A linear term may be appropriate for the `age` predictor.
+
+
+### (c)
+#### GAM Simplification
+```{r}
+boston_fit_simp <-
+  gam(dis ~ s(medv, 4) + age + s(nox, 4), data = boston_train)
+summary(boston_fit_simp)
+plot.Gam(boston_fit_simp, terms = "s(medv, 4)")
+plot.Gam(boston_fit_simp, terms = "age")
+plot.Gam(boston_fit_simp, terms = "s(nox, 4)")
+anova(boston_fit_gma, boston_fit_simp)
+```
+
+Our anova yields a p-value of 0.5056, therefore these two models are not significantly different.  
+This tells us that the spline for `age` is not necessary.  
+
+```{r}
+# Check training and test MSE for GAM and simplified GAM
+train_error <-
+  mean((
+    predict(boston_fit_gma, newdata = boston_train) - boston_train$dis
+  ) ^ 2)
+test_error <-
+  mean((
+    predict(boston_fit_gma, newdata = boston_test) - boston_test$dis
+  ) ^ 2)
+train_error
+test_error
+train_error <-
+  mean((
+    predict(boston_fit_simp, newdata = boston_train) - boston_train$dis
+  ) ^ 2)
+test_error <-
+  mean((
+    predict(boston_fit_simp, newdata = boston_test) - boston_test$dis
+  ) ^ 2)
+train_error
+test_error
+```
+
+The training and test MSE of the GAM are 1.02594 and 0.8835129 respectively.  
+The training and test MSE of the simplified GAM are 1.034173 and 0.8842216 respectively.  
+The simplified GAM has a slightly higher error than the original GAM.
+
+## Question 4
+
+### (a)
+#### Tree
+```{r}
+boston_tree <- tree(dis ~ medv + age + nox, data = boston_train)
+summary(boston_tree)
+plot(boston_tree)
+text(boston_tree, cex = .5, pretty = 0)
+
+train_error <-
+  mean((predict(boston_tree, newdata = boston_train) - boston_train$dis) ^
+         2)
+test_error <-
+  mean((predict(boston_tree, newdata = boston_test) - boston_test$dis) ^
+         2)
+train_error
+test_error
+```
+
+The training and test MSE of the Tree Model are 1.01777 and 0.8456966 respectively.
+
+### (b)
+#### Pruned Tree
+```{r}
+cvtree <- cv.tree(boston_tree)
+cvtree
+plot(cvtree$size, cvtree$dev , type = "b")
+w <- cvtree$size[which.min(cvtree$dev)]
+pruned_tree <- prune.tree(boston_tree, best = w)
+plot(pruned_tree)
+text(pruned_tree, cex = .5, pretty = 0)
+train_error <-
+  mean((predict(pruned_tree, newdata = boston_train) - boston_train$dis) ^
+         2)
+test_error <-
+  mean((predict(pruned_tree, newdata = boston_test) - boston_test$dis) ^
+         2)
+train_error
+test_error
+```
+
+The tree with `r I(w)` nodes has the lowest `dev`, we try to prune this tree.  
+The training and test MSE of the Pruned Tree Model are 1.071252 and 0.8464587 respectively.
+These values both give a MSE higher than that of the tree in (a).
+
+
+### (c)
+#### Random Forest
+```{r}
+boston_rf <- randomForest(dis ~ medv + age + nox, data = boston_train)
+train_error <-
+  mean((predict(boston_rf, newdata = boston_train) - boston_train$dis) ^
+         2)
+test_error <-
+  mean((predict(boston_rf, newdata = boston_test) - boston_test$dis) ^ 2)
+train_error
+test_error
+```
+
+The training and test MSE of the Random Forest Model are 0.2181938 and 0.7266279 respectively. 
+
+
+### (d)
+#### Comparison of Models
+
+The training and test MSE of the GAM are 1.02594 and 0.8835129 respectively.  
+The training and test MSE of the simplified GAM are 1.034173 and 0.8842216 respectively.  
+The training and test MSE of the Tree Model are 1.01777 and 0.8456966 respectively.  
+The training and test MSE of the Pruned Tree Model are 1.071252 and 0.8464587 respectively.  
+The training and test MSE of the Random Forest Model are 0.2181938 and 0.7266279 respectively.  
+
+Clearly the Random Forest Model yields the lowest MSE on the training and test data compared to all of the other models.  
+So the Random Forest Model gives the best fit to the test data here.  
+The Tree Model (with no additional pruning) gave the second best fit on the test data, followed by the Pruned Tree Model.  
+Finally, the GAM gave the worst fit to the test data. However, the difference in MSE between all the above models was quite small.

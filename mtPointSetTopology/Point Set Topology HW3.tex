@@ -1,0 +1,185 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{cancel}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{framed}
+\usepackage{hyperref}
+
+\title{MT434 Point Set Topology - Assignment 3}
+\author{Ciarán Ó hAoláin - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\mathrm{s.th}\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\cts}{cts. }
+\newcommand{\ctsm}{\ \mathrm{cts.}\ }
+\newcommand{\Int}[1]{\mathrm{int}(#1)\ }
+\newcommand{\bdy}[1]{\mathrm{bdy}(#1)\ }
+\renewcommand{\emptyset}{\varnothing}
+
+\newcommand{\ba}{\mathcal{B}}
+
+\newtheorem{theorem}{Theorem}[section]
+
+\newtheorem{corollary}{Corollary}[theorem]
+
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{stheorem}{Theorem}[theorem]
+\newtheorem{slemma}[stheorem]{Lemma}
+\newtheorem{sdefinition}[stheorem]{Definition}
+\newtheorem{scorollary}[stheorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
+\newtheorem*{example}{Example}
+\newtheorem*{examples}{Examples}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item Recall the definition of a $T_1$ topological space:
+          \begin{framed}
+              \setcounter{section}{4}
+              \begin{definition}
+                  \label{deft1}
+                  A $\mathbf{T_1}$\textbf{-space} is a topological space in which given any pair of distinct points $x$ and $y$, there exists open sets $U \ni x$ and $V \ni y$ such that $x \notin V$ and $y \notin U$.
+              \end{definition}
+          \end{framed}
+          \textbf{Claim:} A topological space $(X, T )$ is $T_1$ $\iff \forall x \in X$, the intersection of all open sets containing $x$ is precisely $\{x\}$.
+          \begin{proof}
+              $(\implies)$:\\
+              Suppose $X$ is $T_1$.
+              Consider a subset $A \subset X\ \sth x \in X \setminus A$.
+              By Definition \ref{deft1} we have that
+              $\forall a \in A \exists U_a \in T  \sth a \in U_a, x \notin U_a$.\\
+              This means there is a union of open sets
+              $V = \bigcup_{a \in A} U_a \in T$, $A \subseteq V \not\ni x$.\\
+              Then we let $A=\bigcup_{x \in X \setminus A}U_x$,
+              giving that $A$ is the intersection of all open sets containing $x$.\\
+              By choice of $A$ we can find such a case $\forall x \in X$.\\
+              \\
+              $(\impliedby)$:\\
+              Assume  $X$ is not $T_1$.\\
+              $\implies \exists a, b \in X \sth \forall B \in T, x \in B \implies y \in B$.\\
+              $\implies \{x\}\subset X$ is not the intersection of all open sets containing $x$.\\
+              This is a contradiction, so $X$ \textbf{is} $T_1$.
+          \end{proof}
+          \pagebreak
+    \item Recall the definition of a Hausdorff space:
+          \begin{framed}
+              \setcounter{section}{2}
+              \begin{definition}
+                  A topological space is \textbf{Hausdorff}, or $\mathbf{T_2}$,
+                  if for every pair of distinct points $x$ and $y$ there exist
+                  open sets $U \ni x$ and $V \ni y$ such that
+                  $U \cap V = \emptyset$.
+              \end{definition}
+          \end{framed}
+          \textbf{Claim:} A topological space $(X, T)$
+          is Hausdorff $\iff$ the diagonal subset
+          $\Delta := \{(x, x)\mid x \in X\}$ is closed in $X \times X$.
+          \begin{proof}
+              $(\implies)$:\\
+              Suppose $X$ is Hausdorff.
+              We need to show that $(X \times X) \setminus \Delta$ is open.\\
+              Consider $p = (x,y) \in (X \times X) \setminus \Delta$.
+              Obviously $x \neq y$ since $p \notin \Delta$.\\
+              We have that there exists open sets $U,V\ \sth U \cap V = \emptyset,
+                  x \in U, y \in V$ (since the space is Hausdorff).\\
+              This means that $U \times V$ is open in $X \times X$.\\
+              But obviously since $\Delta \cap U \times V = \emptyset$ necessarily,
+              we have that $(U \times V) \setminus \Delta$ is also open in $X \times X$.\\
+              $\therefore$ since the complement $(X \times X) \setminus \Delta$ is open,
+              we have that $\Delta$ is closed, as required.\\\\
+              $(\impliedby)$:\\
+              Suppose $\Delta$ is closed in $X \times X$.\\
+              Consider $p=(x,y) \notin X$ (so $x \neq y$),
+              $p \notin \Delta \implies p \in (X \times X) \setminus \Delta$.\\
+              There must be some
+              $A \in T \sth p \in A \subseteq (X  \times X) \setminus \Delta$.\\
+              $A = U \times V$ for some $U,V$ open in $X$.\\
+              $p \in A \implies x \in U, y \in V$.\\
+              Finally, we need to ensure that $U \cap V = \emptyset$.\\
+              Assume otherwise, that $\exists z \in U \cap V$.
+              Then, this would mean that $(z,z) \in U \times V$.\\
+              This can't occur ($A \cap \Delta =\emptyset)$, a contradiction.\\
+              Therefore we have that $U \cap V = \emptyset$, as required.
+          \end{proof}
+    \item Recall the definition of compactness:
+          \begin{framed}
+              \setcounter{section}{5}
+              \setcounter{theorem}{2}
+              \begin{definition}
+                  A topological space is \textbf{compact} if every open cover
+                  has a finite subcover.
+              \end{definition}
+          \end{framed}
+          \textbf{Finite case:}\\
+          Consider any open cover for $\bigcup_{\alpha \in I} A_\alpha$.\\
+          We have that each $A_\alpha$ is compact.\\
+          Therefore each $A_\alpha$ has a finite subcover.\\
+          The union of these subcovers must therefore also be finite,
+          and it clearly covers $\bigcup_{\alpha \in I} A_\alpha$.\\
+          Therefore every open cover of $\bigcup_{\alpha \in I} A_\alpha$
+          has a finite subcover, so $\bigcup_{\alpha \in I} A_\alpha$ is compact.\\
+          \textbf{Infinite case:}\\
+          Consider $[-n,n], n \in \N$. This set is compact $\forall n \in \N$.\\
+          But if we consider $A=\bigcup_{n=1}^\infty [-n,n]$ we find that $A=\R$.\\
+          $\R$ is clearly not compact, therefore we see that infinite unions of
+          compact sets are not necessarily compact.\\
+          \textbf{Hausdorff Case:}\\
+          If $(X,T)$ is Hausdorff,
+          then $A_\alpha$ compact $\implies A_\alpha$ closed (by Corollary 5.8).\\
+          We have that arbitrary intersections of closed sets are closed (by Theorem 2.1.5).\\
+          $\therefore \bigcap_{\alpha \in I}A_\alpha$ is closed.\\
+          $\therefore$ we have that
+          $\bigcap_{\alpha \in I}A_\alpha$ closed
+          $\implies \bigcap_{\alpha \in I}A_\alpha$ compact (by Corollary 5.8), as required.
+          \pagebreak
+    \item Let $T=\{\emptyset \} \cup \{ A \cup \{1\} \mid A \subseteq \N \}$
+          as described.\\
+          We check that $T$ is a topology on $\N$:
+          \begin{enumerate}
+              \item $\emptyset \in T, \N \in T$ as required.
+              \item Unions of members of $T$ are clearly in $T$,
+                    since $A$ above can be any subset of $\N$.
+              \item Intersections are also in $T$ by the same argument,
+                    since any subset of $\N$ can be in place of the $A$ above.
+          \end{enumerate}
+          $\implies T$ is a topology.\\
+          We can see that $A={1}$ is compact
+          (any cover has a finite, single-element subcover).\\
+          However, the closure $\bar{A}=\N$ of $A$ is \textbf{not} compact,
+          since there is no finite subcover for $\N$ here.\\
+          Thus, we've shown that the closure of a compact set
+          in a topological space need not be compact, as required.
+    \item Assume it isn't connected. Then $X=A \cup B,$
+          where $A, B$ are disjoint, open, non-empty.
+          But by definition of the finite complement topology,
+          we have that $A \cup B = X$, and $A \cap B = \emptyset$.\\
+          This gives $A^c=B$, $B^c=A$.
+          However, this means $A,B$ are finite!\\
+          $\therefore X=A \cup B \implies X$ finite, a contradiction.\\
+          $\therefore$ we have that $(X,T_f)$ is connected, as required.
+\end{enumerate}
+\end{document}

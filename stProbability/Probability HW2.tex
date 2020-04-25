@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[a4paper,margin=0.75in]{geometry}
+
+\title{ST461 Probability - Assignment 2}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\theoremstyle{example}
+\newtheorem*{example}{Example}
+
+\renewcommand{\d}{\ \mathrm{d}}
+\newcommand{\dd}{\mathrm{d}}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\skipitems{1}
+		\item \begin{enumerate}
+		 \item \[ 0.55^5 \cdot 0.45 =  0.022647797 \]
+			 \item \[ 0.55 \cdot 0.45 \cdot {5 \choose 3} \cdot 0.45^3 \cdot 0.55^2 \cdot 0.45 = 0.030700867\]	
+		\end{enumerate}
+		\item $P($Machine finishes work with two engines) $= 1-P($both engines fail) \[1-(1-p)^2=-p^2+2p\]\\
+		$P($Machine with 4 engines finishes work): \[ \sum_{k=2}^{4} {4 \choose k} p^k \cdot (1-p)^{4-k} = 3 p^4 - 8 p^3 + 6 p^2 = p^2 \cdot (6 - 8p + 3p^2) \]
+		Solving for $0 < p < 1$,  $\quad p^2 \cdot (6 - 8p + 3p^2) > -p^2+2p$ :
+		\begin{align*}
+			\quad p^2 \cdot (6 - 8p + 3p^2) &> -p^2+2p\\
+			3 p^4 - 8 p^3 + 6 p^2 & > -p^2 + 2p\\
+			(p-1)^2(3p-2) & > 0 & ( 0 < p < 1)	\\
+			3p-2 &> 0\\
+			p > \frac{2}{3}
+		\end{align*}
+		$\therefore$ a four-engine machine is preferable to a two-engine when $p > \frac{2}{3}$.
+		\skipitems{1}
+		\item \begin{enumerate}
+			\item Clearly $f(x)\geq0 \forall x, \alpha$.\\
+			We need to also verify that $\int_{-\infty}^{\infty}f(x) \d x=1$ as follows:
+			\begin{proof}
+				\begin{align*}
+					\int_{-\infty}^{\infty}f(x) \d x &=\int_{-\infty}^{-1}0 \d x + \int_{-1}^{1}f(x) \d x + \int_{1}^{\infty}0 \d x\\
+					& = \int_{-1}^{1}f(x) \d x\\
+					& = \frac{1}{2} \int_{-1}^{1} \left(1 + \alpha x\right) \d x\\
+					& = \frac{1}{2} \left[ x + \frac{\alpha x^2}{2} \right]^1_{-1}\\
+					& = \frac{1}{2} \left( 1 + \frac{\alpha}{2} + 1 - \frac{\alpha}{2} \right)\\
+					& = \frac{1}{2} \cdot 2\\
+					& = 1
+				\end{align*}
+			as required.
+			\end{proof}
+			$\therefore$ we have that $f$ is a probability density function.
+			\item The CDF can be found as follows:
+			\begin{align*}
+				F(x)&=\int_{-\infty}^{x}f(u) \d u\\
+				&=\int_{-\infty}^{-1}0 \d u + \int_{-1}^{x}f(u) \d u\\
+				& = \int_{-1}^{x}f(u) \d u\\
+				& = \frac{1}{2} \int_{-1}^{x} \left(1 + \alpha u\right) \d u\\
+				& = \frac{1}{2} \left[ u + \frac{\alpha u^2}{2} \right]^x_{-1}\\
+				& = \frac{1}{2} \left(\alpha\left(\frac{x^2 - 1}{2}\right) + x + 1\right)
+			\end{align*}
+			as required.
+			\item At first quartile, CDF ($F(x)$)is 0.25:
+			\begin{align*}
+				\frac{1}{4}&=\frac{1}{2}\left(\alpha\left(\frac{x^2-1}{2} + x + 1\right)\right)\\
+				\frac{1}{2 \alpha} &= \frac{x^2-1}{2} + x + 1\\
+				\frac{1}{\alpha} &= x^2 + 2x + 1\\
+				x &= \frac{\pm \sqrt{1 - \alpha + \alpha^2} -1}{\alpha}
+			\end{align*}
+			At median, $F(x)=0.5$, so as above:
+			\[
+				x = \frac{\pm\sqrt{\alpha^2+1} -1}{\alpha}
+			\]
+			And finally, at median, $F(x)=0.75$, so as above:
+			\[
+				x=\frac{\pm \sqrt{1 + \alpha + \alpha^2} -1 }{\alpha}
+			\]
+		\end{enumerate}
+	\end{enumerate}
+\end{document}

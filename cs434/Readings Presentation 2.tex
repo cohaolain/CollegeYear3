@@ -1,0 +1,67 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+
+\title{CS434 Readings in the Foundations of Computer Science}
+\author{Ciarán Ó hAoláín}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th}\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\cts}{cts. }
+\newcommand{\ctsm}{\ \mathrm{cts.}\ }
+\newcommand{\tm}{\ \mathrm{TM}\ }
+\newcommand{\sforall}{\ \forall}
+\newcommand{\dom}{\mathrm{dom}}
+\newcommand{\tr}{\leq_\mathrm{T}}
+\newcommand{\halt}{\mathrm{Halt}_\mathrm{TM}}
+\newcommand{\halts}{\downarrow}
+\newcommand{\ce}{\ \mathrm{c.e.}\ }
+\newcommand{\tdeg}{\deg_\mathrm{T}}
+\newcommand{\teq}{\equiv_\mathrm{T}}
+\newcommand{\mor}{\leq_\mathrm{m}}
+\newcommand{\oor}{\leq_\mathrm{1}}
+\newcommand{\ran}{\mathrm{ran}}
+
+\renewcommand{\emptyset}{\varnothing}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\theoremstyle{example}
+\newtheorem*{example}{Example}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	\section*{Presentation on Post's Program Failiure (Maximal Sets)}
+	Corollary 5.3.7 gives that hypersimplicity does not guarantee incompleteness.\\
+	It is easy to construct a hypersimple set directly (5.3.9), but not obvious how to construct a hyperhypersimple set.\\
+	The easiest example of this is a maximal set. These have the thinnest possible complement a coinfinite c.e. set can have.\\
+	In 1965, Yates constructed a complete maximal set, refuting Post's idea that the thinness of complement of a coinfinite c.e. set could guarantee incompleteness.
+	
+\end{document}

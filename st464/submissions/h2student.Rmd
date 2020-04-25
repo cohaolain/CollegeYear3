@@ -1,0 +1,135 @@
+---
+title: "Assignment 2 ST464/ST684"
+author: "Ciarán Ó hAoláin - 17309103"
+date: "`r format(Sys.time(), '%X %d %B, %Y')`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=10, fig.height=6, fig.align="center")
+```
+
+
+```{r, eval=T, echo=FALSE}
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+suppressMessages(library(GGally))
+```
+
+
+
+#### Question 1
+
+
+
+```{r eval=T}
+bfat <- read.table("bodyfat.txt", header = T)
+bfat <- bfat[, c("neck", "abdomen", "knee", "ankle")]
+source("h2code.R")
+```
+
+(a)
+```{r}
+plot(bfat)
+# Can see an outlier in the ankle variable
+# Let's sort the ankle data to identify the outliers
+sort(bfat[, "ankle"])
+
+# Now we isolate the outliers
+outlier_indices <-
+  as.integer(rownames(bfat[which(bfat[, "ankle"] > 30), ]))
+bfat[outlier_indices,]
+```
+
+There are 2 major outliers. These occur in the `ankle` variable.  
+Specifically, the cases 31 and 84, as shown above.
+
+
+(b)
+```{r}
+# Compute PCA
+pca <- prcomp(bfat, scale = TRUE)
+pca
+plot(pca)
+# Compute summary
+pca_summary <- summary(pca)
+importances <- pca_summary[["importance"]]
+importances
+# Calculate percentage of variabilty of PC1, PC1+PC2
+importances["Proportion of Variance", "PC1"]
+importances["Cumulative Proportion", 2]
+# Show scree diagram
+screeplot(pca)
+```
+
+We can that 66.285% of the variability in the dataset is accounted for by the first component.  
+Furthermore, 85.345% of the variability in the dataset is accounted for by the first and second components combined.  
+This can be seen graphically in the screeplot.  
+Furthermore the screeplot illustrates how the most significant proportion of the variances is contributed by the first principal component.  
+After this, the second, third and fourth principal components' propertions decrease dramatically in order, as expected.  
+The graph levels off significantly in the second component (however itstill may be significant), but levels off almost entirely for the subsequent components.
+
+(c)
+```{r}
+# Graph the biplot with indices
+biplot(pca, scale = 0)
+# And repeat without indices
+biplot(pca,
+       scale = 0,
+       xlabs = rep(".", nrow(bfat)),
+       cex = c(3, 1))
+# Make a new dataframe including row totals
+bfat_wtotal <- bfat
+bfat_wtotal$total <- rowSums(bfat)
+# Lowest totals
+head(bfat_wtotal[order(bfat_wtotal$total),])
+# Highest totals
+head(bfat_wtotal[order(bfat_wtotal$total, decreasing = TRUE),])
+```
+
+The first principal component appears to measure the total of the individual variables in each observation.  
+In this case, the PC has positive weights on every variable - however has a slightly smaller weight on the `ankle` variable.  
+
+The second principal component appears to measure the total of the `abdomen`, `neck` and to a lesser degree, `knee` variables, with a strong negative weight to the `ankle` variable. It is, however, less significant than the first component.  
+In this second component, upper body measurements (`neck` and `abdomen`) can be seen to have relatively large weights.  
+The `knee` measurements are also positive to a slightly smaller extent.  
+The `ankle` measurements weight for the second component is, however, significantly different in the second component.    
+
+There are clearly two outliers here, located on the bottom-right hand side on the biplot.  
+These are most likely due to the two outliers identified earlier in part (a) in the ankle data.  
+Observations in the upper right quadrant are high in both PC1 and PC2. This means they've recorded higher measurements for `abdomen`, `neck` and `knee`, but lower in `ankle`.  
+Observations in the lower right quadrant are high in PC1 and low in PC2. This means they've recorded higher measurements for all variables.  
+Observations in the upper left quadrant are low in PC1 and high in PC2. This means they've recorded lower measurements for all variables.  
+Observations in the lower left are low in both PC1 and PC2. This means they've recorded higher measurements for the `ankle` variable, but lower measurements for the three remaining variables.  
+Here, we can see that the arrows for `abdomen`, `neck` and `knee` are quite close to each other, which would indicate the correlation of these three variables.
+
+
+
+(d)
+```{r}
+# Compute PCA
+revised_pca <- prcomp(bfat[-outlier_indices, ], scale = TRUE)
+plot(revised_pca)
+# Compute summary
+revised_pca_summary <- summary(revised_pca)
+revised_importances <- revised_pca_summary[["importance"]]
+revised_importances
+# Calculate percentage of variabilty of PC1, PC1+PC2
+revised_importances["Proportion of Variance", "PC1"]
+revised_importances["Cumulative Proportion", 2]
+# Show scree diagram
+screeplot(revised_pca)
+# Show biplot
+biplot(
+  revised_pca,
+  scale = 0,
+  xlabs = rep(".", nrow(bfat[-outlier_indices, ])),
+  cex = c(3, 1)
+)
+```
+
+There do not appear to be any visible outliers in the revised biplot, having removed the previously observed outliers from our original data.
+
+

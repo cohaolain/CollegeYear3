@@ -1,0 +1,134 @@
+---
+title: "Assignment 1 ST464"
+author: "Ciarán Ó hAoláin"
+date: "`r format(Sys.time(), '%X %d %B, %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.height = 6 , fig.width = 10)
+```
+
+
+```{r, eval=T, echo=FALSE}
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+suppressMessages(library(GGally))
+
+```
+
+
+
+#### Question 4
+
+
+
+```{r eval=T} 
+w <- read.csv("./worldhappiness2019.csv")
+names(w)<- c( "Rank", "Country", "Score", "GDP", "Family",
+              "Life", "Freedom", "Generosity", "Trust")
+rownames(w)<- w$Country
+wscores <- w[,-(1:3)]
+```
+
+(a)
+```{r}
+correlations <- cor(wscores)
+correlations
+correlations[lower.tri(correlations, diag = TRUE)] = -2
+map(1:2, (function(n)
+  colnames(correlations)[which.max(apply(correlations, n, max))]))
+
+subset <- wscores[c("GDP", "Life")]
+plot(subset)
+
+rownames(subset)[which.min(unlist(subset["Life"]))]
+
+```
+
+The pair of variables with the highest correlation are GDP per capita and healthy life expectancy.
+
+The outlying country on this graph is Swaziland.
+
+
+(b)
+```{r}
+dm <- as.matrix(dist(wscores, method = "euclidean"))
+d <- dist(wscores, method = "euclidean")
+h <- hclust(d, "average")
+d1 <- as.dendrogram(h)
+suppressMessages(library(dendextend))
+d2 <- color_branches(d1, k = 4, col = c(2, 3, 5, 4))
+par(cex=0.5)
+plot(d2)
+```
+
+There is an extreme outlier country, the Central African Republic, while Morocco, Georgia, Albania and Iran are also outliers to a smaller extent.
+
+
+(c)
+```{r}
+source("./h1code.R")
+clust3 <- cutree(h, 3)
+table(clust3)
+clust3[c("Ireland", "India")]
+partition <- sumPartition(wscores, clust3)
+which.max(partition$centroids["Family", ])
+```
+
+The cluster sizes are 111, 44 and 1 (let's call these clusters 1, 2 and 3 respectively).
+Ireland belongs to cluster 1.
+India belongs to cluster 2.
+Cluster 1 has the highest Family score.
+Cluster 1 has the highest scores overall.
+
+
+(d)
+```{r}
+wscoresPartitioned1 <- wscores
+wscoresPartitioned1$Cluster <- as.factor(clust3)
+ggparcoord(
+  wscoresPartitioned1,
+  columns = 1:6,
+  groupColumn = "Cluster",
+  scale = "uniminmax"
+) + xlab("Scoring Category") + ylab("Score")
+```
+
+The lowest scoring cluster is unusual becuase it has a rather high Freedom and Genoristy value despite otherwise being quite different in value to other clusters on the plot.
+
+(e)
+```{r}
+set.seed(123)
+km <- kmeans(wscores, nstart = 10, centers = 3)
+sumPartition(wscores, km$cluster)
+```
+
+The outlier countries here are the Central African Republic, Myanmar and Indonesia.
+
+
+(f)
+```{r}
+wscoresPartitioned2 <- wscores
+wscoresPartitioned2$Cluster <- as.factor(km$cluster)
+ggparcoord(wscoresPartitioned2,
+           groupColumn = "Cluster",
+           scale = "uniminmax",
+           columns = 1:6)
+```
+
+Cluster 1 has the highest Family score.
+Cluster 1 has the highest scores overall.
+
+
+(g)
+```{r}
+w$Cluster <- as.factor(km$cluster)
+ggplot(w, aes(x = Cluster, y = Score)) + geom_boxplot()
+```
+
+The scores are clearly quite well clustered and quite distinct, with little overlap between the different clusters. This show we've effectively clustered the data.

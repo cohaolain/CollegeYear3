@@ -1,0 +1,83 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{pgfplots}
+\usepackage[a4paper,margin=1in]{geometry}
+
+\title{Differential Geometry - Assignment 3}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th\ }}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dv}[2]{\frac{\d #1}{\d #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fdv}[3]{\left.\dv{#1}{#2}\right|_{#3}}
+\newcommand{\crit}{\mathrm{Crit}\ }
+\newcommand{\im}{\mathrm{Im}\ }	
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\osub}{\subset_\mathrm{open}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\theoremstyle{example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{example}{Example}
+
+
+
+\begin{document}
+	\maketitle
+	
+	\begin{enumerate}
+		\item \begin{enumerate}
+			\item This \textbf{is} a surface. Any given solution for $x,y,z$ has an open neighbourhood around it which has a diffeomorphism to it from a subset of $\R^2$
+			\item This \textbf{is} a surface, as any point on the sphere has other points in the sphere located arbitrarily close to it within the neighbourhood of that point, so we have an open neighbourhood around it which has a diffeomorphism to it from a subset of $\R^2$
+			\item This \textbf{is} a surface, as if $f$ is smooth, any point in the $z$ axis will be have an open neighbourhood around it which has a diffeomorphism to it from a subset of $\R^2$ (each coordinate is obviously smooth).
+			\item This \textbf{is} a surface (a torus), which is clearly a surface (any point on the torus has an open neighbourhood around it which has a diffeomorphism to it from a subset of $\R^2$.
+			\item This \textbf{is not} a surface as it does not behave around (0,0,0). The two (top and bottom) parts of the cone converge here.
+			\item This \textbf{is not} a surface, while $B$ is a surface, adding $A$ leads to not being able to form a diffeomorphism from points along the $z$ axis.
+			\item This \textbf{is not} a surface, while $A$ and $B$ are individually surfaces, unioning them leads to not being able to form a diffeomorphism (issue is with where the two surfaces intersect, this can't be mapped properly to 2D space).
+			\item This \textbf{is} a surface, as it's just a quarter of an ellipse.
+			\item This \textbf{is not} a surface, it's just a line.
+			\item This \textbf{is} a surface, as we can reverse the map $\R^2 \to \R^3$ back to fit the definition of a surface, to find one from $\R^3$ to an open subset of  $\R^2$.
+		\end{enumerate}
+		\item \begin{enumerate}
+			\item If we let $x=(a,b,c)$ then we can parameterise by taking the set of $x=$ \begin{align*}
+				a &= x\\
+				b &= \cosh(x)\cos(t)\\
+				c &= \cosh(x)\sin(t)
+			\end{align*}
+			where $x \in \R and t \in [0, 2\pi]$.
+			\item If we let $x=(a,b,c)$ then we can parameterise by taking the set of $x=$
+			\begin{align*}
+				a &= (2+\cos(v))\cos(u)\\
+				b &= \sin(v)\\
+				c &= (2+\cos(v))\sin(u)
+			\end{align*}
+			where $u,v \in [0,2\pi)$
+			\item If we let $x=(a,b,c)$ then we can parameterise by taking the set of $x=$
+			\begin{align*}
+				a &= u\\
+				b &= v\\
+				c &= x^2+y^2
+			\end{align*}
+			where $u,v \in \R^+_0$
+		\end{enumerate}
+			\pagebreak
+		\item $f(x,y,z)=z-xy\\
+		\nabla f = (-y, -x, 1)$
+	\end{enumerate}
+\end{document}

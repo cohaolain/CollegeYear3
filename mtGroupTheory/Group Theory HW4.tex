@@ -1,0 +1,132 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage[a4paper,margin=0.75in]{geometry}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+\title{MT441P Group Theory 2 - Assignment 4}
+\author{Ciarán Ó hAoláín - 17309103}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\mathrm{s.th\ }}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\renewcommand{\do}{\cdot}
+
+\newcommand{\stab}{\mathrm{stab}}
+\newcommand{\orb}{\mathrm{orb}}
+\newcommand{\gp}{\mathrm{gp}}
+\newcommand{\subgp}{\triangleleft}
+\newcommand{\supgp}{\triangleright}
+\newcommand{\aut}{\mathrm{Aut}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\theoremstyle{example}
+\newtheorem*{example}{Example}
+
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\skipitems{12}
+		\item \begin{proof}
+			Let $G=G_0 \supgp G_1 \supgp \ddd \supgp G_n={1}$ be a series of $G$.\\
+			Assume it is a central series of $G$, then we have that \[G_i \subset G, \qquad \left(\quotient{G_i}{G_{i+1}}\right)\subset Z\left(\quotient{G}{G_{i+1}}\right)\]
+			Let $\alpha \in G, \alpha_i \in G_i$. Then we have that 
+			\begin{align*}&\alpha G_{i+1} \in \left(\quotient{G}{G_{i+1}}\right),& \quad \alpha_i G_{i+1} \in \left(\quotient{G_i}{G_{i+1}}\right) \\
+			&\left(\quotient{G_i}{G_{i+1}}\right) \subset Z \left(\quotient{G}{G_{i+1}}\right)\\ \implies & \alpha G_{i+1}\alpha_iG_{i+1}=\alpha_i G_{i+1}\alpha G_{i+1} \\
+			\implies & \alpha \alpha_i G_{i+1} = \alpha_i \alpha G_{i+1}\\
+			\implies & [\alpha, \alpha_i] \in G_{i+1}\\
+			\implies&  \mathbf{<[\alpha, \alpha_i]>=[G,G_i] \subset G_{i+1}}
+			\end{align*}
+			\\
+			Now we need to prove the other direction.\\
+			Let $G=G_0 \supgp G_1 \supgp \ddd \supgp G_n={1}$ be a series of $G$ once again.\\
+			By the definition of our series of $G$, $G_{i+1} \subset G_i$. Therefore \[ [G,G_i] \subset G_i \]
+			Let $\alpha \in G, \alpha_{i+1} \in G_{i+1}$.\\
+			Then we have that \[ \alpha^{-1}\alpha_i\alpha=\alpha_i\alpha_i^{-1}\alpha^{-1}\alpha_i\alpha=\alpha_i[\alpha,\alpha_i]^{-1}\in G_i \] since $\alpha_i, [\alpha,\alpha_i]^{-1} \in G_i$.\\
+			This gives that our series is a normal series.
+			Since $[G,G_i]\subset G_{i+1}$, we have \[ [\alpha,\alpha_{i+1}] \in G_{i+1} \]
+			Hence
+			\[ \alpha^{-1}\alpha_{i+1}^{-1}\alpha\alpha_{i+1}G_{i+1}=G_{i+1} \]
+			Which gives
+			\[ \left(\alpha G_{i+1}\right) \left(\alpha_{i+1}G_{i+1}\right)=\left(\alpha_{i+1}\right)\left(G_{i+1} \alpha G_{i+1}\right) \]
+			Since this holds $\forall \alpha \in G, \ \forall \alpha_{i+1} \in G_{i+1}$, we have that
+			\[ \left(\alpha_{i+1}G_{i+1}\right) \in Z \left(\quotient{G}{G_{i+1}}\right) \]
+			This gives that \[  \quotient{G_i}{G_{i+1}} \subset Z\left(\quotient{G}{G_{i+1}}\right) \]
+			Which proves the statement in the other direction, and completes the proof.
+		\end{proof}
+	
+		\pagebreak
+	
+	
+		\item Let $x,y \in G$. \[xy=\begin{bmatrix}
+			1 & a & b & c\\
+			0 & 1 & d & e\\
+			0 & 0 & 1 & f\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}
+		\begin{bmatrix}
+			1 & a' & b' & c'\\
+			0 & 1 & d' & e'\\
+			0 & 0 & 1 & f'\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}=\\
+		\begin{bmatrix}
+			1 & a+a' & b+b'+ad'& c+c'+ae'+bf'\\
+			0 & 1 & d+d' & e+e'+df'\\
+			0 & 0 & 1 & f+f'\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}\]
+		This would be easy in a $3 \times 3$ upper triangular matrix. It is not so easy here.\\
+		Let's define a matrix $M$ as follows (to look at):
+		\[
+		\begin{bmatrix}
+			1 & a_{1,2} & \cdots & a_{1,4}\\
+			0 & 1 & \ddots & \vdots\\
+			\vdots & \ddots & \ddots & a_{3,4}\\
+			0 & \cdots & 0 & 1
+		\end{bmatrix}\]
+		By $a_{1,2}$, we denote the matrix with '1's on the diagonal, a '1' at position (1,2), and is elsewhere 0.\\
+		For our generators, we use \[\{a_{i,j} \mid 1 \leq i < j \leq 4\}\]
+		We now use all the folowing relations.
+		\begin{align*}
+		a_{i,i+1},a_{j,j+1}&=1 & (i<j-1 \leq 2)\\
+		[a_{i,i+1},[a_{i,i+1},a_{i+1,i+2}]]=[a_{i+1,i+2},[a_{i,i+1},a_{i+1,i+2}]]& = 1 \\
+		[[a_{i,i+1},a_{i+1,i+2}],[a_{i+1,i+2},a_{i+2,i+3}]]&=1
+		\end{align*}
+		Which gives the presentation \begin{align*}
+		<\{a_{i,j} \mid 1 \leq i < j \leq 4\},&\{a_{i,i+1},a_{j,j+1},\\
+		&[a_{i,i+1},[a_{i,i+1},a_{i+1,i+2}]]\\
+		&[[a_{i,i+1},a_{i+1,i+2}],[a_{i+1,i+2},a_{i+2,i+3}]]\}>
+		\end{align*}
+	\end{enumerate}
+
+	
+\end{document}

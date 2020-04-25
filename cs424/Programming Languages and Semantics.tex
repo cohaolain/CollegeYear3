@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+
+\title{CS424 Programming Language Design \& Semantics}
+\author{Ciarán Ó hAoláin}
+\begin{document}
+	\maketitle
+	\section[L1]{Lecture 1}
+	
+	\subsection{Machine Code}
+	Lowest level
+	
+	\subsection{Assembly Language}
+	Next level up
+	
+	\subsection{Cobal}
+	Add $x$ to $y$, $y :=y+x$. \\
+	Multiply $z$ by $y$ $y:=y*z$. \\ 	
+	Add $x$ to $y$ yielding $z$, $z := x*y$.
+	
+	\subsection{Fortran}
+	Added procedures which return a value.\\
+	Subroutines, procedures, functions.
+	
+	These are all imperative.
+	
+	\subsection{Graphical Programming}
+	Data flow.
+	
+	\subsection{Object Oriented}
+	Like Smalltalk. 
+	
+	\subsection{Scheme}
+	First implemented to show that we could use just functions as opposed to in object oriented programming.
+	
+	\subsection{Oaklisp}
+	Like Scheme but had some aspects of OOP built-in.\\
+	The list was taken out to make Oak.\\
+	This later became Java.
+	
+	\subsection{Haskell}
+	Math = Functions. Functional programming.
+	
+	\subsection{Predicate Logic}
+	Axioms: \begin{enumerate}
+		\item $\forall x$ man$(x) \implies$ mortal$(x)$.
+		\item man(aristotle)
+	\end{enumerate}
+	Query: mortal(?), ? = aristotle
+	
+	\subsection{Memory Reclamation}
+	\begin{enumerate}
+		\item Manual: 
+		\item Automatic: \begin{enumerate}
+			\item Garbage collection
+			\item Reference counting (pointer has count of references to it)
+		\end{enumerate}
+	\end{enumerate}
+	
+	
+	
+\end{document}

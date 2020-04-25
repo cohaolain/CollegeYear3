@@ -1,0 +1,88 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage[a4paper,margin=1in]{geometry}
+
+\title{Differential Geometry - Assignment 2}
+\author{Ciarán Ó hAoláín - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\ \mathrm{s.th\ }}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dv}[2]{\frac{\d #1}{\d #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fdv}[3]{\left.\dv{#1}{#2}\right|_{#3}}
+\newcommand{\crit}{\mathrm{Crit}\ }
+\newcommand{\im}{\mathrm{Im}\ }	
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\osub}{\subset_\mathrm{open}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\theoremstyle{example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{example}{Example}
+
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\item \begin{align*}
+			\alpha(t) &= (a \cos t, a \sin t, bt)\\
+			\alpha'(t) &= (-a \sin t, a \cos t, b)\\
+			\abs{\alpha'(t)} & = \sqrt{a^2 + b^2}
+		\end{align*}
+		Clearly this is constant, but we need to scale it to $1$.\\
+		We can do this component-wise, giving \[ s \mapsto \left( a \cos \left(\frac{s}{c}\right), a \sin \left(\frac{s}{c}\right), \frac{bs}{c} \right) \] where $c = \sqrt{a^2+b^2}$
+		\pagebreak
+		\item \begin{align*}
+			\beta(s)&=\left( \frac{(1+s)^\frac{3}{2}}{3},\frac{(1+s)^\frac{3}{2}}{3},\frac{s}{\sqrt{2}} \right)\\
+			\beta'(s)&=\left(\frac{\sqrt{1-s}}{2}. -\frac{\sqrt{1-s}}{2}, \frac{1}{\sqrt{2}}\right)\\
+			\abs{\beta'(s)}&=\sqrt{\frac{\abs{1-s}}{4}+\frac{\abs{s+1}}{4} + \frac{1 }{2}}\\
+			& = 1 & -1 < s < 1
+		\end{align*}
+		So we have that it is a unit speed parametrisation.\\
+		We now compute the Frenet frame field:
+		\begin{align*}
+			T(s)&=\beta'(s)\\
+			&=\left(\frac{\sqrt{1-s}}{2}, -\frac{\sqrt{1-s}}{2}, \frac{1}{\sqrt{2}}\right)\\
+			\beta''(s)&=\left( \frac{1}{4\sqrt{1+s}} , \frac{1}{4\sqrt{1-s}},0 \right)\\
+			\kappa(s)&=\abs{\beta''(s)}\\
+			&=\sqrt{\frac{1}{16\abs{s+1}}+\frac{1}{16\abs{1-s}}}\\
+			N(s)&=\frac{\beta''(s)}{\kappa(s)}\\
+			&=\frac{\left( \frac{1}{4\sqrt{1+s}} , \frac{1}{4\sqrt{1-s}},0 \right)}{\sqrt{\frac{1}{16\abs{s+1}}+\frac{1}{16\abs{1-s}}}}\\
+			B(s)&=T \times N\\
+			&=\left(\frac{\sqrt{1-s}}{2}, -\frac{\sqrt{1-s}}{2}, \frac{1}{\sqrt{2}}\right) \times \frac{\left( \frac{1}{4\sqrt{1+s}} , \frac{1}{4\sqrt{1-s}},0 \right)}{\sqrt{\frac{1}{16\abs{s+1}}+\frac{1}{16\abs{1-s}}}}
+		\end{align*}
+		Which gives the Frenet frame field triple: \[ \left( \left(\frac{\sqrt{1-s}}{2}, -\frac{\sqrt{1-s}}{2}, \frac{1}{\sqrt{2}}\right), \frac{\left( \frac{1}{4\sqrt{1+s}} , \frac{1}{4\sqrt{1-s}},0 \right)}{\sqrt{\frac{1}{16\abs{s+1}}+\frac{1}{16\abs{1-s}}}},  \left(\frac{\sqrt{1-s}}{2}, -\frac{\sqrt{1-s}}{2}, \frac{1}{\sqrt{2}}\right) \times \frac{\left( \frac{1}{4\sqrt{1+s}} , \frac{1}{4\sqrt{1-s}},0 \right)}{\sqrt{\frac{1}{16\abs{s+1}}+\frac{1}{16\abs{1-s}}}} \right) \]
+		
+		\pagebreak
+		
+		\item \begin{align*}
+			\kappa(s) &= \abs{\beta''(s)}\\
+			&=\abs{\left( -\frac{4}{5}\cos t, \sin t, \frac{3}{5} \cos t \right)}\\
+			&= \sqrt{\cos^2(t) + \sin^2(t)}\\
+			&= 1\\
+			N(s) &= \frac{\beta''(s)}{\kappa(s)}\\
+			&= \frac{\left( -\frac{4}{5}\cos t, \sin t, \frac{3}{5} \cos t \right)}{\sqrt{\cos^2(t) + \sin^2(t)}}\\
+			&= \left( -\frac{4}{5}\cos t, \sin t, \frac{3}{5} \cos t \right)
+		\end{align*}
+		We have that $\kappa(s)=1 \ \forall s \in I$.\\
+		$\therefore$ the radius of $\gamma$ is 1.\\
+		\\
+		$\gamma$ has centre $z=\beta(s_0)+\frac{1}{\kappa(s_0)}N(s_0)$, which is obviously $(0,1,0)$ as required..
+	\end{enumerate}
+	
+\end{document}

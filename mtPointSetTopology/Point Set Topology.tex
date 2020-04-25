@@ -1,0 +1,999 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage[a4paper,margin=1in]{geometry}
+
+
+\usepackage{hyperref}
+
+
+
+\title{MT434P Point Set Topology}
+\author{Ciarán Ó hAoláín}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\mathrm{s.th}\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\cts}{continuous\ }
+\newcommand{\ctsm}{\ \mathrm{cts.}\ }
+\newcommand{\Int}[1]{\mathrm{int}(#1)\ }
+\newcommand{\bdy}[1]{\mathrm{bdy}(#1)\ }
+\renewcommand{\emptyset}{\varnothing}
+\renewcommand{\c}{\mathcal{C}}
+\newcommand{\im}[1]{\mathrm{Im}\left(#1\right)}
+
+\newcommand{\ba}{\mathcal{B}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+
+\newtheorem{corollary}{Corollary}[theorem]
+
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{stheorem}{Theorem}[theorem]
+\newtheorem{slemma}[stheorem]{Lemma}
+\newtheorem{sdefinition}[stheorem]{Definition}
+\newtheorem{scorollary}[stheorem]{Corollary}
+\theoremstyle{remark}
+\theoremstyle{example}
+\theoremstyle{examples}
+\newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
+\newtheorem*{example}{Example}
+\newtheorem*{examples}{Examples}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	
+	\section{Introduction to Point Set Topology}
+	\section*{Lecture 1 (20.02.03)}
+	\textbf{Books: }Many books with "Topology" or "Point-set topology", or "General Topology" in the title.\\
+	e.g. \textbf{"Topology - a first course" by Munkres}\\
+	\\
+	\textbf{Office Hours:} Mon 3-4, Tues 4-5, Thu 11-12\\
+	\textbf{Email:} david.wraith@mu.ie
+
+	\subsection*{Introduction To Topology}
+	Topology is the study of (topological) spaces.\\
+	To be called a \textit{space}, a set must have some extra structure.\\
+	Thus structure should allow us to \textit{move} around the space in a continuous \textit{(\cts)} fashion (or to say that \textit{movement} from one point to another is discontinuous).\\
+	So \textit{space} and \textit{continuity} will be closely linked.\\
+	Before this however, we need to understand how points in a space are organised, or \textit{hang together}.
+	
+	\textbf{Fig. 1.1}
+	These \textit{circles} have same topology, but different geometry. Topology is \textit{rubber sheet geometry}.
+	
+	\subsection{Brief Review of Metric Spaces}
+	\begin{definition}
+		A \textbf{metric space} is a set $X$ with a \textit{metric} $d: X \times X \to \R_{\geq 0}\ \sth:$
+		\begin{enumerate}
+			\item $d(x,y) \geq 0,\ d(x,y)=0 \iff x=y$
+			\item $d(x,y) = d(y,x)\ \forall x,y \in X$
+			\item $d(x,z) \leq d(x,y) + d(y,z)\ \forall x,y,z \in X$
+		\end{enumerate}
+	\end{definition}
+
+	\begin{definition}
+		If $(X,d)$ is a metric space, $a \in X, r > 0$, then the \textbf{open ball} \[B(a,r):=\{x \in X \mid d(a,x) < r \}\]
+	\end{definition}
+
+	\begin{definition}
+		A subset $U \subset (X,d)$ is \textbf{open} if $\forall a \in U, \exists r_a > 0\\ \sth B(a,r_a) \subset U$. \textbf{Fig. 1.2}
+	\end{definition}
+
+	\begin{theorem}
+		$U \subset(X,d)$ is open $\iff U$ is a union of open balls.
+	\end{theorem}
+
+	\begin{definition}
+		A sequence $\{x_m\}$ in $(X,d)$ \textbf{converges} to $a \in X$ if\\
+		$\forall \epsilon > 0 \exists N \sth$ \[d(a,x_n) < \epsilon\quad \forall n > N\]
+	\end{definition}
+
+	\begin{definition}
+		A function $f:(X,d) \to (Y, d')$ is \cts at $a \in X$ if $\forall \epsilon > 0 \exists \delta > 0\ \sth d'(f(a), f(x))<\epsilon\ \forall d(a,x) < \delta$.\\
+		$f$ is said to be \cts if it is \cts $\forall a \in X$.
+	\end{definition}
+
+	Key point: it is true, but not obvious, that the notions of convergence and continuity can be re-phrased entirely in terms of open sets.
+	
+	\section*{Lecture 2 (2020.02.04)}
+	\textbf{Yesterday:}
+	\begin{enumerate}
+		\item In a metric space $(X,d)$ a set $U \subset X$ is \textit{open} $\iff U$ is a union of open balls.
+		\item A sequence $\{x_n\}$ in $(X,d)$ converges to $a \in X$ if $\forall \epsilon > 0\ \exists\ N\ \sth \\
+		\forall n > N,\ d(a, x_n)< \epsilon$.
+		\item $f:(X,d) \to (Y,d')$ is \cts at $a \in X$ if $\forall \epsilon > 0\ \exists\ \delta > 0\ \sth\\
+		d'(f(x),f(a)) < \epsilon$ whenever $d(x,a)< \delta$.
+	\end{enumerate}
+
+	We can re-state in terms open sets:
+	\begin{theorem}
+		A sequence $\{x_n\}$ in $(X,d)$ converges to $a \in X \iff\\ \forall $ open sets $U \subset X$, $a \in U$, $\exists N_U > 0\ \sth\ \forall n > N_U, x_n \in U$.
+	\end{theorem}
+
+	\begin{theorem}
+		$F:(X,d) \to (Y,d')$ is \cts $\iff \forall V$ open in $(Y,d')$ the pre-image $f^{-1}(V)$ is open in $(X,d)$.
+	\end{theorem}
+
+	\begin{remark}\ 
+		\begin{enumerate}
+			\item Working with open sets is usually easier than working with $d, \epsilon, \delta\ddd$.
+			\item Open sets contain less information than metrics, so working with opens ets where possible is strictly more efficient. This is illustrated in \ref{opensetslessinfothanmetrics} below.
+		\end{enumerate}
+	\end{remark}
+	
+	\begin{theorem}
+		\label{opensetslessinfothanmetrics}
+		If $(X,d)$ and $(X,d')$ are metric spaces $\sth \exists\ c_1, c_2 > 0$ where \[c_1 d(x,y) \leq d'(x,y) \leq c_2 d(x,y) \] $\forall x,y \in X$.\\Then the open sets for $(X,d)$ and $(X,d')$ are identical (so open sets contain less info than metrics!).
+	\end{theorem}
+
+	\begin{theorem}
+		Any union of open sets in a metric space is open. Any intersection of finitely many open sets is open.
+	\end{theorem}
+	
+	\begin{definition}
+		A set $F \subset(X,d)$ is closed if $X \setminus F$ is open.
+	\end{definition}
+
+	\begin{theorem}
+		An arbitrary intersection of closed sets in a metric space is closed. A finite union of closed sets is closed.
+	\end{theorem}
+
+	\begin{definition}
+		The point $x \in X$ is  limit point of a subset $A \subset(X,d)$ if $\forall$ open sets $U \ni x$ we have that $U$ intersects $A$ in a point other than $x$.\\
+		Equivalently, $\exists$ sequence $\{x_n\}$ in $A$ converging to $x$, s.th. $x_n \neq x\quad \forall n$.
+	\end{definition}
+
+	\begin{theorem}
+		A set $F \subset (X,d)$ is closed $\iff F$ contains all its limit points.
+	\end{theorem}
+
+	\begin{corollary}
+		In any metric space $(X,d)$, $X$ and $\varnothing$ are both open and closed.
+	\end{corollary}
+	\pagebreak
+
+	\section{Topological Spaces}
+	% Shitfuckery
+	\addtocounter{theorem}{1}
+	\begin{sdefinition}
+		\label{topologicalspace}
+		A \textbf{topological space} is a pair $(X,T)$ where $X$ is a non-empty set and $T$ is a collection of subsets with the following properties:
+		\begin{enumerate}
+			\item $X, \emptyset \in T$
+			\item Any union of sets in $T$ belongs to $T$
+			\item Any intersection of finitely many sets in $T$ belongs to $T$.
+		\end{enumerate}
+		$T$ is called a \textbf{topology}, and the sets belonging to $T$ are called \textbf{open sets}.
+	\end{sdefinition}
+
+	\begin{remark}\ 
+		\begin{enumerate}
+			\item Think about the collection of open sets (i.e. elements of $T$) containing a given point $x \in X$ as describing the local structure/organisation of $X$ around $x$. Thus $T$ provides \textit{glue}.
+			\item $T$ might arise from a metric, or it might not be associated to any metric.
+			\item Given a topological space $(X,t)$ we can't prove the sets in $T$ are open; they are open by definition.
+			\item A given set $X$ will usually support many different topologies, i.e. can be arranged/organised in many different ways.
+		\end{enumerate}
+	\end{remark}
+
+	\section*{Lecture 3}
+	Last time: We defined \ref{topologicalspace} (Topological Space).\\
+	Let's look at some examples of topologies:
+	\begin{enumerate}
+		\item $(X,d)$ a metris space. $T = \{$ open sets for the metric $d \}$\\
+		Then $(X,T)$ is a topology, called the \textbf{metric topology}.
+		\item $X$ any non-empty set.\\
+		Consider the metric topology defined by the discrete metric: \[d(x,y)=\begin{cases}
+			1 & x \neq y\\
+			0 & x = y
+		\end{cases}\]
+		$T = \{$all subsets of $X\}$. This is called the \textbf{discrete topology}.
+		\begin{remark}
+			Notice that for each $x \in X$, ${x}=B(x,\frac12)$ is an open set. So we see that any union of points, i.e. any subset, is also open. As each $\{x\}$ is open, think of the discrete topology as \textit{describing} $X$ as a collectioon of individual points.
+		\end{remark}
+		\item $X$ is any non-empty set. Let $T=\{ \emptyset, X \}$. This is trivially a topology.\\
+		It is called the \textit{trivial} or \textbf{indiscrete} topology.
+		\begin{remark}
+			If $X$ contains $>1$ point, then the trivial topology is \textit{not} a metric topology.\\
+			The idea expressed by the trivial topology is that we are viewing $X$ as a single entitiy (without local structure).
+		\end{remark}
+		\item $X$ any non-empty set. Define a topology $T$ by the following:
+		\begin{eqnarray}
+			\emptyset, X \in T\\
+			A \subset X \iff X \setminus A\ \mathrm{finite} 
+		\end{eqnarray}
+		This is the \textbf{finite complement topology}.\\
+		To see this is a topology, consider unions 4 sets in $T$.\\
+		If union $= \emptyset$ then ok.\\
+		If union $\neq \emptyset$ then can assume all sets in union $\neq \emptyset$\\
+		If one set is $X$ then union $=X$, so ok.\\\\
+		Final case, all sets are $\neq \emptyset,X$. \\
+		Is $\bigcup_{\alpha \in I} A_\alpha \in T$?\\
+		\[X \setminus \bigcup_{\alpha \in I}A_\alpha =_{\mathrm{de\ Morgan}} \bigcap_{\alpha \in I} (X \setminus A_\alpha) \]
+		The RHS is an $\bigcap$ of finite set, therefore is finite. $\therefore \bigcup_{\alpha \in I}A_\alpha \in T$.\\
+		Similarily for finite intersections using \[X \setminus \bigcap_{i=1}^n A_i = \bigcup_{i=1}^n \left(X \setminus A_i \right) \] and the fact that a finite union of finite sets is finite.
+	\end{enumerate}
+
+	\begin{sdefinition}[2.1.2?]
+		A set $V \subset (X,T)$ is a neighbourhood of a point $x \in V$, if $\exists$ open set $U \ni x\ \sth U \subset V$.
+	\end{sdefinition}
+	(compare metris space concept of nbhd.)
+	
+	\begin{slemma}[2.1.3?]
+		\label{uopeniffnbhd}
+		A set $U \subset(X,T)$ is open $\iff U$ is a nbhd. of each of its points.
+	\end{slemma}
+	\begin{proof}
+		$\implies$ This is trivial since $x \in U_{\mathrm{open}} \subset U$, so $U$ is a nbhd. of $x$.\\
+		$\impliedby$ For each $x \in U$, $\exists V_x \in T$ with $x \in V_x \subset U$.\\
+		$\therefore \bigcup_{x \in U} V_x \subset U$.\\
+		But since for each $x \in U$ we have that $x \in V_x \subset U$, we obtain \[ U= \bigcup_{x \in U} {x} \subset \bigcup_{x \in U} V_x \]
+		\[\therefore U=\bigcup_{x \in U} V_x \] i.e. a union of open sets, so open.
+	\end{proof}
+
+	\begin{sdefinition}[2.1.4?]
+		A set $F \subset (X,T)$ is \textbf{closed} if $X \setminus F$ is open, i.e. $if X \setminus F \in T$.
+	\end{sdefinition}
+	\begin{example}
+		In any topological space $X$ and $\emptyset$ are both closed (as well as open).\\
+		In a discrete space, i.e. set equipped with the discrete topology) all subsets are closed (as well as open).\\
+		In the finite complement topology (apart from $X, \emptyset$), the closed sets are precisely the the finite subsets.
+	\end{example}
+
+	\begin{slemma}[2.1.5]
+		In any topological space $(X,T)$:\\
+		Finite unioins of closed sets are closed.\\
+		Arbitrary intersections of closed sets are closed.
+	\end{slemma}
+
+	\textbf{Missing a little here}
+	
+	\begin{sdefinition}[2.1.6]
+		For each subset $A \subset (X,T)$, a point $x \in X$ is a \textbf{limit point} for $A$, if for every open set $U$ containing $x$, \[X \cap A \setminus \{x\} \neq \emptyset \]
+	\end{sdefinition}
+	\pagebreak
+
+	\section*{Lecture 3 (2020.02.11)}
+	\textbf{Last time:}
+	\begin{enumerate}
+		\item A set $F \subset (X,T)$ is closed if $X \setminus F \in T$ (i.e. complement is open).
+		\item $A \subset (X,T)$, $x \in X$ is a limit point of $A$ if for every $U \in T$, $U \ni x$, then $U \cap A \setminus \{x\} \neq \emptyset$.
+	\end{enumerate}
+	
+	\begin{remark}[Observation]
+		\label{notinnotlimit}
+		If $x \notin A$ then $x$ is \textit{not} a limit point of $A \iff \exists U \in T$, $U \ni x\ \sth U \cap A = \emptyset$.
+	\end{remark}
+
+	\textbf{Idea:} If $x$ is a lmiit point of $A$ and $x \notin A$, then $x$ is \textit{on the edge} of $A$.\\
+	If $x \in A$ then every local neighbourhood of $x$ contains points of $A$.\\
+	\\
+	\textbf{Examples:}
+	\begin{enumerate}
+		\item \[A=(0,1),\qquad A \subset (\R,\underbrace{T_{\mathrm{standard}}}_{\mathrm{metric\ topology\ for\ } d(x,y=\abs{x-y})})\]
+		$2$ is not a limit point of $A$ since $2 \in (\frac32,\frac52)$, and $(\frac32,\frac52) \cap (0,1)=\emptyset$.\\
+		$1$ \textit{is} a limit point, ditto 0, and any point of $(0,1)$.
+		
+		\item \[B(0,1) \subset(\R^2,T_\mathrm{standard})\]
+		The set of limit points is the cloed unit ball.
+
+		\item \[(X,T_\mathrm{discrete}),\qquad \mathrm{any}\ A \subset X\ (A \neq \emptyset)\]
+		$\{\mathrm{Limit\ points\ of}\ A\} = \emptyset$\\
+		Given any $x \in X$, $\{x\} \in T_\mathrm{discrete}.$\\
+		So $\{x\} \cap A \setminus\{x\}=\emptyset$.
+	\end{enumerate}
+
+	\begin{stheorem}
+		\label{closediffcontainsalllimitpts}
+		A set $F \subset(X,T)$ is closed $\iff F$ contains all its limit points.
+	\end{stheorem}
+	\begin{proof}
+		$\implies$\\
+		$F$ is closed. Suppose $F$ does \textbf{not} contain all its limit points, i.e. $\exists x$ a limit point $\sth x \notin F$. So $x \in X \setminus F$. As $X \setminus F$ s open, it is a nbhd. of each of its points (\ref{uopeniffnbhd}), so $\exists U \ni x$, $U$ open, $U \subset X \setminus F$.\\
+		But $U \cap F = \emptyset$, which contradicts $x$ being a limit point.\\
+		$\therefore F$ \textit{does} contain all its limit points.\\
+		\\
+		$\impliedby$\\
+		$F$ contains all of its limit points.\\
+		Let $x \in X \setminus F$ so $x$ is \textit{not} a limit point.\\
+		So (see observation \ref{notinnotlimit}) $\exists U \ni x$, $U$ open $\sth U \cap F = \emptyset$\\
+		$\therefore U \subset X \setminus F$ Thus $X \setminus F$ is a nbhd. of each of its points, so by \ref{uopeniffnbhd} $X \setminus F$ is open, so $F$ is closed.
+	\end{proof}
+
+	\begin{sdefinition}
+		The \textit{closure} of a subset $A \subset (X,T)$ is \[\bar{A} = A \cup \{\mathrm{set\ of\ limit\ pts.\ for\ } A\}\]
+	\end{sdefinition}
+
+	\begin{remark}
+		\ref{closediffcontainsalllimitpts} can be rephrased: $F$ is closed $\iff F = \bar{F}$.
+	\end{remark}
+
+	\textbf{Examples:}
+	\begin{enumerate}
+		\item $(0,1) \subset(\R,T_\mathrm{standard})\\
+		\overline{(0,1)} = [0,1]$
+		\item $\Q \subset (\R,T_\mathrm{standard})$, $\bar{Q} = \R$\\
+		($\{\mathrm{limit\ pts.\ of\ } \Q\} =\R$).
+		\item $\Q \subset(\R,T_\mathrm{discrete})$, $\bar{\Q}=\Q$.
+	\end{enumerate}
+
+	\begin{stheorem}
+		For any $A \subset (X,T)$, $\bar{A}$ is a closed set.
+	\end{stheorem}
+	\begin{proof}
+		By \ref{closediffcontainsalllimitpts}, we need to show that $\bar{A}$ contains all its limit pts.\\
+		Suppose otherwise, i.e. suppose $\exists x\ \sth x$ is a limit point of $\bar{A}$ but $x \notin A$, so $x$ is not a limit point of $A$.\\
+		There is an open set $U \ni x\ \sth U \cap A \emptyset$ (see above observation).\\
+		But $U \cap \bar{A} \neq \emptyset$ as $x$ is a limit point of $\bar{A}$.\\
+		If $y \in U \cap \bar{A}$ then $y \notin A$ )as $U \cap A = \emptyset$.\\
+		But $y \in \bar{A}$ so $y$ limit point of $A$.\\
+		As $y \in U$, we have $U \cap A \setminus \{y\}=U \cap A \neq \emptyset$.\\
+		\textit{Contradiction}: so no such $x$ can exist.\\
+		$\therefore \bar{\bar{A}} = \bar{A}$, so $\bar{A}$ is closed.
+	\end{proof}
+
+	\begin{scorollary}
+		\label{abarissmallestclosedset}
+		For any $A \subset(X,T)$, $\bar{A}$ is the smallest closed set containing $A$, thus $\bar{A}$ is the intersection of all closed sets containing $A$.
+	\end{scorollary}
+
+	\begin{proof}
+		The second statement follows easily from the first. To show the first statement:\\
+		Suppose $\exists$ closed set $B\ \sth A \subset B \subset \bar{A}$. Clearly any limit point for $A$ must also be a limit point for $B$.\\
+		$\therefore \bar{A} \subset \bar{B} =_\mathrm{is\ closed} B \subset \bar{A}\\
+		\therefore B = \bar{A}$.\\
+		So there is no smaller closer subset of $\bar{A}$ containing $A$.
+	\end{proof}
+	\begin{sdefinition}
+		TBC.
+	\end{sdefinition}
+	
+	
+	\textbf{Tutorial this Friday, midterm Tuesday 24th March 10\%}
+	
+	\section*{Lecture 5}
+	\textbf{Last time:}
+	\begin{enumerate}
+		\item Closure of $A \subset (X,T)$, $\bar{A}=A \cup \{$limit points of $A\}$
+		\item $\bar{A}$ is smallest closed set containing $A$.
+		\item $\bar{A}$ is the intersection of all closed sets containing $A$.
+		\item The interior of $A$, int$A$ is \[\Int{A}=\{a \in A \mid \exists U_a \in T, a \in U_a, U_a \subset A\}\]
+	\end{enumerate}
+
+	\begin{stheorem}
+		$\Int{A}$ is the union of all open sets of $X$ contain in $A$, hence $\Int{A}$ is open.
+	\end{stheorem}
+	\begin{proof}
+		Let $V$ be the union of all open sets in $X$ which are contained in $A$.\\
+		Let $a \in \Int{A}$. By definition $\exists U_a \in T\ \sth a \in U_a \subset A$.\\
+		Clearly $U_a \subset V$. $\therefore \Int{A} \subset \bigcup_{a \in \Int{A}}$.\\
+		Conversely, consider any $a \in V$. By definition of $V$, $a$ belongs to at least one open set $U$ with $a \in U \subset A$. By definition of $\Int{A}$ we see that $a \in \Int{A}$.\\
+		$\therefore V \subset\Int{A}$\\
+		So $V = \Int{A}$, as claimed.
+	\end{proof}
+	\begin{scorollary}
+		$\Int{A}$ is the largest open set contained in $A$.
+	\end{scorollary}
+	\begin{proof}
+		exercise. (Suppose there is a larger open set $V$, i.e. $\Int{A}\subset V \subset A$)
+	\end{proof}
+
+	\begin{scorollary}
+		$A \subset(X,T)$ is open $\iff A = \Int{A}$
+	\end{scorollary}
+
+	\begin{stheorem}
+		$A \subset(X,T)$ \begin{enumerate}
+			\item $X \setminus \Int{A}=\overline{X \setminus A}$
+			\item $X \setminus \bar{A} = \Int{X \setminus A}$
+		\end{enumerate}
+	\end{stheorem}
+	\begin{proof}
+		Think of interior as union of open subsets of $A$.
+		\begin{align*}
+			X \setminus \Int{A} &= X \setminus \mathrm{(union\ of\ all\ open\ sets\ of\ X contained\ in\ A)}\\
+			& =_{(\mathrm{de\ Morgan})} \bigcap_{U \subset A, U \in T}\left(X \setminus U \right)\\
+			& = \bigcap \left(\mathrm{closed\ sets\ containing\ } X \setminus A\right)
+		\end{align*}
+		Note further that (reversing the argument) every closed set $\subset X \setminus A$ appears in the intersection.\\
+		By \ref{abarissmallestclosedset}, this intersection $=\overbrace{X \setminus A}$.\\
+		Prove (2) by analogous argument.
+	\end{proof}
+	
+	\begin{sdefinition}
+		The boundary $\bdy{A}$, or $\partial A$, is $\bar{A}\cap\overline{X \setminus A}$.
+	\end{sdefinition}
+
+	\begin{remark}
+		As an intersection of closed sets, the boundary is always closed.
+	\end{remark}
+
+	\textbf{Examples:} (Assume we have standard metric topology on $\R, \R^2$)\\
+	\begin{enumerate}
+		\item \begin{align*}
+			(0,1) \subset \R & \qquad  \overline{0,1} = [0,1]\\
+			\R \setminus (0,1) &= (-\infty, 0] \cup [1, \infty)\\
+			& = \overline{\R \setminus (0,1)}\\
+			\partial(0,1) & =[0,1] \cap \left((-\infty,0] \cup [1,\infty)\right)\\
+			& = \{0,1\}
+		\end{align*}
+		\item \[\partial [0,1] = \{0,1\}\ \mathrm{as\ in\ } (1)\]
+		\item \begin{align*}
+			\partial \Q & \subset \R\\
+			\bar{\Q} &= \R\\
+			\R \setminus \Q & = \{\mathrm{irrationals}\}\\
+			\overline{\R \setminus \Q} & = \R \mathrm{\ also}			
+		\end{align*}
+		For any rational $q$, every open set containing $q$ also contains irrationals, hence $q$ is a limit point for {irrationals}, etc..)\\
+		$\partial \Q$ = $\R \cap \R = \R$.
+		\item $B(0,1) = $ open unit disc in $\R^2$.\\
+		$\partial B(0,1)=$ unit circle about $0$.
+		\item $(X,$ discrete$)$\\
+		Every subset is closed.\\
+		For any $A \subset X$, $\bar{A} = A$ and also $\overline{X \setminus A} = X \setminus A$.\\
+		$\therefore\partial{A} = A \cap (X \setminus A) = \emptyset$.
+	\end{enumerate}
+
+	\begin{remarks}
+		The boundary of $A$ cloud be contained in $A$ (ex. 2), however it might not be contained in $A$ (exs. 1, 4), or something inbetween (ex. 3).\\
+		Boundaries depend on the topology. We see from ex. 5 that $(0,1) \subset (\R,$ discrete) then $\partial (0,1) = \emptyset$.
+	\end{remarks}
+
+	\begin{stheorem}
+		For any $A \subset (X,T),$ \[\bar{A} = A \cup \partial A\]
+	\end{stheorem}
+	\begin{proof}
+		$A \subset \bar{A}$ by definition of $\bar{A}$.\\
+		$\partial{A}$ = $\bar{A} \cap \overbrace{X \setminus A} \subset \bar{A}$\\
+		$\therefore A \cup \partial{A} \subset \bar{A}$.\\
+		Suppose $x \in \bar{A}$, and $x \notin A$.\\
+		Then $x \in X \setminus A \subset \overline{X \setminus A}$.\\
+		So $x \in \bar{A} \cap \overline{X \setminus A} = \partial A$.\\
+		$\therefore \bar{A} \subset A \cup \partial A$
+	\end{proof}
+
+	\section*{Lecture 6 (2020.02.18)}
+	\begin{sdefinition}
+		A subset $A \subset(X,T)$ is \textbf{dense} if \[\bar{A}=X\]
+	\end{sdefinition}
+	e.g. $X$ is dense in itself.\\
+	$\Q,\R \setminus \Q$ is dense in $\R$ (assuming we have standard topology).\\
+	$(0,1)$ is dense in $[0,1]$.\\
+	No proper subspace of $(X,$discrete) is dense.
+	
+	\begin{sdefinition}
+		We say a topological space $(X,T)$ is \textbf{seperable} it contains a countable dense subset.
+	\end{sdefinition}
+	e.g. $(\R,T_\mathrm{standard})$ is seperatble.\\
+	$\left(\{\mathrm{irrationals},T_\mathrm{standard}\}\right)$ is seperable.\\
+	e.g. $\Q+\sqrt{2}$ is a countable dense subset.
+	
+	\begin{sdefinition}
+		\label{coarsefine}
+		Suppose $T_1, T_2$ are both topologies on a set $X$, with \[T_1 \subset T_2 \]
+		We say that $T_1$ is \textbf{coarser} than $T_2$ and $T_2$ is \textbf{finer} than $T_1$.
+	\end{sdefinition}
+
+	\addtocounter{subsection}{1}
+	\subsection{Bases}
+	The idea here is to describe a given topology $T$ on a set $X$ as unions of sets belonging to a nice, small family.
+	\textbf{Motivating example:} The standard topology on $\R$ consists of unions of open intervals. More generally, the open sets in any metric topology are the unions of open balls.
+	\addtocounter{theorem}{1}
+	\setcounter{stheorem}{0}
+	\begin{sdefinition}
+		If $X$ is a non-empty set, a \textbf{basis} is a family of subsets $\ba$ s.th. \begin{enumerate}
+			\item $\forall x \in X, \exists B \in \ba\ \sth x \in B$
+			\item if $x \in B_1 \cap B_2$, where $B_1,B_2 \in \ba$ then $\exists B_3 \in \ba\ \sth x \in B_3 \subset B_1 \cap B_2$
+		\end{enumerate}
+	\end{sdefinition}
+	\textbf{Examples:}
+	\begin{enumerate}
+		\item If $(X,d)$ is a metric space, then setting $\ba=\{$ all open balls in $X\}$ gives a basis (every $x \in B(x,1)$)
+		\item $X$ any non-empty set \[B=\{\{x\} \mid x \in X\}\] is basis
+		\item On $\R^2$, let $B=\{$open rectangles with sides parallel to the axes$\}$
+		\textbf{Hard to see board}
+	\end{enumerate}
+
+	\begin{sdefinition}
+		\label{defgeneratedtopology}
+		If $\ba$ is a basis of subsets of $X$, then the \textbf{topology generated by} $\mathbf{\ba}$ on $X$ is \[T_\ba = \{U \subset X \mid \forall x \in U, \exists B_x \in \ba \ \sth x \in B_x \subset U\}\]
+	\end{sdefinition}
+
+	\begin{stheorem}
+		$T_\ba$ is a topology.
+	\end{stheorem}
+	\begin{proof}
+		Trivially $X \in T_\ba$. $\emptyset \in T_\ba$ (by default, as there are no elements in $\emptyset$) to apply the membership criterion to).\\
+		Suppose $V_\alpha \in T_\ba\ \forall \alpha \in I$ (indexing set).\\
+		Consider $\bigcup_{\alpha \in I} V_\alpha$\\
+		Given any $x \in \bigcap_{\alpha \in I} V_\alpha$, we must have $x \in V_{\alpha_0}$ for some $\alpha_0 \in I$.\\
+		As $V_{\alpha_0} \in T_\ba$, $\exists \ba_x\ \sth x \in \ba_x \subset V_{\alpha_0} \subset \bigcup_{\alpha \in I} V_\alpha$.\\
+		So for every $x \in \bigcup_{\alpha \in I} \exists B_x \in \ba\ \sth x \subset B_\alpha \subset \bigcup_{\alpha \in I} V_\alpha$.\\
+		$\therefore \bigcup{\alpha \in I} V_\alpha \in T_\ba$.\\
+		Finally consider $\bigcap_{i=1}^n V_i$, $V_i \in T_\ba \forall i$\\
+		Consider $x \in \bigcap_{i=1}^n$, for each $i$ we have that $\exists B_{i,x} \in \ba\ \sth x \in B_{i,x} \subset V_i$.\\
+		Since $x \in V_1 \cap V_2$ we have $x \in B_2, x \cap B_{i,x}$.\\
+		By basis definition $\exists B_{12} \in \ba \ \sth x \in B_{12}\subset \ba_\{1,x\} \cap B_{2,x}$.\\
+		Since $x \in V_1 \cap V_2 \cap V_3$, $x \in B_{12} \cap B_{3,x}$\\
+		$\therefore \exists B_{n3} \in \ba\ \sth x \in B_{123} \subset B_{1,x} \cap B_{2,x} \cap B_{3,x}$.\\
+		Continuing in this way, $\exists B_{12\ddd n} \in \ba\ \sth x \in B_{12\ddd n}\subset B_{1,x} \cap B_{2,x} \cap \ddd \cap B_{n,x} \subset \bigcap_{i=1}^n V_i\\
+		\therefore \bigcap_{i=1}^n V_i \in T_\ba$
+	\end{proof}
+
+	\begin{remarks}
+		\begin{enumerate}
+			\item If $T_\ba$ is a topology genreated by a basis $\ba$, we sat that $\ba$ is a basis for $T_\ba$.
+			\item Notice that the basis definition doe snot mention a topology on $X$.
+		\end{enumerate}
+	\end{remarks}
+
+	\begin{examples}
+		\begin{enumerate}
+			\item Recall definition \ref{defgeneratedtopology} of a generated topology.
+		\end{enumerate}
+	\end{examples}
+	\textbf{Missing some stuff}
+	
+	\section*{Lecture 2020.02.24}
+	\textbf{Recall:} \begin{enumerate}
+		\item A basis of subsets of $X$, $\ba$ satisfies \begin{enumerate}
+			\item for each $x \in X \exists B_x \in \ba \ \sth  \in B_x$
+			\item If $x \in B_1 \cap B_2, B_1, B_2 \in \ba$ then $\exists B_3 \in \ba\ \sth x \in B)3 \subset B_1 \cap B_2$
+		\end{enumerate}
+		\item \[T_\ba := \left\{U \subset X \mid \forall x \in U,\ \exists B_x \in \ba \ \sth x \in B_x \subset U \right\}  \]
+		is the topology generated by $\ba$.
+	\end{enumerate}
+	\textbf{Observation:} $\ba \subset T_\ba$ i.e. every subset in $\ba$ is open in the topology it generates.\\
+	e.g. \begin{enumerate}
+		\item If $(X,d)$ is a metric space set $\ba = \{$open balls$\}$ (this is a basis)\\
+		$T_\ba = $ metric topology on $(X,d)$.\\
+		(This is automatic by the definition of $T_\ba$ and open sets in metric space).
+		\item \[\ba = \{ \{ x\} \mid x \in X  \}\]
+		$\ba$ is a basis on $X$.\\
+		\[T_\ba = \{U \subset X \mid \forall x \in U, \exists \{x\}\ \mathrm{with}\ x \in \{x\}\subset U\}\]
+	\end{enumerate}
+	\textbf{Missing something abuot all subsets of $X$, discrete topology}
+	
+	\begin{stheorem}
+		\label{basisisunion}
+		If $\ba$ is a basis for a topology $T$ on $X$, then $U \in T \iff U$ is a union of sets in $\ba$.
+	\end{stheorem}
+	\begin{proof}\ \\
+		($\impliedby$) Each set in $\ba$ is open (by above observation), $\therefore$ any union of basis sets is open.\\
+		($\implies$) Let $U$ be open in $(X,T)$. As $T$ is generated by $\ba$, for each $x \in U,\ \exists B_x \in \ba$ with $x \in B_x \subset U$.\\
+		$\ \therefore U \subset \bigcup_{x \in U} B_x \subset U\\
+		\ \therefore U = \bigcup_{x \in U} B_x$ as required.
+	\end{proof}
+
+	\textbf{N.B.} Bases exist for all topologies, as any topology is trivially a basis for itself. Of course we would like to find 'small' bases.
+	
+	\begin{stheorem}
+		\label{collectionisbasisfortopology}
+		$(X,T)$ is a topological space. Suppose $\c$ is a collection of open sets $\sth$ for every $U \in T$ and for every $x \in U$, $\exists C_x \in \c$ with $x \in C_x \subset U$.\\
+		Then $\c$ is a basis for $T$.
+	\end{stheorem}
+
+	\begin{remark}
+		This gives a useful criterion for finding nice bases.
+	\end{remark}
+
+	\begin{proof}
+		First we check that $\c$ is a basis.
+		\begin{enumerate}
+			\item Since $X \in T$, we nkow $\forall x \in X$ $\exists C_x \in \c\ \sth x \in C_x \subset X$.\\
+			So every $x \in X$ belongs to a basis set.
+			\item If $x \in C_1 \cap C_2$, $C_1,C_2 \in \c$.\\
+			Since $C_1, C_2$ are open, setting $U = C_1 \cap C_2$ we have $\exists C_3 \in \c\ \sth x \in C_3 \subset U=C_1 \cap C_2$ as desired.\\
+			Next, need to check $\c$ generates $T$. by \ref{basisisunion} we need to check that $Y \in T \iff $ is a unioini of sets in $\c$.\\
+			($\impliedby$) trivial, since all sets in $\c$ are open.\\
+			($\implies$) For any $U \in T$, $U \subset \bigcup_{x \in U} C_x \subset U\\
+			\therefore U = \bigcup_{x \in U} C_x$ as required.
+		\end{enumerate}
+	\end{proof}
+	
+	\textbf{Example:} $(\R^2,T_\mathrm{standard})$\\
+	$\ba = \{$ open rectangles with sides parallel to axes$\}$\\
+	As every open ball about $x \in \R^2$ contains an open rectangle, we see by \ref{collectionisbasisfortopology}... \textbf{Missing}
+	
+	\subsection{Continuity and Homeomorphisms}
+	\setcounter{theorem}{3}
+	\setcounter{stheorem}{0}
+	\begin{sdefinition}
+		A map $f:(X,T) \to (Y, T')$ is \textbf{continuous} if $\forall V \in T'$ the pre-image $f^{-1}(v) \in T$
+	\end{sdefinition}
+	\begin{remark}
+		The corresponding statement for metris spaces is a theorem, which we are here using as the abasis for a defiition in topological spaces.
+	\end{remark}
+	\textbf{Examples:}
+	\begin{enumerate}
+		\item Let $(Y,T')$ be any topological space.\\
+		Consider $f:(X,T_\mathrm{discrete}) \to (Y,T')$.\\
+		As all subsets of $X$ are open, $f$ is continuous.
+		\begin{remark}
+			Notice that any map from a one-point space $\{a\} \to \{Y\}$ aught to be continuous intuitively.\\
+			$(X,T_\mathrm{discrete})$ is $X$ viewed as a disjoint collection of one-point sets. So intuitively, any map froma discrete space should be continuous.
+		\end{remark}
+	\end{enumerate}
+
+	\textbf{Am I missing a lecture here?}
+	
+	\section*{Lecture 2020.03.02}
+	\textbf{Continuity:}\\
+	$f:(X,T) \to (Y,T')\\
+	f$ cts. if $f^{-1}(v)$ is open $\forall V \subset T'$
+	$X=\{a,b,c\}$, $T=\{X,\emptyset, \{a\}, \{a,b\}, \{a,c\}$, 
+	$\begin{aligned}
+		a & \mapsto b\\
+		b & \mapsto c\\
+		c & \mapsto c
+	\end{aligned}$\\
+	Ignore thing said last time, doing it all again, needed notion of continuity at a point or something like this.
+	\pagebreak
+	
+	\section{Special Topologies}
+	Subspace Topology, Product Topology \& Quotient Topology.
+	
+	\subsection{Subspace Topology}
+	If $(X,T)$ is a topological space, then $T$ describes how the points of $X$ are \textit{arranged}.\\
+	If $A \subset X$ is any subset, then $A$ should inherit an \textit{arrangement} of its points from $(X,T)$.\\
+	$\therefore A$ should have a natural topology induced from $(X,T)$.
+	
+	\setcounter{theorem}{1}
+	\begin{sdefinition}
+		For $A \subset (X,T)$, the \textbf{subspace topology} $T_A$ is \[T_A  = \left\{ U \cap A \mid U \in T \right\} \]
+	\end{sdefinition}
+
+	\textbf{Exercise:} Show $T_A$ \textit{is} a topology on $A$.
+	
+	\begin{remark}
+		The subspace topology is sometimes called the \textbf{induced} or relative topology.
+	\end{remark}
+
+	\textbf{Examples:} \begin{enumerate}
+		\item $[0,1] \subset (\R,T_\mathrm{standard})$\\
+		A set is open in the subspace topology on $[0,1]$ if it is a union of \begin{enumerate}
+			\item $(a,b)$ with $0 \leq a < b \leq 1$
+			\item $[0,a)$ with $0 < a \leq 1$
+			\item $(b,1]$ with $0 \leq b < 1$
+		\end{enumerate}
+		Notice that sets such as $[0,\frac12)$ are open in $[0,1]$ but not in $\R$.\\
+		The subspace topology on $[0,1]$ is just the standard metric topology on $[0,1]$.
+		\item A subset $A \subset (X,T)$ is called \textbf{discrete} if $\forall a \in A, \exists U \in T \ \sth A \cap U = \{a\}$ e.g. $\Z \subset (\R,T_\mathrm{standard})$.\\
+		The subspace topology on a discrete subset is the discrete topology; $\{a\}$ is open $\forall a \in A$, hence all subsets of $(A,T_A)$ are open.\\
+		e.g. Subspace topology in $\Z \subset(\R,T_\mathrm{standard})$ is discrete, but subspace topology on $\Q$ is \textit{not} discrete.
+	\end{enumerate}
+
+	\begin{slemma}
+		Suppose that $\ba$ is a basis for a topology $T$ on $X$.\\
+		If $A \subset X$, then \[\ba_A := \{B \cap A \mid B \in \ba\}\] is a basis for the subspace topology on $A$.
+	\end{slemma}
+	\begin{proof}
+		We use \ref{collectionisbasisfortopology}:\\
+		if $\c$ is a collection of open sets in $(X,T)\ \sth \forall U \in T,\ \forall x \in U,\ \exists C \in \c\ \sth x \in C \subset U\\ \implies \c$ is a basis for $T$.\\
+		Let $U \in T_A$\\
+		$\therefore \exists U' \in T\ \sth U = U' \cap A$\\
+		We know that $Y'=\bigcup_{\alpha \in I} B_\alpha$ where $B_\alpha \in \ba\ \forall \alpha \in I$ (indexing set) (\ref{basisisunion})\\
+		Given any $x \in U$, we have $x \in U'$, so $\exists \alpha_0 \in I$ with $x \in B_{\alpha_0}$.\\
+		But $x \in A$, so $x \in B_{\alpha_0} \cap A$.\\
+		Since $B_{\alpha_0} \cap A \in \ba_A$ we have $x \in B_{\alpha_0} \cap A \subset U' \cap A = U$.\\
+		So $\ba_A$ is a basis for $T_A$ by \ref{collectionisbasisfortopology}.
+	\end{proof}
+
+	\begin{slemma}\ 
+		\begin{enumerate}
+			\item If $A$ is open in $(X,T)$, then $T_A \subset T$, i.e. every open set of $(A,T_A)$ is open in $(X,T)$.
+			\item If $U \in T$ and $U \subset A$, then $U \in T_A$.
+		\end{enumerate}
+	\end{slemma}
+	\begin{proof}\ 
+		\begin{enumerate}
+			\item $U \in T_A$ means $U=U' \cap A$ with $U' \in T$.\\
+			But if $A \in T$ then $U=U' \cap A \in T$
+			\item $U = U \cap A$ so $U \in T_A$.
+		\end{enumerate}
+	\end{proof}
+
+	\begin{sdefinition}
+		\label{relativelyopenclosed}
+		Given $A \subset (X,T)$ a set in $T_A$ is said to be \textbf{relatively open}, and a set whose complement belongs to $T_A$ is \textbf{relatively closed}.
+	\end{sdefinition}
+
+	\begin{stheorem}
+		\label{relativelyclosediffsubsetclosed}
+		$A \subset (X,T)$. Then $F \subset A$ is relatively closed $\iff \exists F'$ closed in $(X,T)$ with $F=F' \cap A$.
+	\end{stheorem}
+	\begin{proof}
+		($\implies$) $F$ closed in $A$. So $A \setminus F \in T_A$.\\
+		i.e. $A \setminus F = U' \cap A$ for $U' \in T$.\\
+		Set $F' = A \cap \left(X \setminus U'\right)$
+		\textbf{missing end}
+	\end{proof}
+	
+	\section*{Lecture 2020.03.03}
+	\textbf{Last time:} \begin{enumerate}
+		\item $A \subset(X,T)$
+		\item Subspace topology on $A$: \[T_A = \left\{U \cap A \mid U \in T \right\}\]
+		\item $F \subset A$ is closed in $T_A \iff \exists F' \subset X, F'$ closed $\sth\ F=A \cap F$!
+	\end{enumerate}
+
+	\begin{stheorem}
+		If $f:(X,T) \to (Y,T')$ is \cts, and $A \subset X$ is given the subspace topology $T_A$, then the restriction $f \mid_A:(A,T_A) \to (Y,T')$ is \cts.
+	\end{stheorem}
+	\begin{proof}
+		Let $V \in T'$.\\
+		Consider $\left(f \mid_A\right)^{-1}\left(V\right) = f^{-1}(V) \cap A$.\\
+		But $f^{-1}(V) \in T$ by continuity of $f$.\\
+		$\therefore f^{-1}(V) \cap A \in T_A$. Hence $f \mid_A$ is \cts.
+	\end{proof}
+
+	\begin{scorollary}
+		The inclusion map $i:(A,T_A) \to (X,T)$, (i.e. $i=\mathrm{id}_X \mid_A)$ is \cts.
+	\end{scorollary}
+
+	\begin{scorollary}
+		The subspace topology on $A$ is the coarsest (weakest) topology (see Definition \ref{coarsefine})on $A$ which makes the inclusion map \cts.
+	\end{scorollary}
+	\begin{proof}
+		As $U$ runs over the open sets of $(X,T)$, $i^{-1}(U)=U\cap A$ runs over all open sets of $T_A$.\\
+		$\therefore$ Any topology on $A$ for which $i$ is \cts must contain $T_A$.
+	\end{proof}
+
+	\begin{stheorem}
+		Consider a map \[f:(X,T) \to (Y,T'),\ \im f = f(X) \subset Y \]
+		We can view $f$ as a map \[\tilde{f}:(X,T) \to (\im{f}, T'_{\im{f}}\] where $T'_{\im{f}}$ is the subspace topology on $\im{f}$.\\
+		Then $f$ is \cts $\iff \tilde{f}$ is \cts.
+	\end{stheorem}
+	\begin{proof}
+		$(\implies)$ $f$ is \cts\\.
+		Let $V \in T'_{\im{f}}$, then $\tilde{f}^{-1}(V) = f^{-1}(V)$.\\
+		$V \in T'_{\im{f}}$ means $V=V' \cap \im{f}$, where $V' \in T'$.\\
+		But $f^{-1}(V')=f^{-1}(V)$, which is open as $f$ is \cts.\\
+		$\therefore \tilde{f}^{-1}(V)$ is open, so $\tilde{f}$ is \cts.\\
+		$(\impliedby)$ $\tilde{f}$ is \cts.\\
+		Consider any $V' \in T'$\\
+		$f^{-1}(V')=\tilde{f}^{-1}(V)$ where $V=V' \cap \im{f}$.\\
+		But $\tilde{f}^{-1}(V)$ is open in $(X,T)$, hence so is $f^{-1}(V)$ $\therefore f$ is \cts.
+	\end{proof}
+
+	\begin{stheorem}
+		Consider $(Y,T_Y) \subset (X,T)$, i.e. $Y \subset X$ equipped with the subspace topology.\\
+		For any $A \subset Y$, let $\bar{A}$ be the closure of $A$ in $(X,T)$.\\
+		Then the closure of $A$ in $(T,T_Y)$ is the closure of $\bar{A} \cap Y$.
+	\end{stheorem}
+	\begin{proof}
+		Let $B=$ closure of $A$ in $(Y,T_Y)$.\\
+		By \ref{abarissmallestclosedset}, $B$ is the intersection of all closed supersets of $A$ in $(Y,T_Y)$. Similarily, $\bar{A}$ is the intersection of all closed supersets of $A$ in $(X,T)$.\\
+		Recall also, by \ref{relativelyclosediffsubsetclosed}, a set is closed in $(Y,T_Y) \iff$ it is the intersection of $Y$ with a closed set of $(X,T)$.\\
+		$\therefore B = \bigcap$ closed supersets of $A$ in $(Y,T_Y)$\\
+		$=\bigcap [Y \cap$ closed supersets f $A$ in $(X,T)]$\\
+		$=Y \cap [\cap$ closed supersets of $A$ in $(X,T)$]\\
+		$=Y \cap \bar{A}$ as claimed.
+	\end{proof}
+
+	\subsection{The Product Topology}
+	Given a family of topological spaces $(X_\alpha,T_\alpha)$, where $\alpha \in I$ an indexing set, we want to equip the product set \[ \prod_{\alpha \in I} X_\alpha \] with a topology in a natural way.\\
+	There are two such topologyes: the box topology and the product topology.\\
+	For finite products, these topologies are equal.
+	
+	\setcounter{theorem}{2}
+	\setcounter{stheorem}{0}
+	\begin{stheorem}
+		\label{producttopbases}
+		The following are bases for topologies on $\prod_{\alpha \in I} X_\alpha$:\begin{enumerate}
+			\item Sets of the form $\prod_{\alpha \in I} U_\alpha$ where $U_\alpha$ is open in $(X_\alpha,T_\alpha), \forall \alpha \in I$.
+			\item Sets of the form in (1) for which all but finitely many of the $U_\alpha=X_\alpha$.
+		\end{enumerate}
+	\end{stheorem}
+	\begin{proof}
+		We prove (1). (2) is similar.\\
+		We check basis requirements.\\
+		Let $(X_\alpha)_{\alpha \in I}$ represent elements of $\prod_{\alpha \in I} X_\alpha$.
+		\begin{enumerate}
+			\item For any $(X_\alpha)_{\alpha \in I}$, we have \[\left(x_\alpha\right)_{\alpha \in I} \in \prod_{\alpha \in I} X_\alpha,\quad \mathrm{and}\quad \prod X_\alpha \in \mathrm{family\ of\ sets\ (1)}\]
+			\item If \[ \left(x_\alpha\right)_{\alpha \in I} \in \left( \prod U_\alpha \right) \cap \left(\prod V_\alpha \right) \] then we have RHS=$\prod_{\alpha}\left(U_\alpha \cap V_\alpha\right)$ which is a product of open sets, so $\in $ family (1).\\
+			
+		\end{enumerate}
+	\end{proof}
+
+	\begin{sdefinition}
+		Basis (1) generates the \textbf{box topology}. Basis (2) genereates the \textbf{product topology}.
+	\end{sdefinition}
+
+	\subsection*{Lecture 2020.03.09}
+	\textbf{Recall:} The product topology on a product $\prod_{\alpha \in I} X_\alpha$ determined by topologues $T_\alpha$ on $X_\alpha$ is the topology generated by the basis \[\left\{ \prod_{\alpha \in I} U_\alpha \mid U_\alpha \in T_\alpha\ \mathrm{and\ all\ but\ finitely\ many\ } U_\alpha=X_\alpha \right\}\]
+	The \textbf{box topology} is generated by basis \[ \left\{\prod U_\alpha \mid U_alpha \in T_\alpha \right\}\]
+	
+	\textbf{Remarks}
+	\begin{enumerate}
+		\item The product and box topologies agree for finite products.
+		\item If $\ba_\alpha$ is a basis for $T_\alpha$, then \[\mathbb{B}=\left\{ \prod_{\alpha \in I}B_\alpha \mid B_\alpha \in \ba_\alpha \right\}\] is a basis for box topology on $\prod_{\alpha \in I} X_\alpha$ (see tutorial sheet 2).
+		\item The bases for product/box topologies are usually not topologies themselves, e.g.\\
+		$\R^2=\R \times \R$ ($\R$ with standard topology).\\
+		$(0,1) \times (0,1) \in$ basis for box/product topologu\\
+		$(2,3) \times (2,3)$ also $\uparrow$.\\
+		But union of these products $\notin$ basis.
+	\end{enumerate}
+
+	\begin{stheorem}
+		\label{productmapscts}
+		Given a product $\prod_{\alpha \in I}X_\alpha$ equipped with either product or box topologies, every project map \[\pi_\gamma: \prod_{\alpha \in I} X_\alpha \to X_\gamma \]
+		$(\gamma \in I)$ is \cts.
+	\end{stheorem}
+	\begin{proof}
+		Consider any $U \subset X_\gamma$ open. Then $\pi_\gamma^{-1}(U)=\prod_{\alpha \in I}V_\alpha$ where $V_\alpha=X_\alpha$ for $\alpha \notin \gamma$, and $V_\gamma = U$.\\
+		But $\prod_{\alpha \in I}V_\alpha$ is open in both topologies. Hence $\pi_\gamma$ is \cts.
+	\end{proof}
+
+	\begin{stheorem}
+		\label{fisctsiffeachfalphaiscts}
+		Let $f:X \to \prod_{\alpha \in I}Y_\alpha$ be given by \[f(x)=\left( f_\alpha \left(x\right) \right)_{\alpha \in I}\] where $f_\alpha:X \to Y$.\\
+		Equip $\prod_{\alpha \in I}Y_\alpha$ with the product topology $T$. Then $f$ is \cts $\iff$ each $f_\alpha$ is \cts.
+	\end{stheorem}
+
+	To prove \ref{fisctsiffeachfalphaiscts} we need the following lemma:
+	\begin{slemma}
+		\label{productpreimageisintersection}
+		For $f:X \to \prod_{\alpha \in I}Y_\alpha$ we have \[ f^{-1}\left(\prod_{\alpha \in I} U_\alpha\right)=\bigcap_{\alpha \in I} f_\alpha^{-1}\left(U_\alpha\right) \]
+	\end{slemma}
+	\begin{proof}
+		Consider $x \in f^{-1}\left(\prod_{\alpha \in I} U_\alpha\right)$.\\
+		$\therefore f(x)\in \prod_{\alpha \in I} U_\alpha$\\
+		i.e. $(f_\alpha(x))_{\alpha \in I} \in \prod_{\alpha \in I}U_\alpha$\\
+		$\therefore f_\alpha(x) \in U_\alpha \forall \alpha$\\
+		$\therefore x \in f_\alpha^{-1}\left(U_\alpha\right) \forall \alpha$\\
+		$\therefore x \in \bigcap_{\alpha \in I} f_\alpha^{-1}\left(U_\alpha\right)$.\\
+		So LHS $\subset$ RHS.\\
+		Conversely, let $x \in \bigcap_{\alpha \in I}f_\alpha^{_1}(U_\alpha)$\\
+		So $x \in f_\alpha^{-1}(U_\alpha) \forall \alpha\\
+		\therefore f_\alpha(x) \in U_\alpha \forall \alpha\\
+		\therefore f(x)=(f_\alpha(x))_{\alpha \in I} \in \prod_{\alpha \in I} U_\alpha\\
+		\therefore x \in f^{-1}(\prod U_\alpha)\\
+		\therefore$ RHS $\subset$ LHS.\\
+		So LHS=RHS.
+	\end{proof}
+	\begin{proof}(Theorem \ref{fisctsiffeachfalphaiscts})
+			$(\impliedby)$ Assume $f_\alpha$ is \cts $\forall \alpha \in I$.\\
+			By Theorem \ref{producttopbases}, it suffices to check continuity (of $f$) on a basis for target space.\\
+			Consider $\prod_{\alpha \in I} U_\alpha \subset \prod_{\alpha \in I} Y_\alpha$ with $U_\alpha$ open in $Y_\alpha$, and all but finitely many $U_\alpha=Y_\alpha$.\\
+			By Lemma \ref{productpreimageisintersection} \[f^{-1} \left(\prod_{\alpha \in I}U_\alpha\right)=\bigcap_{\alpha \in I} f_\alpha^{-1}\left(U_\alpha\right)\]
+			Since $f_\alpha^{-1}(Y_\alpha)=X_\alpha$, we see that this is, in fact, a finite intersection, i.e.
+			\[ f^{-1} \left( \prod_{\alpha \in I}U_\alpha = \bigcap_{\alpha \in I}^nf_{\alpha_i}^{-1}\left(U_{\alpha_i}\right) \right)\] where the $\alpha_i \in I$ are these elements of $U$ for which $U_{\alpha_i} \neq Y_{\alpha_i}$.But this is a finite intersection of open sets (since $f_\alpha$ are \cts), so is open open in $X$.\\
+			$\therefore f$ is \cts.\\
+			\\
+			$(\implies)$ Assume $f$ is \cts. For $\alpha \in I$, let $U_\gamma \subset Y_\gamma$ be open. \[f_\gamma^{-1}\left(U_\alpha\right) = f^{-1}\left(\prod_{\alpha \in I} V_\alpha\right) \] where \[V_\alpha = Y_\alpha\ \mathrm{if}\ \alpha \neq \gamma\ \mathrm{and}\ V_\gamma = U_\gamma \]
+			By Lemma \ref{productpreimageisintersection}, we have:
+			\begin{align*}
+				f^{-1}\left(\prod_{\alpha \in I}V_\alpha\right) &= \bigcap_{\alpha \in I}f_\alpha^{-1}(V_\alpha)\\
+				& = \left[ \bigcap_{\alpha \neq \gamma} X \right] \cap f_\gamma^{-1}(U_\alpha)\\
+				&= f_\gamma^{-1}(U_\alpha)
+			\end{align*}
+			But $\prod V_\alpha$ is open in product (and box) topologies. As $f$ is \cts it follows that $f_\gamma^{-1}(U_\alpha)$ is open.\\
+			$\therefore f_\gamma$ is \cts $\forall \gamma \in I$.\\
+	\end{proof}
+
+	\textbf{Example:} What goes wrong in box topology:\\
+		Let $\R^\omega = \R \times \R \times \ddd$.\\
+		Consider $\begin{aligned}
+			f:\R &\to \R^\omega\\
+			t & \mapsto (t,t,t,\ddd)
+		\end{aligned}$\\
+		i.e. $f(t)=(f_n(t))_n \in \N$ with 
+		\textbf{Missing end}
+		
+	\subsection*{Lecture 2020.03.10}
+	\textbf{Last time:}\\
+	\begin{enumerate}
+		\item (Theorem \ref{productmapscts}) The projection \[\pi_\gamma:\prod_{\alpha \in I}X_\alpha \to X_\gamma\qquad(\gamma \in I) \] is \cts if $\prod_{\alpha \in I}X_\alpha$ is given either product or box topologies.
+		\item (Theorem \ref{fisctsiffeachfalphaiscts}) If $f_\alpha:Y \to X_\alpha,\forall \alpha \in I$ and $\prod X_\alpha$ has \textbf{product topology} then\\
+		$f=\prod_{\alpha \in I}f_\alpha :Y \to \prod_{\alpha \in I}X_\alpha$ is $\cts \iff f_\alpha$ are \cts $\forall \alpha$.
+		\item Example to show Theorem \ref{fisctsiffeachfalphaiscts} is false for box topology.
+	\end{enumerate}
+	\textbf{Remarks:} \begin{enumerate}
+		\item The product topology is coarser/weaker than the box topology as product topology $\subset$ box topology. (The box topology is finer/stronger than the product topology).
+		\item The product topology is the weakest topology which makes projections \cts.
+		\item The product topology is the strongest topology which makes Theorem \ref{fisctsiffeachfalphaiscts} work.
+	\end{enumerate}
+
+	\subsection{The Quotient Topology}
+	The quotient topology allows us to construct new topological spaces from old ones via gluing and collapsing.
+	
+	\setcounter{theorem}{3}
+	\setcounter{stheorem}{0}
+	\begin{sdefinition}
+		\label{defquotienttopology}
+		Suppose $f:X \to Y$ is a surjective map from a topological space $(X,T)$ to a \textit{set} $Y$. Then \[ \left\{ V \subset Y \mid f^{-1}(V) \in T \right\} \] is the \textbf{quotient topology} on $Y$.
+	\end{sdefinition}
+	\textbf{Exercise:} Show this \textit{is} a topology on $Y$.
+	
+	\begin{slemma}
+		With respect to quotient topology on $Y$, the map $f$ from Definition \ref{defquotienttopology} is \cts.\\
+		Moreover, the quotient topology is the strongest/finest topology on $Y$ making $f$ \cts.
+	\end{slemma}
+	\begin{proof}
+		Given $V$ open in quotient topology, by definition of this topology $f^{-1}(V)$ is open in $(X,T)$. $\therefore f$ is \cts.\\
+		Suppose $\mathbb{T}$ is a topology on $Y$ w.r.t. which $f$ is \cts.\\
+		Let $U \in \mathbb{T}$.\\
+		By continuity of $f$, $f^{-1}(U) \in T$.\\
+		$\therefore U \in \{U \subset Y \mid f^{-1}(U) \in T\}$ = quotient topology\\
+		$\therefore \mathbb{T} \subset$ quotient topology.
+	\end{proof}
+
+	\textbf{Key example:} $X$ a non-empty set and $\sim$ an equivalence relation on $X$.\\
+	Denote the set of equivalence classes \[\quotient{X}{\sim}\]
+	We have a surjective map 
+	$\begin{aligned}
+		q:X &\to \quotient{X}{\sim}\\
+		x & \mapsto [x]
+	\end{aligned}$\\
+	If $T$ is a topology on $X$, we then obtain a quotient topology $T_\phi$ on $\quotient{X}{\sim}$ defined by $q$.\\
+	\textbf{Illustrations:}\\
+	Think of $\quotient{X}{\sim}$ being constructed from $X$ by gluing the collection of elements in each equivalence class to give new points.
+	\begin{enumerate}
+		\item $T^2$ torus\\
+		$T^2$ can be constructed from a square by gluing opposite edges so arrows match.\\
+		\textbf{Fig. 3}\\
+		This gluing can be achieved by an equivalence relation.\\
+		\[\begin{matrix}
+			(x,y) \sim (x',y') & \iff & x=x'\ \mathrm{and}\ y=y'\\
+			&\ \mathrm{OR}\ & x=x' \ \mathrm{and}\ y=0,y'=1\\
+			&\ \mathrm{OR}\ & x=x' \ \mathrm{and}\ y=1,y'=0\\
+			&\ \mathrm{OR}\ & y=y' \ \mathrm{and}\ x=0,x'=1\\
+			&\ \mathrm{OR}\ & y=y' \ \mathrm{and}\ x=1,x'=0
+		\end{matrix}\]
+		\textbf{Fig. 4}\\
+		\[T^2=\quotient{[0,1] \times [0,1]}{\sim}\]
+		$\therefore T^2$ acquires a natural quotient topology from the square.\\
+		(This agress with subspace topology from $T^2 \subset \R^3)$.
+		
+		\item $S^n$ $n$-dimensional sphere $\subset \R^{n+1}$.\\
+		Define $\sim$ on $S^n$ by $x \sim -x$ (and $x \sim x$)\\
+		So $\quotient{S^n}{\sim}$ is obtained from $S^n$ by gluing every pair of antipodal point.\\
+		$\quotient{S^n}{\sim}$ is \textit{real projective space},$\R ^n$.\\
+		$\R p^n$ gets a natural quotient topology from $S^n$.\\
+		($\R p^1 \cong S^1$, Why?)
+		\item $S^{2n+1} \subset \C^{n+1}\qquad(\cong \R^{2n+2})$\\
+		Put $\sim$ on $S^{2n+1}$ defined by \[x \sim y \iff x=e^{i \theta}y\ \mathrm{for\ some}\ \theta\]
+		Notice that $[x]=\{e^{i\theta} x \mid \theta \in [0,2 \pi)\}$. This is a circle in $S^{2n+1}$.\\
+		$\sim$ partitions $S^{2n+1}$ into a family of disjoint circles.\\
+		$\quotient{S^{2n+1}}{\sim}$ when equipped with the quotient topology is \textit{complex projectice space} $\C p^n$.\\
+		($\C p^1 \cong S^2$).
+		
+		\textbf{Collapsing a subspace}\\
+		$A \subset (X,T)$\\
+		Define $\sim$ on $X$ by \[\begin{matrix}
+			x \sim x & \forall x \in X\\
+			a \sim b & \forall a,b \in A
+		\end{matrix}\]
+		Equivalence classes are $\begin{cases}
+			{x} & x \notin A\\
+			A & x \in A
+		\end{cases}$\\
+		$\quotient{X}{\sim}$ is written $\quotient{X}{A}$.\\
+		\textbf{Idea:} pinch $A$ down to a point. Quotient topology makes $\quotient{X}{A}$ a topological space.\\
+		e.g. $D^n$, boundary $S^{n-1}\subset D^n$.\\
+		\[\mathrm{Then}\ \quotient{D^n}{S^{n-1}}=S^n\]
+		(Glue boundary to new point, (pole?)).
+		
+	\end{enumerate}
+\end{document}

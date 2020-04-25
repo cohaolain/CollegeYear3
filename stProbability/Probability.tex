@@ -1,0 +1,840 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{cancel}
+
+\title{ST461 Probability}
+\author{Ciarán Ó hAoláín}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\theoremstyle{example}
+\newtheorem*{example}{Example}
+
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\d #1}{\d #2}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\uni}{\mathrm{Uniform}}
+\newcommand{\Exp}{\mathrm{Exp}}
+\newcommand{\Var}[1]{\mathrm{Var}\left(#1\right)}
+\newcommand{\Cov}[1]{\mathrm{Cov}\left(#1\right)}
+\newcommand{\Cor}[1]{\mathrm{Cor}\left(#1\right)}
+\newcommand{\Binomial}[1]{\mathrm{Binomial}\left(#1\right)}
+\newcommand{\Poisson}[1]{\mathrm{Poisson}\left(#1\right)}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+	\maketitle
+	
+	\section*{Lecture 2 (19.09.26)}
+	\section{Introduction to Probability}
+	Prop 3
+	\begin{align*}
+		B = & (A \cap B) \cup (\bar{A} \cap B) \\
+		P(B) = &  P \left[ (A \cap B) \cup (\bar{A} \cap B) \right]\\
+		P(B) = & P(A \cap B) + P(\bar{A} \cap B)\\
+		P(\bar{A} \cap B) = & P(B) - P(A \cap B)
+	\end{align*}
+	Prop 4
+	\begin{align*}
+		P(A \cup B) & = P \left[ A \cup (\bar{A} \cap B) \right]\\
+		& = P(A) + P(\bar{A} \cap B)\\
+		& = P(A) + P(V) - P(A \cap B)
+	\end{align*}
+	Prop 2
+	\begin{align*}
+		P(S) & = P(A \cup \bar{A})\\
+		& = P(A) + P(\bar{A}) = 1\\
+		& \equiv P(\bar{A}) = 1-P(A)
+	\end{align*}
+	Prop 1
+	\begin{align*}
+		\nset & = \bar{S}\\
+		P(\nset) & = 1 - P(S)\\
+		& = 1-1\\
+		& = 0
+	\end{align*}
+	
+	Let $n$ be the number of elements in the set.
+	\begin{align*}
+		nPr & = n(n-1))(n-2) \ddd n-r+1\\
+		& = \frac{n!}{(n-r)!}\\\\
+		nCr & = {n \choose r} = \frac{n!}{(n-r)}\\\\
+		nPn & = n!
+	\end{align*}
+	
+	\section*{Lecture 4}
+	\begin{theorem}
+		Let $B \subset S s.th. P(B) \neq 0$\\
+		Then $P(\underbrace{.}_{x \in S}|B)$ is a probability measure on $S$.
+	\end{theorem}
+	\begin{proof}
+		We need to show that $P(.|B)$ satisfies the axioms of probability.\\
+		\begin{enumerate}
+			\item Show that $P(S|B))=1$\\
+			By definition of conditional probability, \[P(S|B)=\frac{P(S \cap B)}{P(B)} = \frac{P(B)}{P(B)}=1\]
+			\item Show $0 \leq P(A|B) \leq 1$\\
+			\[ P(A|B)=\frac{P(A \cap B)}{P(B)}\]
+			The numerator is $\geq 0$, since $P$ is a probability measure.\\
+			The denominator is $> 0$.\\
+			Hence $P(A|B) \geq 0$\\
+			\[ (A \cap B]) \subset C \implies P(A \cap B) \leq P(B) \implies P(A|B) \leq 1 \]
+			\item Show that for disjoint events $A_1,A_2,\ddd,S_n,\ddd,$ we have that \[ P \left( \bigcup_{i=1}^\infty  A_i \mid B \right) = \sum_{i=1}^{\infty}P(A_i|B)\]
+			By definiton \[ \left( \bigcup_{i=1}^\infty  A_i \mid B \right) = \frac{P(\left( \bigcup_{i=1}^\infty  A_i \right) \cap B)}{P(B)} \]
+			Now we take the numerator \[\left(\bigcup_{i=1}^\infty A_i\right)\cap B = \bigcup_{i=1}^\infty(A_i \cap B) \]
+			\[P\left(\left(\bigcup_{i=1}^\infty A_i\right)\right)\cap B = P \left(\bigcup_{i=1}^\infty(A_i \cap B)\right) \]
+			Since $P$ is a probability measure and $A_1 \cap B, A_2 \cap B, \ddd, A_n \cap B, \ddd$ are disjoint, it follows that \[ P\left(\bigcup_{i=1}^\infty A_i \cap B \right) = \sum_{i=1}^{\infty}P(A_i \cap B)\]
+			Hence \begin{align*}
+				P\left(\bigcup_{i=1}^\infty A_i\mid B \right) & = \frac{\sum_{i=1}^{\infty}P(A_i \cap B)}{P(B)}\\
+				& = \sum_{i=1}^{\infty}\frac{P(A_i \cap B)}{P(B)}\\
+				& = \sum_{i=1}^{\infty}P(A_i|B)
+			\end{align*} as required.
+		\end{enumerate}
+	\end{proof}
+
+	\begin{example}
+		The probabiliyty that a person is rich given that they're famous is \[P(R|F)=\frac{P(R \cap F)}{P(F)= \frac{0.03}{0.05}=0.6} \]
+		Thus the probability that a person is not given rich given that they are famous is $0.4$.\\
+		The probability that a person is gamous given that they are rich is $0.3$.\\
+		The probability that a person is famous given that they are not rich is $0.022$.\\
+		Therefore, in this popoulation, rich poeple are more than 10 times more likely to be famous than those who aren't rich.
+	\end{example}
+
+	\begin{definition}[Bayes' Theorem]
+		Let $B_1,B_2,\ddd,B_n$ disjoint $s.th. \bigcup_{i=1}^n B_i = S$, i.e. they form a \textbf{partition} of $S$. $P(B_i)>0 \forall i$
+		\[	P(B_i|A)=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^{n}P(B_j)P(A|B_j)} \]
+		\[ A = \bigcap_{j=1}^n(B_j \cap A) \qquad P(A)=P\left(\bigcap_{j=1}^n (B_j \cap A)\right) \]
+	\end{definition}
+
+	\begin{example}Define the following:\\
+		$B := $ event of being breathalysed.\\
+		$D := $ event of being drunk.
+		\begin{align*}
+			P(D|B) & = \frac{P(B|D)P(D)}{P(B|D)P(D)+P(B|\bar{D})P(\bar{D})}\\
+			& = \frac{0.8 \times 0.12}{0.8 \times 0.12 + 0.2 \times 0.88}\\
+			& = 0.3529
+		\end{align*}
+	\end{example}
+
+	\begin{example}
+		Define the following:\\
+		$B:= $ car in accident is blue.\\
+		$W:= $ witness identifies car as blue.
+		\begin{align*}
+			P(B|W) & = \frac{P(W|B)P(B)}{P(W|B)P(B)+P(W|\bar{B})P(\bar{B})}\\
+			\frac{0.9}{den}
+		\end{align*} 
+	\end{example}
+
+	\begin{example}
+		Travelling by train with sister - without tickets! Caught by inspector. He has the power to administer on-the-spot punishment.\\
+		You must choose between 9 chocolates $
+		\begin{cases}
+		6 & ok\\
+		3 & with deadly poison
+		\end{cases}$		
+	\end{example}
+
+	\section*{Lecture 5 (19.10.10)}
+	\begin{definition}[Independent Events]
+		If $A$ and $B$ are independent, then \begin{align*}
+			P(A \cap B) & = P(A)P(B)\\
+			P(A|B) & = P(A)\\
+			P(B|A) & = P(B)\\\\
+			P(A)&=P(A \cap B)+P(A \cap \bar{B})\\
+			& = P(A)P(B) + P(A \cap \bar{B})\\
+			P(A \cap \bar{B})&=P(A)-P(A)P(B)\\
+			& = P(A)\left[1-P(B)\right]\\
+			& = P(A)P(\bar{B})\\
+			& \therefore A, \bar{B}\ independent.
+		\end{align*}
+	\end{definition}
+
+	\begin{definition}
+		A collection of events $A_1,\ddd,A_n$ are said to be independent if, for every subcollection $A_1',\ddd,A_r', r \leq n$, \[
+			P(A_{1'} \cap \ddd \cap A_{r'})=P(A_{1'}) \ddd P(A_{r'})
+		\]
+	\end{definition}
+
+	\section{Random Variables}
+	Usually we say that $X$ denotes a random variable whereas $x$ denotes the realisation of the random variable $X$.\\
+	e.g. $X$ is the number of people in a classroom, $x=20$.
+	\begin{example}
+		Consider tossing a fair coin $3$ times. The possible outcomes are: \[S=\{\mathrm{hhh,hht,hth,thh,htt,tht,tth,ttt}\}\]
+		Let $X$ be the number of heads obtained.\\
+		\[ X=\begin{cases}
+			0 & x \in \{\mathrm{ttt}\}\\
+			1 & x \in \{\mathrm{htt,tht,tth}\}\\
+			2 & x \in \{\mathrm{hht,hth,thh}\}\\
+			3 & x \in \{\mathrm{hhh}\}\\
+		\end{cases}\]
+		Hence $X$ is a discrete random variable which takes values $0,1,2,3$.\\
+		The random variable has probability (mass) functions given by \begin{align*}
+			P(X=0) & = \tfrac{1}{8}\\
+			P(X=1) & = \tfrac{3}{8}\\
+			P(X=2) & = \tfrac{3}{8}\\
+			P(X=3) & = \tfrac{1}{8}\\
+		\end{align*}
+		So we have that \[P(X=k) = \begin{cases}
+			\tfrac{1}{8} & k=0 | k=3\\
+			\tfrac{3}{8} & k=1 | k=2\\
+			0 & otherwise
+		\end{cases}\]
+		Approaching the cdf function from the right, we have continuity.
+	\end{example}
+	\section*{Lecture 6}
+	Summary:\begin{enumerate}
+		\item cdf: $F(x)=P(X \leq x)$
+		\item pmf: $p(x)=P(X=x)$ ($X$ discrete)
+		\item pdf: $f(x)\\
+		P(a <X<b)=\int_{a}^{b}f(x) \d x$ ($X$ continuous)\\
+		$P(X=x)=0$.\\\\
+		$F(t)=\int_{-\infty}^{t}f(x) \d x$\\
+		$f(x)=\dv{F(x)}{x}$
+		
+	\end{enumerate}
+	Also useful to remember:
+	\begin{align}
+		\lim\limits_{n \to \infty}(1+\frac{x}{n})^n&=e^x\\
+		\lim\limits_{n \to \infty}(1-\frac{x}{n})^n&=e^{-x}\\
+		\lim\limits_{n \to \infty}(e^{-\frac{n^2}{2}}) & = 0\\
+	\end{align}
+	
+	\section*{19.10.17 L1}
+	Binomial $\{0,1,\ddd,n\}$\\
+	$X=\#$successes in $n$ trials.\\
+	SFFSF$\ddd$ S\\
+	\\
+	Geometric\\
+	$X=\#$trials until 1st success.\\
+	FFFS\\
+	S\\
+	FS\\
+	FF $\ddd$ FS\\
+	\\
+	$X ~ $ geometric(p)\\
+	$\{1,2,\ddd\}$\\
+	\[P(X=k)=p(1-p)^{k-1}, \qquad k=1,2,3,\ddd \]
+	(1 sucess, $k-1$ failures)\\
+	\[P(X>k)=(1-p)^k\]
+	\[F(k)=P(X \leq k) = 1-P(X > k) = 1-(1-p)^k\]
+	$X$ is a geometric random variable with parameter $p=\frac{1}{6}$.\\
+	The p.m.f. is \[P(X=k)=\frac{1}{6}\left(\frac{5}{6}\right)^{k-1},\qquad k=1,2,3,\ddd\]	
+	\begin{center}
+		\begin{tabular}{ c|c c c c c c c } 
+			$k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+			\hline
+			...
+		\end{tabular}
+	\end{center}
+	\textbf{Missing some stuff...}
+	
+	\section*{Continuous Random Variables}
+	\[P(x=a)=\int_{a}^{a}\underbrace{f(x)\d x}_\mathrm{p.d.f.} = 0\]
+	$f(x)$ is \textbf{not} a probability.\\
+	\[P(a < X < cb) = \int_{a}^{b}f(x)\d x\]
+	\[F(x)=P(X \leq x)=\int_{-\infty}^{x}f(t) \d t \]
+	$X ~ $ Uniform $(a,b)$.
+	\[f(x)=\begin{cases}
+		\frac{1}{b-a}& a < x < b\\
+		0 & \mathrm{otherwise}
+	\end{cases}\]
+	\begin{enumerate}
+		\item $f(x)\geq0, \forall x \in \R \qquad \checkmark$
+		\item $\int_{-\infty}^{\infty}f(x) \d x = 1 \qquad\  \checkmark$
+	\end{enumerate}
+	\begin{align*}
+		F(x)&=\int_{-\infty}^{?}f(t) \d t\\
+		& = \int_{a}^{-x}\frac{1}{b-a} \d t\\
+		& = \frac{1}{b-a} \int_{a}^{x}\d t\\
+		& = \frac{1}{b-a}[t]^x_a=\frac{x-a}{b-a}=\left(\frac{1}{b-a}\right)x-\frac{a}{b-a}
+	\end{align*}
+	
+	\begin{example}
+		Let the passenter arrive at the train station $X$ minutes after 7.45am.
+	\end{example}
+
+	\section*{Lecture 19.11.14}
+	\begin{definition}[Bivariate Normal Distribution]
+		\begin{align*}
+			\begin{bmatrix}
+			X\\
+			Y
+			\end{bmatrix} & \sim N_2 \left(\begin{bmatrix}
+			\mu_x\\
+			\mu_y 
+			\end{bmatrix},\begin{bmatrix}
+			\sigma^2_x & \sigma_{xy}\\
+			\sigma_{xy} & \sigma^2_y
+			\end{bmatrix}\right)\\
+			\rho & = \frac{\sigma_{xy}}{\sigma_x \sigma_y}
+		\end{align*}
+		\begin{align*}
+			f_{xy}(x,y)&=\frac{1}{2 \pi \sigma_x\sigma_y\sqrt{1-p^2}}\exp \{\frac{-z}{2(1-p^2)}\}
+		\end{align*}
+		... gives $X \sim N(\mu x , \sigma^2_x)$.
+	\end{definition}
+
+	\begin{definition}
+		For two discrete random variables $X$ and $Y$, the \textbf{conditional probability mass function} of $X$ given $Y$ is defined (for $P(Y=y) \neq 0$) as \begin{align*}
+			P_{X|Y}(x|y)&=P(X=x|Y=y)\\
+			&=\frac{P(X=x,Y=y)}{P(Y=y)}\\
+			&=\frac{p_{xy}(x,y)}{p_y(y)}
+		\end{align*}
+	\end{definition}
+
+	\begin{example}
+		The joint p.m.f. of $X$ and $Y$ is ...
+	\end{example}
+
+	\begin{definition}
+		If $X$ and $Y$ are jointly continuous r.v.'s, the \textbf{conditional density} of $X$ given $Y$ is defined to be \begin{align*}
+			f_{X|Y}(x|y)&=\frac{f_{xy}(x,y)}{f_y(y)}
+		\end{align*}
+		For $f_Y(y)\neq 0$.
+	\end{definition}
+
+	\begin{example}
+		\begin{enumerate}
+			\item \begin{align*}
+			f_{X|Y}(x,y)&=\frac{f_{xy}(x,y)}{f_Y(y)}\\
+			&=\frac{\lambda^2e^{-\lambda y}}{y \lambda^2e^{- \lambda y}}\\
+			&=\frac{1}{y} & 0 \leq x \leq y, y \neq 0\\
+			f_{X|Y}(x|y)&=\frac{1}{y}&&0 \leq x \leq y
+			\end{align*}
+			$\therefore X|Y \sim \mathrm{Uniform}(0,y), y > 0\\
+			X|Y=y \sim \mathrm{Uniform}(0,y)$
+			\item \begin{align*}
+				f_{Y|X}(y|x)&=\frac{f_{xy}(x,y)}{f_x(x)}\\
+				&=\frac{\lambda^2e^{-\lambda y}}{\lambda e^{-\lambda x}}\\
+				&=\lambda e ^ {- \lambda(y-x)} & y \geq x
+			\end{align*}
+			Note that $Y|X$ is Exponential on the interval $[X, \infty)$\\
+			Equivalently, $Y-X|X \sim \mathrm{Exp}(\lambda)$
+		\end{enumerate}
+	\end{example}
+	\begin{example}
+		\begin{enumerate}
+			\item For the con tossing example, $X$ and $Y$ are not independent. We can verify this my comparing $p_{x|y}(x|1)$ with $p_x(x)$, for example.
+			\item FOr the joint continuous distributions above, we found previously that $f_x(x)=\lambda e^{-\lambda x}, x \geq 0$, which is not hte same as $f_{x|y}(x|y)=\frac{1}{y}, 0 \leq x \leq y$.\\
+			Therefore, $X$ and $Y$ are not independent.
+		\end{enumerate}
+	\end{example}
+	\begin{example}
+		\begin{align*}
+			f_x(x) &= \int_{0}^{\infty}2 e^{-x}e^{-2y} \d y\\
+			&= 2e^{-x} \int_{0}^{\infty} e^{-2y} \d y\\
+			&= 2e^{-x} \left[\frac{-1}{2}e^{-2y}\right]
+		\end{align*}
+	\end{example}
+
+	\section*{Lecture cont/d}
+	\section{Sums of Random Variables}
+	Let $X$ and $Y$ be random variables and consider $Z=X+Y$.
+	\textbf{Discrete case:} Suppose we are interested in finding the pmf of $Z$/
+	\[P(Z=z)=p_z(z)=\sum_{x=-\infty}^{\infty}p_{xy}(x,z-x)\]
+	If $X$ and $Y$ are independent, then \[ P(Z=z)=p_z(z)=\sum_{-\infty}^{\infty}p_x(x)p_y(z-x)\]
+
+	\[ \int \int_{x+y\leq z} f_{xy} \d x \d y \]
+	\[x+y \leq z \iff y \leq z-x \]
+	\[\int_{-\infty}^{\infty} \int_{-\infty}^{z-x} f_{xy}(x,y) \d y \d x \]
+	\begin{align*}
+		\upsilon &= y+x\\
+		y \to - \infty &\implies \upsilon \to - \infty\\
+		y \to z-x & \implies \upsilon \to z
+	\end{align*}
+	\textbf{.....}
+	\begin{example}
+		$X$,$Y$ indepdenent.
+		\begin{align*}
+			X & \sim \uni(0,1)\\
+			Y & \sim \uni(0,1)\\
+			f_x(x)&=1 & 0< x < 1\\
+			f_y(y)&=1 & 0 < y < 1
+		\end{align*}
+		Here, $X$ and $Y$ are independent, so \begin{align*}
+			f_z(z)&=\int_{-\infty}^{\infty}f_x(x)f_y(y(z-x)) \d x\\
+			f_y(z-x)&=1&0 < z -x < 1
+		\end{align*}\[ f_z(z)=
+		\begin{cases}
+			\int_{0}^{z}1 \ \d x & 0 < z < 1\\
+			\int_{z-1}^{1} 1 \ \d x & 1 \leq z < 2
+		\end{cases}\]
+	\end{example}
+
+	Let $W=X-Y$, then \[f_w(w)=\int_{-\infty}^{\infty}f_{xy}(x,x-w) \d x\]
+	Let $W=XY$, then \[f_w(w)\int_{-\infty}^{\infty}\frac{1}{|y|}f_{xy}\left(\frac{w}{y},t\right) \d y \]
+	
+	\begin{example}
+		\begin{align*}
+			P(Y \geq t)&=P(\min_i X_i \geq t)\\
+			&=P(X_i \geq t,X_2 \geq t, \ddd X_n \geq t)\\
+			\\
+			F(X_i)&=1-e^{-\lambda x_i}\\
+			&=P(X_i \leq x_i)\\
+			&=P(X_i \geq x_i)\\
+			\\
+			P(Y \geq t) &= e^{-n \lambda t}\\
+			P(Y \leq t)&= 1-P(Y \geq t)\\
+			&= 1-e^{-n \lambda t}=F_y(t)\\
+			\\
+			f_y(y)&=n \lambda e^{-n \lambda y} & y > 0\\
+			Y & \sim \Exp (n \lambda)
+		\end{align*}
+	\end{example}
+
+	\section*{Lecture 1 2019.12.05}
+	$f_{Y \mid X}(y \mid x)$
+	\begin{align*}
+	E[Y\mid X = x]&=\sum_{y} y p_{Y \mid X}(y \mid x)\\
+	&= \int_{-\infty}^{\infty}y f_{Y \mid X}(y \mid X) \d y
+	\end{align*}
+	
+	We found previously that \[E[X]=\frac{1}{2},\ E[Y]=\frac{3}{2}\]
+	If we know $X=0$, then conditional on this, $Y$ takes values 0,1,2,3 with probabilities $\frac14,\frac12, \frac14,0$ respectively.\\
+	If we know $X=1$, then conditional on this, $Y$ takes values 0,1,2,3 with probabilities $0,\frac14,\frac12,\frac14$ respectively.
+	\begin{align*}
+		E[Y \mid X = 0]&=0\left(\frac14\right)+1\left(\frac12\right) + 2\left(\frac14\right)+3\left(0\right)\\
+		&=1\\
+		E[Y \mid X = 1]&=0\left(0\right)+1\left(\frac14\right)+2\left(\frac12\right)+3 \left(\frac14\right)\\
+		&=2
+	\end{align*}
+	If we know $Y=0$, then conditional on this, $X$ takes values 0,1 with probabilities 1,0.
+	\begin{align*}
+		E[X \mid Y = 0] &= 0(1)+1(0)\\
+		E[X \mid Y = 1] &= \frac13\\
+		E[X \mid Y = 2] & = \frac23\\
+		E[X \mid Y = 3] & = 1
+	\end{align*}
+	\[f_{XY}(x,y)=\begin{cases}
+		\lambda^2e^{-\lambda y} & 0 \leq x \leq y\\
+		0 & \mathrm{otherwise}
+	\end{cases}\]
+	Marginally, $X \sim \Exp(\lambda),$ hence $E[X]=\frac1\lambda$.\\
+	We also saw that $X \mid Y = y \sim U(0,y)$ hence $E[X \mid Y=y]=\frac{y}{2}$.\\
+	Marginally, $f_Y(y)=\lambda^2e^{-\lambda y}y,\ y \geq 0$.
+	\begin{align*}
+		E[Y] &= \int_{0}^{\infty}yf_Y(y) \d y\\
+		&= \int_{0}^{\infty}y^2 \lambda^2 e^{- \lambda y} \d y\\
+		&= \lambda^2 \int_{0}^{\infty} \underbrace{y^2}_u \underbrace{e^{- \lambda y} \d y}_{\d v}\\
+		&= \lambda \left( -y^2 e^{- \lambda y} \mid_0^\infty + 2 \underbrace{\int_{0}^{\infty} y e^{- \lambda y}}_{\frac1\lambda \times \frac1\lambda} \right) & \mathrm{Expected\ value\ of\ an\ exponential\ R.V.}\\
+		&= \lambda\left( 0+2 \times \frac1{\lambda^2} \right)\\
+		&= \frac2\lambda
+	\end{align*}
+	The conditional densitry f $Y \mid X$ was calculated to be \[f_{Y \mid X}(y \mid x)=\lambda e^{- \lambda(y-x)},\ y \geq x\]
+	And so $Y \mid X=x$ is exponential with parameter $\lambda$ on $[x,\infty)$\\
+	It follows that $T-X\mid X=x \sim \Exp(\lambda)$ on $[0,\infty)$.
+	\begin{align*}
+		E[Y-X\mid X=x] &= \frac1\lambda\\
+		&= E[Y \mid X = x] - E[X \mid X = x]\\
+		&= E[Y \mid X = x]-x
+	\end{align*}\\
+	\\
+	\[E[Y | X=x]-x=\frac1\lambda\]
+	Therefore, $E[Y|X=x]=x+\frac1\lambda$.
+	\begin{align*}
+	E[Y|X]&=X+\frac1\lambda\\
+	E[E[Y|X]]&=E[Y]\\
+	E[E[Y|X]]&=\sum_{y}y\underbrace{\sum_{x}\underbrace{P_{Y|X}(y|x)P_X(x)}_{\mathrm{joint}\ P_{YX}(y,x)}}_{\mathrm{collapsing\ over}\ x,\ \mathrm{we\ get\ the\ marginal\ of}\ Y}\\
+	&= \sum_yP_Y(y)	=E[Y]
+	\end{align*}
+	
+	Somewhere here is the \textbf{iterated expectation rule, or rule of iterated expectation.}
+	
+	\begin{example}
+		Stuff....\\
+		From this, we can calculate \begin{align*}
+			E[Y]&= E_X[E_Y[Y|X]]\\
+			&= E_X[X+1]\\
+			&= E[X]+1\\
+			&=\frac12+1\\
+			&=\frac32
+		\end{align*}
+	\end{example}
+
+	\section*{Lecture 2 2019.12.05}
+	\begin{align*}
+		T&=\sum_{i=1}^{N}X_i\\
+		E[X_i]&=\mu_X\\
+		E[N]&=\mu_N\\\\
+		E[T]&=E_N[E_T[T|N]]\\
+		&=E_N[N,\mu_X]\\
+		&=\mu_X E[N]\\
+		&=\mu_X \mu_N\\\\
+		\Var{X_i}&=\sigma_X^2\\
+		\Var{N}&=\sigma^2_N\\
+		\\
+		\Var{T|N}&=\Var{\sum_{i=1}^{N}X_i}\\
+		&=\sum_{i=1}^{N}\Var{X_i} & X_i\mathrm{'s\ independent.}\\
+		&=N\sigma^2_X
+	\end{align*}
+	
+	\begin{align*}
+		\Var{T}&=E_N[\Var{T|N}]+\Var{E_T(T|N)}\\
+		&=E_N[N\sigma^2_X]+\Var{N\mu_X}\\
+		&=\sigma^2_X E[N]+\mu_X^2\Var{N}\\
+		&=\mu_N \sigma_X^2\sigma^2_N
+	\end{align*}
+	If each car pays exactly 1, then $\mu_X=1=, \sigma_X^2=0 \implies \Var{T}=\sigma^2_N$.\\
+	If the mean cost per car is 1 with a variance of 0.2, then $\Var{T}=0.2 \mu_N+\sigma_N^2$.\\
+	\textbf{Exercises:}
+	\begin{enumerate}
+		\item $XZY \sim N(Y,\sigma^2),\ Y \sim N(\mu_Y,\sigma^2_Y)$. Find $E[x]$ and $\Var{X}$. (Linear mixed model).
+		\item $Y|N \sim \Binomial{N,p},\ N \sim \Poisson{\lambda}$. Find $E[Y]$ and $\Var{Y}$. N-mixture model.
+	\end{enumerate}
+
+	$E[X^r]$ is the r-th moment of $X$.\\
+	$E[(X-\mu_X)^r]$ is the r-th central moment of $X$.
+	\pagebreak
+	\begin{definition}
+		The moment generating function (m.g.f.) of a r.v. $X$ is defined as \[ M_X(t)=E[e^{tX}] \] at values $t$ where the expectation exists.\\
+		$X$ discreet: $\begin{aligned}
+			M_X(t)=\sum_X e^{tx}p_X(x)
+		\end{aligned}$\\
+		$X$ continuous: $\begin{aligned}
+			M_X(t)=\int_{-\infty}^{\infty}e^{tx}f_X(x) \d x
+		\end{aligned}$\\
+		More formally, \[ \lim\limits_{t \to 0} \dv{^rM_X(t)}{t^3}=E[X^r] \]
+	\end{definition}
+	\textbf{Missing some stuff...}
+	
+	\textbf{4th Property}
+	$X,Y$, independent r.v's with m.g.f's $M_X, M_Y$. Let $V=X+Y$. Then \[M_V(t)=M_X(t)M_Y(t)\]
+	
+	\section*{Lecture 2019.12.12}
+	If $X_i$ is 1 if $i$-th toss is a head, and 0 otherwise, the plot shows \[\bar{X_n}=\frac{1}{n}\sum_{i=1}^{n}x_i \]
+	for $n-1,2,3,\ddd,2000$.\\
+	In this case, $\bar{x_2000}=0.5035$.
+	\begin{theorem}[Law of Large Numbers]
+		\[ \bar{X_n} \to \frac12 \]	
+	\end{theorem}
+	\begin{proof}
+		Assume that $\Var{X_i}=\sigma^2,\ i=1,2,\ddd$ (a proof without this assumption is also possible).
+		\begin{align*}
+			E[\bar{X_n}]=E\left[ \frac1n \sum_{i=1}^{n}X_i \right]\\
+			&= \frac1n \sum_{i=1}^{n}E[X_i]\\
+			&= \frac1n \sum_{i=1}^{n}\mu\\
+			&= \frac1n \left(n \mu\right) \\
+			&= \mu\\
+			\\
+			\Var{\bar{X_n}}&=\Var{\frac1n \sum_{i=1}^{n} X_i}\\
+			&=\frac1{n^2}\sum_{i=1}^{n}\Var{X_i} & (X_i\mathrm{'s\ are\ independent})\\
+			&= \frac1{n^2}\sum{i=1}n \sigma^2\\
+			&= \frac{1}{n^2}\mathbf{\left(\frac{1}{n^2}\right)}
+		\end{align*}
+		By Chebyshev's Inequality
+		\begin{align*}
+			P(|\bar{X_n}-\mu|>\epsilon) &\leq \frac{\Var{\bar{X_n}}}{\epsilon^2}\\
+			&= \frac{\sigma^2}{n \epsilon^2} \to 0& n \to \infty
+		\end{align*}
+		LLN: $P(|\bar{X_n}-\mu| > \epsilon) \to 0, n \to \infty$.\\
+		$\bar{X_n}\to \mu $ in probability.
+	\end{proof}
+
+	\begin{example}
+		\begin{align*}
+			E[X_i]&=p=\frac12\\
+			\Var{X_i}&=p(1-p)=\frac14\\
+			E[\bar{X_2000}]&=\frac12\\
+			\Var{\bar{X_2000}}&=\frac{1}{4(2000)}\\
+			\mathrm{SD}(\bar{X_2000})&=0.011
+		\end{align*}
+		Our observed value $\bar{x}_{2000}=0.5035$ is well within 1 SD of the mean.\\
+		By the LLN: \[\bar{X}_n\to \frac12 \]
+	\end{example}
+	\textbf{Missing loads of stuff}
+	\section*{Lecture 2019.12.12}
+	\begin{align*}
+		\lim\limits_{n \to \infty} F_n(x)&=F(x)\\
+		X_n & \to X\ \mathrm{in\ distribution}\\
+		M_n(t)&\to M(t)\\
+		\bar{X}&\sim^\mathrm{approx}N(\mu, \frac{\sigma^2}{n})\\
+		\frac{\bar{X}-\mu}{\frac{\sigma}{\sqrt{n}}}&\sim^\mathrm{approx}N(0,1)
+	\end{align*}
+	
+	\begin{theorem}[Central Limit Theorem]
+		Here.
+	\end{theorem}
+	\begin{proof}
+		First, ket $Y_i=\frac{X_i-\mu}{\sigma}$. Then wen want to show that \[Z_n=\sum_{i=1}^{n} \frac{Y_i}{\sqrt{n}} \to Z\ \mathrm{in\ distribution} \] when $Z \sim N(0,1)$.
+		By the ontinuity theorem, it suffices to show that \begin{align*}
+			M_{Z_n}(t)&\to M_Z(t)\\
+			M_{Z_n}(t)&\to e^\frac{t^2}{2}\\
+			\\
+			M(S)=\underbrace{M(0)}_1+\underbrace{SM'(0)}_{\begin{aligned}
+					S.E[Y] &= S.\mu\\
+					&= 0
+				\end{aligned}}+\underbrace{\frac{S^2}{2}M''(0)}_{\begin{aligned}
+					E[Y]&=?(Y)\\
+					&=
+				\end{aligned}}
+		\end{align*}
+		\textbf{Missing some stuff here}\\
+		
+	\end{proof}
+	\begin{align*}
+		M_{Z_n} &= \left( 1+\frac{t^2}{2n} +\epsilon_n \right)^n\\
+		&=\left(1+\frac{\frac{t^2}{2} +n \epsilon_n }{n}\right)^n\\
+		&= \left(1+\frac{a_n}{n}\right)^n\\
+		\\
+		\lim\limits_{n \to \infty a_n}=\frac{t^2}{2}
+	\end{align*}
+	
+	For large $n$, \[ \sum_{i=1}^{n} \frac{X_i - n \mu}{\sqrt{n}\sigma} \sim N(0,1)\ \mathrm{approx} \]
+	This tells us that
+	\begin{align*}
+		\sum_{i=1}^{n} X_i & \sim N(n \mu, n \sigma^2)\ \mathrm{approx}\\
+		\bar{X} = \sum_{i=1}^{n}\frac{X_i}{n} & \sim N\left(\mu, \frac{\sigma^2}{n}\right) \ \mathrm{approx}
+	\end{align*}
+	
+	\begin{example}
+		Let $T$ be the total profit in 30 days.\\
+		By the CLT, 
+		\begin{align*}
+			T &\sim N(n \mu, n \sigma^2)\ \mathrm{approx}\\
+			T & \overbrace{\sim}^\mathrm{approx} N(30(30), 30(50)^2)\\
+			P(T>9500)&= P\left( \frac{T-9000}{50\sqrt{30} > \frac{9500-9000}{50\sqrt{30}}} \right)\\
+			&= P(Z > 1.826)\\
+			&= 1-\Phi(1.826)\\
+			&=0.0339
+		\end{align*}
+		$\Phi$ is the cdf of the N$(0,1)$ distribution.
+	\end{example}
+
+	\begin{example}
+		Let $\bar{X}=\frac{T}{30}$. By the CLT, \begin{align*}
+			\bar{X} &\overbrace{\sim}^{\mathrm{approx}}\mathrm{N}\left(300,\frac{50^2}{30}\right)\\
+			P(\bar{X}<290)&=P\left( \frac{\bar{X}-300}{\frac{50}{\sqrt{30}}} < \frac{290-300}{\frac{50}{\sqrt{30}}} \right)\\
+			&= P(Z<-1.095)\\
+			&= \Phi(-1.095)\\
+			&= 0.1366
+		\end{align*}
+	\end{example}
+
+	Let $X \sim \Binomial{n,p}$. We will show that, for large $n$, \[X \sim N(np,np(1-p)),\ \mathrm{approx}\]
+	Write $X=X_1+X_2+\ddd+X_n$, where $X_i$ are independent Bernoulli$(p)$ R.V's.
+	\[E[X_i]=p,\qquad \Var{X_i}=p(1-p)\]
+	From the CLT, we have that \[ \frac{X-np}{\sqrt{n}\sqrt{p(1-p)}} \to Z\ \mathrm{in\ distribution}\qquad (Z \sim N(0,1)) \]
+	Therefore $X \sim N(np, np(1-p))$, approx.\\
+	The approximation is good when both $np$ and $np(1-p) \geq 5$.\\
+	\\
+	$X$ continuous, $P(X=x)=0$.
+	\[\begin{matrix}
+		P(X \leq x) & = & P(X < x)\\
+		\int_{-\infty}^{x} f(x) \d x & & \int_{-\infty}^{x} f(x) \d x
+	\end{matrix}\]
+	The approximation can be improved with a continuity correction.
+	\begin{align*}
+		P(X\leq 40) &\sim P(N(50,25) \leq 40.5)\\
+		&=0.0287\\
+		\mathrm{similarily}\\
+		P(X<40)&\sim P(N(50,25 \leq 39.5))\\
+		&= 0.0178\ (\mathrm{exact:}\ 0.0176)\\
+		\\
+		P(X=40) & \sim P(39.5 \leq N(50,25) \leq 40.5)\\
+		&=0.0108
+	\end{align*}
+	
+	From the CLT, for large $n$
+	\[\sum_{i=1}^{n}X_i \sim N(n\lambda,n\lambda)\ (\mathrm{approx})\]
+	However, we know that \[
+		\sum_{i=1}^{n}X_i \sim \Poisson{n\lambda},\ \mathrm{exactly}
+	\]
+	Therefore, $\Poisson{\mu} \sim N(\mu, \mu )$ for large $\mu$.
+	
+	\section*{Lecture 1 2019.12.19}
+	\textbf{$\mathbf{\chi^2}$ distribution}\\
+	If $Z \sim \mathrm{N}(0,1)$, then $U=Z^2$ is said to have a chi-squared distribution with 1 degree of freedom.\\
+	We write $U \sim \chi^2_1$.\\
+	If $Z_1,Z_2,\ddd,Z_n$ are i.i.d. N(0,1) then \[U=\sum_{i=1}^{n} Z^2_i\] is said to have a chi-squared distribution with $n$ degrees of freedom.\\
+	We write $U \sim \chi_n^2$.\\
+	\textbf{Gamma function}\\
+	\[\Gamma(\chi) = \int_{0}^{\infty} u^{x-1}e^{-u} \d u \] if $k \in \mathbb{N}_\star,$ then $\Gamma(k)=(k-1)!$.\\
+	\[ \Gamma\left(\frac12\right)=\sqrt{\pi} \]
+	$X \sim$ N($\mu,\sigma^2),\qquad \frac{X-\mu}{\sigma}\sim$N(0,1).
+	\begin{align*}
+		U&=\sum_{i=1}^{n}Z_i^2 \sim \chi^2_n\\
+		V&=\sum_{i=1}^{m}Z_i^2 \sim \chi^2_m\\
+		U \times V &= \sum_{i=1}^{n+m}Z_i^2 \sim \chi^2_{n+m}
+	\end{align*}
+	4. The moment generating function of $U\sim \chi_n^2$ is given by \[M_U(t)=(1-2t)^{\frac{-n}{2}}\]
+	5. \begin{align*}
+		E[U]&=E\left[\sum_{i=1}^{n}Z_i^2\right]=\sum_{i=1}^{n}E[Z_i^2]\\
+		&=\sum_{i=1}^{n}\Var{Z_i}=\sum_{i=1}^{n}1\\
+		&= n
+	\end{align*}
+	
+	\textbf{$\mathbf{t}$ distribution}
+	If $Z \sim$N(0,1) and $U\sim \chi^2_n$ are independent, then \[\frac{Z}{\sqrt{\frac{U}{N}}} \sim t_n\] is said to have a $t$ distibution with $n$ degrees of freedom.
+	
+	\[C_n=\frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n \pi } \Gamma \left(\frac{n}{2}\right)}\]
+	\[\int_{-\infty}^{\infty} \left(1+\frac{t^2}{2}\right)^{\frac{n+1}{2}} \d t = \frac{\sqrt{n \pi}\ \Gamma \left(\frac{n}{2}\right)}{\Gamma \left(\frac{n+1}{2}\right)} \]
+	Robust regression, heavy-tailed error, modelling outliers.\\
+	$y_i=\beta_0+\beta_1x_i+\epsilon_i\\
+	\epsilon_n \sim \mathrm{N}(0,\sigma^2),\  \epsilon_i \sim t_n$\\
+	
+	\textbf{Cauchy distribution $\mathbf{t_1}$}\\
+	example of "pathological distribution\\
+	sample size = 2\\
+	modelling outliers\\
+	\textbf{Maybe missing stuff? }
+	
+	\section*{Lecture 2 2019.12.19}
+	$\chi^2$ distribution\\
+	\begin{align*}
+		U&=\sum_{i=1}^{n}Z_i^2 \sim \chi^2_n\\
+		\frac{Z}{\sqrt{\frac{U}{n}}}&\sim t_n
+	\end{align*}
+	\[ U \sim \chi^2_n\qquad V \sim \chi^2_m,\quad U \perp V \]
+	($U$ and $V$ are independent.)
+	\[ \frac{\frac{U}{n}}{\frac{V}{m}} \sim F_{n,m} \]
+	
+	\begin{center}
+		\begin{tabular}{ c | c c c c } 
+			Source & df & SSq  & MSq & F\\
+			\hline
+			Treatment & $t-1$ & SSqt &  SSqt/t-1 & (SSqt/t-1)/SSr/n-t\\ 
+			Residual & $n-t$ & SSqr & SSqr/$n-t$ \\
+			\hline
+			Total & $n-1$ & SSqTotal
+		\end{tabular}
+	\end{center}
+	Sir Ronald Aylmer Fisher (Rothamsted)\\
+	\\
+	\begin{enumerate}
+		\item $F$-distributed random variables are non-negative.
+		\item If $|\sim$N(0,1) and $U\sim\chi^2_n$ are independent then \begin{align*}
+			\frac{Z}{\sqrt{\frac{U}{n}}} &\sim t_n,\ \mathrm{but}\\
+			\frac{Z^2}{\frac{U}{n}}  & \sim F_{1,n}
+		\end{align*}
+		i.e. squaring a $t_n$ random variable gives an $F_{1,n}$ random variable.
+		\item Suppose $R \sim F_{n,m}$, then it follows that \[\frac{1}{R}\sim F_{m,n}  \] i.e.
+		\begin{align*}
+			P(F_{n,m} \geq c)&=P\left(\frac{1}{F_{n,m}} \leq \frac1c\right)\\
+			&= P\left( F_{m,n} \leq \frac1c \right)
+		\end{align*}
+	\end{enumerate}
+
+	\[ X_1,X_2 \ddd X_n \mathrm{i.i.d.\ N}(\mu,\sigma^2) \]
+	\[S^2=\sum_{i=1}^n \frac{(X_i-\bar{X} )^2}{n-1} \]
+	\[\frac{(n-1)S^2}{\sigma^2} \sim \chi_{n-1}^2 \]
+	\begin{proof}
+		\begin{align*}
+			U&=\frac{(n-1)S^2}{\sigma^2}\\
+			&=\sum_{i=1}^{n}\frac{(X_i-\bar{X})^2}{\sigma^2}\\
+			W&=\sum_{i=1}^n \frac{(X_i - \mu)^2}{\sigma^2}\\
+			&= \sum_{i=1}^{n}\left(\underbrace{\frac{X_i-\mu}{\sigma}}_{Z \sim \mathrm{N}(0,1)}\right)^2 \sim \chi_n^2\\
+			&= \frac{1}{\sigma^2} \sum_{i=1}^{n}(X_i - \mu )^2\\
+			&=\frac{1}{\sigma^2}\sum_{i=1}^n(X_i-\bar{X}+\bar{X}-\mu)^2\\
+			&=\frac{1}{\sigma^2}\left\{\sum_{i=1}^{n}(X_i-\bar{X})^2+2\sum_{i=1}^{n}(X_i+\bar{X})(\bar{X}- \mu) + \sum_{i=1}^{n}(\bar{X}-\mu)^2  \right\}\\
+			&=\sum_{i=1}^{n}\left\{\frac{(X_i-\bar{X})^2}{\sigma^2}+n\frac{(\bar{X}-\mu)^2}{\sigma^2}  \right\}\\
+			&=\sum_{i=1}^{n}\left\{\frac{(X_i-\bar{X})^2}{\sigma^2}+\left(\frac{\bar{X}-\mu}{\frac{\sigma}{n}}\right)^2  \right\}\\
+%			\underbrace{\sum_{i=1}^{n}\frac{(X_i-\mu)^2}{\sigma^2}}_W&=\underbrace{\sum_{i=1}^{n}\left\{\frac{(X_i-\bar{X})^2}{\sigma^2}}_U
+%			+\underbrace{\left(\frac{\bar{X}-\mu}{\frac{\sigma}{n}}\right)^2  \right\}}_V
+		\end{align*}
+	\end{proof}
+
+	\section*{Tutorial (First/Final) 2019.12.20}
+	\begin{enumerate}
+		\skipitems{1}
+		\item p.m.f. \[p_X(x)=P(X=k)={n \choose k} p^k(1-p)^{n-k}\]
+		m.g.f., by definiition \begin{align*}
+			M_X(t)&=E[e^{tx}]\\
+			&=E[e^{tx}]\\
+			&= \sum_{k=0}^{n}e^{tk}p_X(k)\\
+			&= \sum_{k=0}^{n}e^{tk}{n \choose k}p^k(1-p)^{n-k}\\
+			&= \sum_{k=0}^{n} {n \choose k} (pe^t)^k(1-p)^{n-k}
+		\end{align*}
+		Recall the bionimal theorem \[ (a+b)^n=\sum_{k=0}^{n}{n \choose k} a^kb^{n-k} \]So we have 
+		\[M_X(t) = (pe^t+1-p)^n\]
+		\\
+		\begin{align*}
+			\mu = E[X]=M'_X(0)=n \times 1 \times p \times 1 = np\\
+			E[X^2]=M''_X(0)=n(n+1) \times 1 \times p^2 + np = n^2p^2-np^2+np\\
+			\Var{X}=E[X^2]-(E[X])^2=\cancel{n^2p^2}-np^2+np-\cancel{n^2p^2}=np(1-p)\\
+			\\
+			M'_X(t)=n(pe^t+1-p)^{n-1}pe^t\\
+			M''_X(t)=n(n-1)(pe^t+1-p)^{n-2}(pe^t)^2+n(pe^t+1-p)^{n-1}pe^t
+		\end{align*}
+		
+		\item \[X_1,X_2,\ddd,X_n \mathrm{i.i.d.}\ \mathrm{N}(\mu_X,\sigma^2)\]
+		\[Y_1,Y_2,\ddd,Y_n \mathrm{i.i.d.}\ \mathrm{N}(\mu_Y,\sigma^2)\]
+		\[U=\sum{i=1}{n}(X_i-\mu x)^2,\qquad V=\sum_{i=1}^{n}(Y_i-\mu_Y)^2 \]
+		What is the distribution of $W=\frac{U}{V}$?\\
+		\textbf{Solution:}\\
+		Observe that if $X_i \sim \mathrm{N}(\mu_X, \sigma^2)$, then \[\frac{X_i-\mu_X}{\sigma} \sim \mathrm{N}(0,1),\qquad \left(\frac{X_i-\mu_X}{\sigma}\right)^2 \sim X_i^2\]
+		\[\sum_{i=1}^{n}\left(\frac{X_i-\mu_X}{\sigma}\right)^2 \sim \chi_n^2\]
+		Analogously, $\sum_{i=1}^{n}\left(\frac{Y_i-\mu_Y}{\sigma}\right)^2 \sim \chi_n^2$.\\
+		Observe that \[ \frac{\left(\frac{\sum_{i=1}^{n}\left(\frac{X_i - \mu_X}{\sigma}\right)^2}{n}\right)}{\left(\frac{\sum_{i=1}^{n}\left(\frac{Y_i - \mu_Y}{\sigma}\right)^2}{n}\right)} \sim F_{n,n}\]
+		But  \[ \frac{\left(\frac{\sum_{i=1}^{n}\left(\frac{X_i - \mu_X}{\cancel{\sigma}}\right)^2}{\cancel{n}}\right)}{\left(\frac{\sum_{i=1}^{n}\left(\frac{Y_i - \mu_Y}{\cancel{\sigma}}\right)^2}{\cancel{n}}\right)} = \frac{\sum_{i=1}^{n}(X_i - \mu_X)^2}{\sum_{i=1}^{n}(Y_i - \mu_Y)^2}=\frac{U}{V}=W\]
+		Therefore, $W \sim F_{n,n}$.
+		\skipitems{1}
+		\item Show that if $X$ and $Y$ are independent, $\Exp(\lambda=\frac12)$, then $\frac{X}{Y}\sim F_{2,2}$.
+		\[X \sim \Exp (\frac12)\qquad M_X(t)=\frac{\lambda}{\lambda-t}=\frac{\frac12}{\frac12-t}=\frac{\frac{1}{\cancel2}}{\frac{1-2t}{\cancel2}}=(1-2t)^{-1}\]
+		\[f_X(x)=\lambda e^{-\lambda x} = \frac12 e^{-\frac{x}{2}}\]
+		Recall that the m.g.f. of a $\chi^2_n$ random variable is $(1-2t)^{-\frac{n}2}$.\\
+		Therefore, $M_X(t)=(1-2t)^{-1}=(1-2t)^{\frac{-2}{-2}}$, and hence $X \sim \chi_2^2$. Analogously, $Y\sim\chi_2^2$.\\
+		Now, $\frac{X}{Y}=\frac{X/2}{Y/2} \sim F_{2,2}$
+		\skipitems{4}
+		\item \begin{align*}
+			X & \sim f\\
+			\mu &= 27.3\mathrm{mm}\\
+			\sigma &= 7.8\mathrm{mm}\\
+			n&=35
+		\end{align*}
+		$P(\bar{X}<25\mathrm{mm})=?$\\
+		By the Central Limit Theorem, $\bar{X \sim \mathrm{N}(\mu=27.3m\sigma^2=\frac{7.8^2}{35})$
+		\[\implies P(\bar{X}<25)=P\left( \frac{\bar{X}-27.3}{7.8/\sqrt{35}} < \frac{25-27.3}{7.8/ \sqrt{35}} \right) = P(Z < -1.74) = P(Z > 1.74) = 0.5 - \underbrace{P(0<Z<1.74)}_{\mathrm{from\ table}}=0.0459 \]
+	\end{enumerate}
+
+	\textbf{From exam: Jan 2019, Q2}\\
+	$X$ and $Y$ crv with joint pdf \[f_{XY}(x,y)=\begin{cases}
+		\frac{x}{5}+cy & 0 < x < 1,\ 1 < y < 5\\
+		0 & \mathrm{otherwise}
+	\end{cases}, c \in \R\]
+	a) Show that $c = \frac{1}{20}$.
+	If $f_{xy}(x,y)$ is a valid joint pdf, then \[\int_{1}^{5} \int_{0}^{1} f_{XY}(x,y \d x \d y = 1)\]
+	\[ \int_{1}^{5} \int_0^1\left(\frac{x}{5}+cy) \d x \d y\right) = 1\]
+	so $20c = 1, c = \frac1{20}$.
+	
+	b) Find the marginal densities $f_X(x)$ and $f_Y(y)$. Are $X$ and $Y$ independent?
+	\begin{align*}
+		f_X(x)&=\int_1^5f_{XY}(x,y)\d y\\
+		&=\int_1^5\left(\frac{x}{5} + \frac{y}{20}\right) \d y = \frac{4x+3}{5}\\
+		\\
+		f_Y(y)&=\int_0^1 f_{XY}(x,y) \d x\\
+		\int_0^1\left(\frac{x}{5}+\frac{y}{20}\right) \d x = \frac{y+2}{20}\\
+		f_{XY}\ & \neq f_X(x)f_Y(y)
+	\end{align*}
+	Therefore $X$ and $Y$ are not independent.\\
+	\\
+	c) $P(X+Y > 3)=?$
+	\begin{align*}
+		P(X+Y>3)&=\int_0^1 \int_{3-x}^5 f_{XY}(x,y) \d y \d x\\
+		&= \int_0^1 \int_{3-x}^5 \left(\frac{x}{5}+\frac{y}{20}\right)\d y \d x\\
+		&= \frac{11}{15}
+	\end{align*}
+	
+	Hints: unsure of range of integration? check answer. Greater than 1? no. Less than 0? no. \\
+	Most marks for correct method.\\
+	Hell? e.g. Cor($X,Y$)$=\frac{\Cov{X,Y}}{\Var{X}\cdot \Var{Y}}$
+
+\end{document}
