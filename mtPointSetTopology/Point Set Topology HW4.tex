@@ -1,0 +1,143 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{cancel}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{framed}
+\usepackage{hyperref}
+
+\title{MT434 Point Set Topology - Assignment 4}
+\author{Ciarán Ó hAoláin - 17309103 - ciaran.ohaolain.2018@mumail.ie}
+
+\let\nset\varnothing
+\let\ddd\cdots
+
+\newcommand{\sth}{\mathrm{s.th}\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\quotient}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\cts}{cts. }
+\newcommand{\ctsm}{\ \mathrm{cts.}\ }
+\newcommand{\Int}[1]{\mathrm{int}(#1)\ }
+\newcommand{\bdy}[1]{\mathrm{bdy}(#1)\ }
+\renewcommand{\emptyset}{\varnothing}
+
+\newcommand{\ba}{\mathcal{B}}
+
+\newtheorem{theorem}{Theorem}[section]
+
+\newtheorem{corollary}{Corollary}[theorem]
+
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{stheorem}{Theorem}[theorem]
+\newtheorem{slemma}[stheorem]{Lemma}
+\newtheorem{sdefinition}[stheorem]{Definition}
+\newtheorem{scorollary}[stheorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
+\newtheorem*{example}{Example}
+\newtheorem*{examples}{Examples}
+
+\makeatletter
+\newcommand{\skipitems}[1]{%
+	\addtocounter{\@enumctr}{#1}%
+}
+\makeatother
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+      \item \begin{proof}
+                  Let $X$ be a topological space,
+                  with subset $A \subset X$, $A$ open and closed.\\
+                  Let $C_x$ be the connected component in $X$ containing $x$.\\
+                  Clearly, $A \subset \bigcup_{x \in A} C_x$
+                  (since $C_x$ contains at least $x$).\\\\
+                  We now also need to show that $\bigcup_{x \in A} C_x \subset A$.\\
+                  Let $x \in A$.\\
+                  Take $G=C_x \cap A, H=C_x \cap A^C$. \\
+                  $G, H$ are closed in $C_x$ meaning they are open in $C_x$
+                  (by the connectedness of $C_x$).\\
+                  This gives that either $G=\emptyset$ or $H=\emptyset$.\\
+                  By definition $x \in A, x \in C_x \implies x \in (C_x \cap A) = G$.\\
+                  $\therefore H = \emptyset$, giving $A = C_x$, equivalently $C_x \subset A$.\\
+                  Since this is true $\forall x \in A$, we have that
+                  $(\bigcup_{x \in A} C_x) \subset A$.\\\\
+                  This shows that for a closed and open subset $A$ of $X$, $A=(\bigcup_{x \in A} C_x)$.\\
+                  This gives that $A$ is a union of connected components, as required.
+            \end{proof}
+
+      \item \begin{proof}
+                  Let $a,b \in \Q\ \sth a \neq b$.\\
+                  $\exists x \in (\R \setminus \Q) \ \sth a < x < b$.\\
+                  Consider the intervals \[A=(-\infty,x),\ B=(x,\infty)\]
+                  Let $X = A \cap \Q,\ Y = B \cap \Q$, $X,Y$ are open subsets of $\Q$.\\
+                  Now, choose $y \in \Q$.\\
+                  If $y < x$, then $y \in X$.\\
+                  Else if $x < y$, then $y \in Y$.\\
+                  So we have that $U \cup V=\Q$.\\
+                  Pick $a' \in X$. We have that $a' < a \implies a' \notin Y$.\\
+                  Pick $b' \in Y$. We have that $b' > a \implies b' \notin U$.\\
+                  $A,B$ are clearly disjoint, giving that $X \cap Y = \emptyset$.\\
+                  Furthermore, $a \in X, b \in V \implies U,V \neq \emptyset$.\\
+                  This means by definition that $\Q$ with
+                  the subspace top. from $\R$ is a totally disconnected set.
+            \end{proof}
+            $\therefore$ Being totally disconnected is not the same as being discrete.
+
+      \item \begin{proof}
+                  \textbf{interval $\mathbf{\implies}$ connected}\\
+                  We have that an interval $I\subset \R$ is path-connected, $\therefore$ it is connected.\\
+                  \textbf{connected $\mathbf{\implies}$ interval}\\
+                  Assume $A$ is a subset of $\R$, of at least two elements, which is connected, but is not an interval.\\
+                  Pick $a,b,c \in \R\ \sth a < b < c$, $a,c \in A$, $b \notin A$.\\
+                  Then take the sets $ U=A \cap (-\infty,b),\ V=A \cap (b, \infty) $.\\
+                  Clearly then $A = U \cup V$, but $U \cap V = \emptyset$.\\
+                  But $U,V$ are open, non-empty and disjoint, meaning $A$ can't be connected (contradiction).\\
+                  $\therefore A$ is an interval.\\
+                  Otherwise, $A$ has only one element, in which case it is trivially an interval.\\
+                  This gives that connected $\implies$ interval.\\
+                  $\therefore$ a subset of $\R$ is connected $\iff$ it is an interval, as required.
+            \end{proof}
+
+            If a subset $A$ is connected, it must be an interval. And we know that intervals are path-connected.\\
+            $\therefore A$ is path-connected.
+
+            $\therefore$ the connected subsets and the path-connected subsets of $\R$ are identical, as required.
+
+      \item Consider the functions:
+            $f: \mathbb{R}^{2} \setminus \{0\} \to S^1, f(x) = \frac{x}{||x||}$\\
+            $g: S^1 \to \R^2 \setminus \{0\}, g(x,y) = x$.\\
+            We define $H(x,t):\R^2 \setminus \{0\} \times [0,1] \to \R^2 \setminus \{0\}$\\
+            $H(x,t) = (x,t) \mapsto t \frac{x}{||x||} + (1-t)x$.\\
+            $H(x,0)=x, H(x,1)=g(f(x)) \forall x \in X$.\\
+            $g \circ f = \mathrm{id}_{\R^2\setminus\{0\}}$.\\
+            Also $f \circ g = \mathrm{id}_{S^1}$.\\
+            So $\mathbb{R}^{2} \setminus \{0\},\ S^1$ are homotopically equivalent.
+      \item Let $A$ be a star shaped subset of $\R^n$.\\
+            Since $A$ is star shaped, $\exists c \in A\ \sth$ all line segments
+            joining $c$ to every other point in $A$ lies in $A$.\\
+            Given any two points $a,b \neq c$, we can get a path from $a$ to $b$
+            by going along the line segment from $a$ to $c$, then $c$ to $b$.\\
+            $\therefore A$ is path-connected.\\
+            Let $\gamma$ be a closed based loop at $c$ ($\gamma(0)=\gamma(1)=c$).\\
+            We define the homotopy $H(x,t)=tc+(1-t)\gamma(x)$.\\
+            Furthermore, $H(x,0)=\gamma(x)$ and $H(x,1)=c$.\\
+            Finally, $H(0,t)=tc+(1-t)c=c=H(1,t)$.\\
+            So $\gamma$ and the constant loop at $c$ are homotopic loops.\\
+            So $\pi_1(A,c)=0$, and $A$ is simply connected, as required.
+
+
+
+\end{enumerate}
+\end{document}
