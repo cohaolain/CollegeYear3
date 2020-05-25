@@ -40,7 +40,7 @@
 
 \newtheorem{theorem}{Theorem}[section]
 
-\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{corollary}[theorem]{Corollary}
 
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{definition}[theorem]{Definition}
@@ -996,4 +996,281 @@
 		(Glue boundary to new point, (pole?)).
 		
 	\end{enumerate}
+
+	\pagebreak
+	\setcounter{section}{4}
+	\section{Compactness}
+	\setcounter{theorem}{8}
+	\begin{theorem}
+		The image of a compact space under a continuous map is compact.
+	\end{theorem}
+
+	\begin{theorem}
+		If $X$ is compact and $f:X \to \R$ is continuous,
+		then $\exists x,y \in X\ \sth$
+		\[ f(x)=\sup_{x \in X}\left\{f(x)\right\} \]
+		\[ f(y)=\inf_{x \in X}\left\{f(x)\right\} \]
+		i.e. $f$ takes max and min values on $X$.
+	\end{theorem}
+
+	\begin{theorem}
+		The product of finitely many compact spaces
+		(in either the product or box topologies) is compact.
+	\end{theorem}
+
+	\begin{lemma}[The Tube Lemma]
+		Consider a product $X \times Y$ with $Y$ compact.\\
+		Let $N$ be any open set in $X \times Y$ containing
+		the 'slice' $\{x_0\} \times Y$, for some $x_0 \in X$.\\
+		Then $N$ contains a 'tube' $W \times Y$, where
+		$W$ is an open neighbourhood of $x_0$ in $Y$.
+	\end{lemma}
+
+	\pagebreak
+	\setcounter{section}{5}
+	\section{Connectedness}
+	\begin{definition}
+		A topological space $X$ is \textbf{connected} if it cannot be
+		represented as the union of two disjoint non-empty open sets.\\
+		Equivalently, we can say that $X$ is connected if the only subsets
+		which are both open and closed are $X$ and $\emptyset$.
+	\end{definition}
+
+	\begin{lemma}
+		Suppose $X=A \cup B$, $A,B$ open and disjoint.
+		Then if $Y \subset X$ is a connected subset, either $Y \subset A$
+		or $Y \subset B$.
+	\end{lemma}
+
+	\begin{theorem}
+		The union of a collection of connected subsets which have a point
+		in common is connected.
+	\end{theorem}
+
+	\begin{theorem}
+		Let $A \subset X$ be a connected subset.
+		If $A \subset B \subset \bar{A}$, then $B$ is connected.\\
+		i.e. Adding limit points to a connected subset
+		does not affect connectedness.
+	\end{theorem}
+
+	\begin{lemma}
+		Suppose $C,D \subset X$ are open, disjoint, non-empty subsets.\\
+		Then $\bar{C} \cap D = C \cap D = \emptyset$.
+	\end{lemma}
+
+	\begin{theorem}
+		The image of a connected space under a \cts map is connected.
+	\end{theorem}
+
+	\begin{corollary}
+		\begin{enumerate}
+			\item If $f:X \to Y$ is a surjective \cts map,
+			then $X$ connected $\implies Y$ connected.
+			\item If $f:X \to Y$ is a homeomorphism,
+			then $X$ connected $\iff Y$ connected.
+		\end{enumerate}
+	\end{corollary}
+
+	\begin{lemma}
+		A topological space $X$ is connected $\iff$\\
+		the only \cts maps $X \to \{0,1\}$ are the constant maps\\
+		($\{0,1\}$ is assumed equipped with the discrete topology).
+	\end{lemma}
+
+	\begin{theorem}
+		If $X,Y$ connected, so is $X \times Y$.
+	\end{theorem}
+
+	\begin{definition}
+		Given a topological space $X$, define an equivalence relation on $X$
+		by setting $x \sim y \iff$
+		there is a connected subset of $X$ containing $x$ and $y$.\\
+		The resulting equivalence classes are called \textbf{connected components}.
+	\end{definition}
+
+	\begin{lemma}
+		A connected component is a connected subset.
+		Moreover a connected subset is a connected component $\iff$
+		it is a maximal connected subset.
+	\end{lemma}
+
+	\begin{lemma}
+		Every connected component of $X$ is closed.
+	\end{lemma}
+
+	\begin{definition}
+		A path in a space $X$ is a \cts map $p:[a,b] \to X$.
+	\end{definition}
+
+	\begin{definition}
+		A space $X$ is \textbf{path-connected} if,
+		given any $x,y \in X$, there is a path joining $x$ and $y$.\\
+		i.e. $\exists p:[a,b] \to X$, some $a,b \in \R$, $\sth p(a)=x, p(b)=y$.
+	\end{definition}
+
+	\begin{theorem}
+		A path-connected space is connected.
+	\end{theorem}
+
+	\begin{definition}
+		Define an equivalence relation on $X$ by $x \sim y \iff$
+		there is a path linking $x$ and $y$.\\
+		The resulting equivalence classes are called \textbf{path components}.
+	\end{definition}
+
+	\pagebreak
+	\section{Homotopy}
+	\begin{definition}
+		Continuous maps $f,g:X \to Y$ are homotopic if there is a \cts map
+		\[H:X \times [0,1] \to Y\ \sth \]
+		\begin{align*}
+			f(x) & =H(x,0)\\
+			g(x) &= H(x,1)
+		\end{align*}
+		$\forall x \in X$.\\
+		If $f,g$ homotopic maps, we write $f \simeq g$.
+	\end{definition}
+
+	\begin{lemma}
+		$\simeq$ is an equivalence relation on the set of all \cts maps
+		$X \to Y$.
+	\end{lemma}
+	\pagebreak
+	\begin{definition}
+		"Based" definitions
+		\begin{enumerate}
+			\item A \textbf{based space} is a pair $|X,x_0$ consisting
+			of a space $X$ together with a choice of point $x_0 \in X$
+			(a so-called "basepoint").
+			\item A \textbf{based map} $f:(X,x_0) \to (Y,y_0)$ is
+			a \cts map between based spaces $\sth f(x_0)=y_0$.
+			\item Given based maps $f,g:(X,x_0) \to (Y,y_0)$,
+			a \textbf{based homotopy} between $f,g$ is a \cts map
+			\[H: X \times [0,1] \to Y\ \sth\]
+			\begin{align*}
+				H(x,0) &=f(x)\ \forall x \in x\\
+				H(x,1) &=g(x)\ \forall x \in x\\
+				H(x_0,t) &= y_0\ \forall t \in [0,1]
+			\end{align*}
+		\end{enumerate}
+		These are used to define the fundamental group later.
+	\end{definition}
+
+	\begin{definition}
+		$X$ and $Y$ have the same \textbf{homotopy type}, written $X \simeq Y$,
+		if there exist \cts maps $f:X\to Y$ and $g:Y \to X\ \sth$
+		\begin{align*}
+			f \circ g &\simeq \mathrm{id}_Y\\
+			g \circ f &\simeq \mathrm{id}_X
+		\end{align*}
+	\end{definition}
+
+	\begin{definition}
+		A space $X$ is \textbf{contractible} if $X \simeq \{\star\}$.\\
+		i.e. if $X$ has the homotopy type of a one-point space.
+	\end{definition}
+
+	\begin{lemma}
+		$\simeq$ is an equivalence relation on the set of all topological spaces.
+	\end{lemma}
+
+	\begin{definition}
+		A based loop in a based space $(X,x_0)$ is a path $l:[0,1] \to X\ \sth\ l(0=l(1)=x_0)$.
+	\end{definition}
+
+	\begin{definition}
+		\label{defhomotopicloops}
+		Based loops $l_1, l_2$ are said to be \textbf{homotopic loops} if there is a \cts map
+		\[H:[0,1] \times [0,1] \to X\ \sth\]
+		\begin{align*}
+			H(s,0)&=l_1(s)&\forall s \in [0,1]\\
+			H(s,1)&=l_2(s)&\forall s \in [0,1]\\
+			H(0,t)&=H(1,t)=x_0&\forall t \in [0,1]
+		\end{align*}
+	\end{definition}
+
+	\begin{definition}
+		For a based space $(X,x_0)$, the \textbf{fundamental group},
+		written $\pi_1(X,x_0)$ is given by
+		\[\pi_1(X,x_0):=\quotient{L(X,x_0)}{\sim}\]
+		where $l_1 \sim l_2$ if $l_1$ and $l_2$ are homotopic loops
+		(as in \ref{defhomotopicloops}).
+	\end{definition}
+
+	\begin{theorem}
+		$\pi_1(X,x_0)$ has the structure of a group, where the composition law
+		is given by
+		\[[l_1]\cdot[l_2]=[l_1 \star l_2]\ \mathrm{where}\]
+		\[l_1 \star l_2(s):=\begin{cases}
+			l_1(2s) & s \in [0,\frac12]\\
+			l_2(2s-1) & s \in [\frac12,1]
+		\end{cases}
+		\]
+		The identity element is the equivalence class of the constant loop,
+		$[l_{x_0}]$, and where the inverse law is given by $[l]=[l^{-1}]$ where
+		\[l^{-1}(s):=l(1-s)\]
+	\end{theorem}
+
+	\begin{definition}
+		GIven a based map $f:(X,x_0) \to (Y,y_0)$, we obtain an induced map
+		\[f_\star : \pi_1(X,x_0)\to \pi_1(Y,y_0)\]
+		given by $f_\star([l])=[f \circ l]$.
+	\end{definition}
+
+	\begin{theorem}
+		$f_\star$ is a group homeomorphism which has the following properties:
+		\begin{enumerate}
+			\item $(f \circ g)_\star=f_\star \circ g_\star$
+			\item $\mathrm{id}_\star=\mathrm{id}_{\pi_1}$
+			\item if $f \simeq g$ (based homotopy of based maps),
+			then $f_\star = g_\star$.
+		\end{enumerate}
+	\end{theorem}
+
+	\begin{corollary}
+		If $f:X \to Y$ and $g:Y \to X$ are based homotopy equivalences,
+		and if the homotopies $f \circ g \simeq \mathrm{id}_Y$
+		and $g \circ f \simeq \mathrm{id}_X$ are base point preserving,
+		then $f_\star$ and $g_\star$ are (muturally inverse)
+		group isomorphisms.\\
+		In particular we have
+		\[\pi_1(X,x_0) \cong \pi_1(Y,y_0)\]
+	\end{corollary}
+
+	\begin{theorem}
+		If $X$ is path-connected, then for any $x_0,x_1 \in X$, $\pi_1(X,x_0)\cong \pi_1(X,x_1)$.
+	\end{theorem}
+
+	\begin{corollary}
+		If $X,Y$ are path-connected, then $X \simeq Y \implies \pi_1 X \cong \pi_1 Y$.
+	\end{corollary}
+
+	\begin{definition}
+		A space is called \textbf{simply-connected} if it is path-connected
+		and has trivial fundamental group.\\
+		$\R^n$ is simly connected, as is any contractible space $X$.
+	\end{definition}
+
+	Also $X$ contractible $\implies X$ is path-connected.
+
+	\begin{theorem}
+		$\pi_1 S^1 \cong \Z$
+	\end{theorem}
+
+	\begin{theorem}
+		For $n \geq 2$
+		\[S^n = \left\{ (x_1,\ddd, x_{n+1}) \in \R^{n+1} \mid \sum_{i=1}^{n+1} x_i^2 = 1 \right\}\]
+		is simply-connected.
+	\end{theorem}
+
+	\begin{theorem}
+		\[\pi_1(X \times Y) \cong \pi_1 X \times \pi_1 Y\]
+	\end{theorem}
+
+	\begin{corollary}
+		For the torus $T^2=S^1 \times S^1$, we have $\pi_1(T^2)\cong \Z \times \Z$.
+	\end{corollary}
+
+
 \end{document}
